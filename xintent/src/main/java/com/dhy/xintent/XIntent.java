@@ -12,12 +12,16 @@ import java.io.Serializable;
 public class XIntent extends Intent {
 	public XIntent(Context packageContext, Class<?> cls, Serializable... serializable) {
 		super(packageContext, cls);
-		putExtra(getComponent().getClassName(), serializable.length > 1 ? serializable : serializable[0]);
+		putSerializableExtra(this, serializable);
+	}
+
+	private static void putSerializableExtra(Intent intent, Serializable... serializable) {
+		String className = intent.getComponent().getClassName();
+		intent.putExtra(className, serializable.length > 1 ? serializable : serializable[0]);
 	}
 
 	public static void putSerializableExtra(Activity activity, Serializable... serializable) {
-		Intent intent = activity.getIntent();
-		intent.putExtra(activity.getClass().getName(), serializable.length > 1 ? serializable : serializable[0]);
+		putSerializableExtra(activity.getIntent(), serializable.length > 1 ? serializable : serializable[0]);
 	}
 
 	public static Serializable readSerializableExtra(Activity activity) {
