@@ -1,6 +1,7 @@
 package com.dhy.xintentsample;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -24,5 +25,24 @@ public class MainActivity extends Activity {
 				startActivity(new XIntent(MainActivity.this, MainActivity.class, editText.getText().toString()));
 			}
 		});
+		normalWriteMethod(null);
+	}
+
+	public static final String KEY_MSG_a = "key_msg";
+	public static final String KEY_MSG_b = "key_msg";
+	public static final String KEY_MSG_c = "key_msg";
+	public static final String KEY_MSG_d = "key_msg";
+
+	public void normalWriteMethod(Data data) {
+		Intent intent = new Intent(this, MainActivity.class);
+		intent.putExtra(KEY_MSG_a, "");
+		intent.putExtra(KEY_MSG_b, false);
+		intent.putExtra(KEY_MSG_c, 1);
+		intent.putExtra(KEY_MSG_d, data);
+		startActivity(intent);
+	}
+
+	public void XIntentStartMethod(Data data) {
+		startActivity(new XIntent(this, MainActivity.class, "", false, 1, data));
 	}
 }
