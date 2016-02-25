@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
 				startActivity(new XIntent(MainActivity.this, MainActivity.class, editText.getText().toString()));
 			}
 		});
-		normalWriteMethod(null);
+		normalSetMethod(null);
 	}
 
 	public static final String KEY_MSG_a = "key_msg";
@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
 	public static final String KEY_MSG_c = "key_msg";
 	public static final String KEY_MSG_d = "key_msg";
 
-	public void normalWriteMethod(Data data) {
+	public void normalSetMethod(Data data) {
 		Intent intent = new Intent(this, MainActivity.class);
 		intent.putExtra(KEY_MSG_a, "");
 		intent.putExtra(KEY_MSG_b, false);
@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
 		startActivity(intent);
 	}
 
-	public void XIntentStartMethod(Data data) {
+	public void XIntentSetMethod(Data data) {
 		startActivity(new XIntent(this, MainActivity.class, "", false, 1, data));
 	}
 }

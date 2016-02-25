@@ -21,11 +21,11 @@ public class TestActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		normalReadMethod();
-		XIntentReadMethod();
+		normalGetMethod();
+		XIntentGetMethod();
 	}
 
-	void normalReadMethod() {
+	void normalGetMethod() {
 		Intent intent = getIntent();
 		String msg = intent.getStringExtra(KEY_MSG_a);
 		boolean b = intent.getBooleanExtra(KEY_MSG_b, false);
@@ -33,7 +33,7 @@ public class TestActivity extends Activity {
 		Date data = (Date) intent.getSerializableExtra(KEY_MSG_d);
 	}
 
-	void XIntentReadMethod() {
+	void XIntentGetMethod() {
 		XIntent.readSerializableExtra(this,String.class);
 		String msg = XIntent.readSerializableExtra(this, String.class, "");
 		boolean b = XIntent.readSerializableExtra(this, Boolean.class, false);
