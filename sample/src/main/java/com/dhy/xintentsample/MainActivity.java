@@ -25,24 +25,24 @@ public class MainActivity extends Activity {
 				startActivity(new XIntent(MainActivity.this, MainActivity.class, editText.getText().toString()));
 			}
 		});
-		normalSetMethod(null);
+		normalSetMethod(null, true, 1, null);
 	}
 
-	public static final String KEY_MSG_a = "key_msg";
-	public static final String KEY_MSG_b = "key_msg";
-	public static final String KEY_MSG_c = "key_msg";
-	public static final String KEY_MSG_d = "key_msg";
+	public static final String KEY_MSG_a = "key_msg_a";
+	public static final String KEY_MSG_b = "key_msg_b";
+	public static final String KEY_MSG_c = "key_msg_c";
+	public static final String KEY_MSG_d = "key_msg_d";
 
-	public void normalSetMethod(Data data) {
+	public void normalSetMethod(String a, boolean b, int c, Data d) {
 		Intent intent = new Intent(this, MainActivity.class);
-		intent.putExtra(KEY_MSG_a, "");
-		intent.putExtra(KEY_MSG_b, false);
-		intent.putExtra(KEY_MSG_c, 1);
-		intent.putExtra(KEY_MSG_d, data);
+		intent.putExtra(KEY_MSG_a, a);
+		intent.putExtra(KEY_MSG_b, b);
+		intent.putExtra(KEY_MSG_c, c);
+		intent.putExtra(KEY_MSG_d, d);
 		startActivity(intent);
 	}
 
-	public void XIntentSetMethod(Data data) {
-		startActivity(new XIntent(this, MainActivity.class, "", false, 1, data));
+	public void XIntentSetMethod(String a, boolean b, int c, Data d) {
+		startActivity(new XIntent(this, MainActivity.class, a, b, c, d));
 	}
 }

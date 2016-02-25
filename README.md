@@ -1,34 +1,33 @@
 # XIntent
-	public static final String KEY_MSG_a = "key_msg";
-	public static final String KEY_MSG_b = "key_msg";
-	public static final String KEY_MSG_c = "key_msg";
-	public static final String KEY_MSG_d = "key_msg";
+	public static final String KEY_MSG_a = "key_msg_a";
+	public static final String KEY_MSG_b = "key_msg_b";
+	public static final String KEY_MSG_c = "key_msg_c";
+	public static final String KEY_MSG_d = "key_msg_d";
 
-	public void normalSetMethod(Data data) {
+	public void normalSetMethod(String a, boolean b, int c, Data d) {
 		Intent intent = new Intent(this, MainActivity.class);
-		intent.putExtra(KEY_MSG_a, "");
-		intent.putExtra(KEY_MSG_b, false);
-		intent.putExtra(KEY_MSG_c, 1);
-		intent.putExtra(KEY_MSG_d, data);
+		intent.putExtra(KEY_MSG_a, a);
+		intent.putExtra(KEY_MSG_b, b);
+		intent.putExtra(KEY_MSG_c, c);
+		intent.putExtra(KEY_MSG_d, d);
 		startActivity(intent);
 	}
 
-	public void XIntentSetMethod(Data data) {
-		startActivity(new XIntent(this, MainActivity.class, "", false, 1, data));
+	public void XIntentSetMethod(String a, boolean b, int c, Data d) {
+		startActivity(new XIntent(this, MainActivity.class, a, b, c, d));
 	}
 	
 	void normalGetMethod() {
 		Intent intent = getIntent();
-		String msg = intent.getStringExtra(KEY_MSG_a);
+		String a = intent.getStringExtra(KEY_MSG_a);
 		boolean b = intent.getBooleanExtra(KEY_MSG_b, false);
-		int a = intent.getIntExtra(KEY_MSG_c, 1);
-		Date data = (Date) intent.getSerializableExtra(KEY_MSG_d);
+		int c = intent.getIntExtra(KEY_MSG_c, 1);
+		Date d = (Date) intent.getSerializableExtra(KEY_MSG_d);
 	}
 
 	void XIntentGetMethod() {
-		XIntent.readSerializableExtra(this,String.class);
-		String msg = XIntent.readSerializableExtra(this, String.class, "");
+		String a = XIntent.readSerializableExtra(this, String.class, "");
 		boolean b = XIntent.readSerializableExtra(this, Boolean.class, false);
-		int a = XIntent.readSerializableExtra(this, Integer.class, 1);
-		Data data = XIntent.readSerializableExtra(this, Data.class);
+		int c = XIntent.readSerializableExtra(this, Integer.class, 1);
+		Data d = XIntent.readSerializableExtra(this, Data.class);
 	}
