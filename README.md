@@ -1,4 +1,7 @@
 # XIntent
+
+
+#set data
 	public static final String KEY_MSG_a = "key_msg_a";
 	public static final String KEY_MSG_b = "key_msg_b";
 	public static final String KEY_MSG_c = "key_msg_c";
@@ -12,11 +15,10 @@
 		intent.putExtra(KEY_MSG_d, d);
 		startActivity(intent);
 	}
-
 	public void XIntentSetMethod(String a, boolean b, int c, Data d) {
 		startActivity(new XIntent(this, MainActivity.class, a, b, c, d));
 	}
-	
+#get data
 	void normalGetMethod() {
 		Intent intent = getIntent();
 		String a = intent.getStringExtra(KEY_MSG_a);
