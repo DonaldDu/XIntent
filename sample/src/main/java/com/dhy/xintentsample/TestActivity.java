@@ -1,28 +1,30 @@
-# XIntent
-An easy way to handle intent extra.<p>
+package com.dhy.xintentsample;
 
-	public static void putSerializableExtra(Intent intent, Serializable... serializable) {
-		if (serializable.length == 0) return;
-		intent.putExtra(KEY_EXTRA, serializable.length > 1 ? serializable : serializable[0]);
-	}
-##Set data
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.dhy.xintent.XIntent;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * Created by donald on 2016/2/5.
+ */
+public class TestActivity extends Activity {
 	public static final String KEY_MSG_a = "key_msg_a";
 	public static final String KEY_MSG_b = "key_msg_b";
 	public static final String KEY_MSG_c = "key_msg_c";
 	public static final String KEY_MSG_d = "key_msg_d";
 
-	public void normalSetMethod(String a, boolean b, int c, Data d) {
-		Intent intent = new Intent(this, MainActivity.class);
-		intent.putExtra(KEY_MSG_a, a);
-		intent.putExtra(KEY_MSG_b, b);
-		intent.putExtra(KEY_MSG_c, c);
-		intent.putExtra(KEY_MSG_d, d);
-		startActivity(intent);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		normalGetMethod();
+		XIntentGetMethod();
 	}
-	public void XIntentSetMethod(String a, boolean b, int c, Data d) {
-		startActivity(new XIntent(this, MainActivity.class, a, b, c, d));
-	}
-##Get data
+
 	void normalGetMethod() {
 		Intent intent = getIntent();
 		String a = intent.getStringExtra(KEY_MSG_a);
@@ -37,18 +39,17 @@ An easy way to handle intent extra.<p>
 		int c = XIntent.readSerializableExtra(this, Integer.class, 1);
 		Data d = XIntent.readSerializableExtra(this, Data.class);
 	}
-##Support handle Intent extra directly
-	public void XIntentSetResult(String a, boolean b, int c, Data d) {
-		Intent intent = new Intent();
-		XIntent.putSerializableExtra(intent, a, b, c, d);
-		setResult(RESULT_OK, intent);
-	}
-	
+
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
 		String a = XIntent.readSerializableExtra(data, String.class, "");
 		boolean b = XIntent.readSerializableExtra(data, Boolean.class, false);
 		int c = XIntent.readSerializableExtra(data, Integer.class, 1);
 		Data d = XIntent.readSerializableExtra(data, Data.class);
 	}
+
+	class Data implements Serializable {
+
+	}
+}
