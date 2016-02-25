@@ -45,6 +45,7 @@ An easy way to handle intent extra.<p>
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		
 		String a = XIntent.readSerializableExtra(data, String.class, "");
 		boolean b = XIntent.readSerializableExtra(data, Boolean.class, false);
 		int c = XIntent.readSerializableExtra(data, Integer.class, 1);
