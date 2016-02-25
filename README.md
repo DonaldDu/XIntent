@@ -1,5 +1,5 @@
 # XIntent
-An easy way to handle intent extra.<p>
+An easy way to handle intent extra for Android.<p>
 
 	public static void putSerializableExtra(Intent intent, Serializable... serializable) {
 		if (serializable.length == 0) return;
@@ -19,6 +19,7 @@ An easy way to handle intent extra.<p>
 		intent.putExtra(KEY_MSG_d, d);
 		startActivity(intent);
 	}
+	
 	public void XIntentSetMethod(String a, boolean b, int c, Data d) {
 		startActivity(new XIntent(this, MainActivity.class, a, b, c, d));
 	}
@@ -37,7 +38,7 @@ An easy way to handle intent extra.<p>
 		int c = XIntent.readSerializableExtra(this, Integer.class, 1);
 		Data d = XIntent.readSerializableExtra(this, Data.class);
 	}
-##Support handle Intent extra directly
+##Support handle intent extra directly
 	public void XIntentSetResult(String a, boolean b, int c, Data d) {
 		Intent intent = new Intent();
 		XIntent.putSerializableExtra(intent, a, b, c, d);
