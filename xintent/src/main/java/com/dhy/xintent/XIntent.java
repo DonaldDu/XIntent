@@ -15,9 +15,13 @@ import java.io.Serializable;
 public class XIntent extends Intent {
 	public static final String KEY_EXTRA = XIntent.class.getName();
 
-	public XIntent(Context packageContext, Class<?> cls, Serializable... serializable) {
-		super(packageContext, cls);
+	public XIntent(Context context, Class<?> cls, Serializable... serializable) {
+		super(context, cls);
 		putSerializableExtra(this, serializable);
+	}
+
+	public static void startActivity(Context context, Class<?> cls, Serializable... serializable) {
+		context.startActivity(new XIntent(context, cls, serializable));
 	}
 
 	public static void putSerializableExtra(Intent intent, Serializable... serializable) {
