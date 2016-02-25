@@ -1,6 +1,9 @@
 # XIntent
+An easy way to handle intent extra.<p>
 
-
+	public static void putSerializableExtra(Intent intent, Serializable... serializable) {
+		intent.putExtra(KEY_EXTRA, serializable.length > 1 ? serializable : serializable[0]);
+	}
 #set data
 	public static final String KEY_MSG_a = "key_msg_a";
 	public static final String KEY_MSG_b = "key_msg_b";
