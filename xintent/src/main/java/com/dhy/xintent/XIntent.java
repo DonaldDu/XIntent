@@ -17,7 +17,7 @@ public class XIntent extends Intent {
 		putSerializableExtra(this, serializable);
 	}
 
-	private static void putSerializableExtra(Intent intent, Serializable... serializable) {
+	public static void putSerializableExtra(Intent intent, Serializable... serializable) {
 		intent.putExtra(KEY_EXTRA, serializable.length > 1 ? serializable : serializable[0]);
 	}
 
