@@ -29,7 +29,9 @@ public final class SIntent extends Intent {
 	}
 
 	private static Intent putSerializableExtra(String className, Intent intent, Serializable... serializable) {
-		intent.putExtra(className, serializable.length > 1 ? serializable : serializable[0]);
+		if (serializable.length != 0) {
+			intent.putExtra(className, serializable.length > 1 ? serializable : serializable[0]);
+		}
 		return intent;
 	}
 
