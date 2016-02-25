@@ -45,6 +45,13 @@ public class XIntent extends Intent {
 		return defaultValue;
 	}
 
+	/**
+	 * @return null if not found
+	 */
+	public static Serializable readSerializableExtra(Activity activity, int index) {
+		return readSerializableExtra(activity, Serializable.class, index, null);
+	}
+
 	public static <T extends Serializable> T readSerializableExtra(Activity activity, Class<T> cls, int index, T defaultValue) {
 		Serializable serializable = readSerializableExtra(activity);
 		if (serializable instanceof Object[]) {
