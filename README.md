@@ -4,7 +4,7 @@ An easy way to handle intent extra.<p>
 	public static void putSerializableExtra(Intent intent, Serializable... serializable) {
 		intent.putExtra(KEY_EXTRA, serializable.length > 1 ? serializable : serializable[0]);
 	}
-#set data
+##Set data
 	public static final String KEY_MSG_a = "key_msg_a";
 	public static final String KEY_MSG_b = "key_msg_b";
 	public static final String KEY_MSG_c = "key_msg_c";
@@ -21,7 +21,7 @@ An easy way to handle intent extra.<p>
 	public void XIntentSetMethod(String a, boolean b, int c, Data d) {
 		startActivity(new XIntent(this, MainActivity.class, a, b, c, d));
 	}
-#get data
+##Get data
 	void normalGetMethod() {
 		Intent intent = getIntent();
 		String a = intent.getStringExtra(KEY_MSG_a);
