@@ -8,6 +8,9 @@ import java.io.Serializable;
 
 /**
  * Created by donald on 2016/2/2.
+ * <p>key = XIntent's class name
+ * </p>
+ * intent.putExtra(key, serializable.length > 1 ? serializable : serializable[0]);
  */
 public class XIntent extends Intent {
 	public static final String KEY_EXTRA = XIntent.class.getName();
@@ -21,24 +24,32 @@ public class XIntent extends Intent {
 		intent.putExtra(KEY_EXTRA, serializable.length > 1 ? serializable : serializable[0]);
 	}
 
-
 	public static void putSerializableExtra(Activity activity, Serializable... serializable) {
 		putSerializableExtra(activity.getIntent(), serializable);
 	}
 
-	/**
-	 * key = XIntent's class name
-	 */
+	public static Serializable readSerializableExtra(Intent intent) {
+		return intent.getSerializableExtra(KEY_EXTRA);
+	}
+
 	public static Serializable readSerializableExtra(Activity activity) {
-		return activity.getIntent().getSerializableExtra(KEY_EXTRA);
+		return readSerializableExtra(activity.getIntent());
 	}
 
 	public static <T extends Serializable> T readSerializableExtra(Activity activity, Class<T> cls) {
-		return readSerializableExtra(activity, cls, null);
+		return readSerializableExtra(activity.getIntent(), cls);
+	}
+
+	public static <T extends Serializable> T readSerializableExtra(Intent intent, Class<T> cls) {
+		return readSerializableExtra(intent, cls, null);
 	}
 
 	public static <T extends Serializable> T readSerializableExtra(Activity activity, Class<T> cls, T defaultValue) {
-		Serializable serializable = readSerializableExtra(activity);
+		return readSerializableExtra(activity.getIntent(), cls, defaultValue);
+	}
+
+	public static <T extends Serializable> T readSerializableExtra(Intent intent, Class<T> cls, T defaultValue) {
+		Serializable serializable = readSerializableExtra(intent);
 		if (serializable instanceof Object[]) {
 			Object[] data = (Object[]) serializable;
 			for (Object d : data) {
@@ -50,15 +61,20 @@ public class XIntent extends Intent {
 		return defaultValue;
 	}
 
-	/**
-	 * @return null if not found
-	 */
 	public static Serializable readSerializableExtra(Activity activity, int index) {
-		return readSerializableExtra(activity, Serializable.class, index, null);
+		return readSerializableExtra(activity.getIntent(), index);
+	}
+
+	public static Serializable readSerializableExtra(Intent intent, int index) {
+		return readSerializableExtra(intent, Serializable.class, index, null);
 	}
 
 	public static <T extends Serializable> T readSerializableExtra(Activity activity, Class<T> cls, int index, T defaultValue) {
-		Serializable serializable = readSerializableExtra(activity);
+		return readSerializableExtra(activity.getIntent(), cls, index, defaultValue);
+	}
+
+	public static <T extends Serializable> T readSerializableExtra(Intent intent, Class<T> cls, int index, T defaultValue) {
+		Serializable serializable = readSerializableExtra(intent);
 		if (serializable instanceof Object[]) {
 			Object[] data = (Object[]) serializable;
 			if (index < data.length) return cls.cast(data[index]);
