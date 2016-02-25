@@ -42,6 +42,12 @@ public class MainActivity extends Activity {
 		startActivity(intent);
 	}
 
+	public void XIntentSetResult(String a, boolean b, int c, Data d) {
+		Intent intent = new Intent();
+		XIntent.putSerializableExtra(intent, a, b, c, d);
+		setResult(RESULT_OK, intent);
+	}
+
 	public void XIntentSetMethod(String a, boolean b, int c, Data d) {
 		startActivity(new XIntent(this, MainActivity.class, a, b, c, d));
 	}

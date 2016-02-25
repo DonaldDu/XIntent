@@ -40,6 +40,15 @@ public class TestActivity extends Activity {
 		Data d = XIntent.readSerializableExtra(this, Data.class);
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		String a = XIntent.readSerializableExtra(data, String.class, "");
+		boolean b = XIntent.readSerializableExtra(data, Boolean.class, false);
+		int c = XIntent.readSerializableExtra(data, Integer.class, 1);
+		Data d = XIntent.readSerializableExtra(data, Data.class);
+	}
+
 	class Data implements Serializable {
 
 	}
