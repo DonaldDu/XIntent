@@ -19,6 +19,7 @@ An easy way to handle intent extra for Android.<p>
 		intent.putExtra(KEY_MSG_d, d);
 		startActivity(intent);
 	}
+	
 	public void XIntentSetMethod(String a, boolean b, int c, Data d) {
 		startActivity(new XIntent(this, MainActivity.class, a, b, c, d));
 	}
