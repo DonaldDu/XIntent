@@ -2,7 +2,6 @@ package com.dhy.xintent;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 
 import java.io.Serializable;
 
@@ -26,12 +25,10 @@ public final class SIntent extends Intent {
 
 	private SIntent(Activity context, Class<? extends Activity> cls, Serializable... serializable) {
 		super(context, cls);
-		putSerializableExtra(this, serializable);
+		putSerializableExtra(cls.getSimpleName(), this, serializable);
 	}
 
-	private static Intent putSerializableExtra(Intent intent, Serializable... serializable) {
-		String className = intent.getComponent().getClassName();
-		it("className", className);
+	private static Intent putSerializableExtra(String className, Intent intent, Serializable... serializable) {
 		intent.putExtra(className, serializable.length > 1 ? serializable : serializable[0]);
 		return intent;
 	}
@@ -43,7 +40,7 @@ public final class SIntent extends Intent {
 	 * @deprecated use this to start same activity
 	 */
 	public static Intent putSerializableExtra(Activity activity, Serializable... serializable) {
-		return putSerializableExtra(activity.getIntent(), serializable);
+		return putSerializableExtra(activity.getClass().getSimpleName(), activity.getIntent(), serializable);
 	}
 
 	/**
@@ -52,7 +49,7 @@ public final class SIntent extends Intent {
 	 * @return 序列化数组
 	 */
 	public static Serializable readSerializableExtra(Activity activity) {
-		return activity.getIntent().getSerializableExtra(activity.getClass().getName());
+		return activity.getIntent().getSerializableExtra(activity.getClass().getSimpleName());
 	}
 
 	/**
@@ -111,12 +108,6 @@ public final class SIntent extends Intent {
 			if (index < data.length) return cls.cast(data[index]);
 		} else if (index == 0) return cls.cast(serializable);
 		return defaultValue;
-	}
-
-	private static void it(String tag, Object msg) {
-		if (BuildConfig.DEBUG) {
-			Log.i("TAG", tag + "-->" + String.valueOf(msg));
-		}
 	}
 
 }
