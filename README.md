@@ -1,5 +1,5 @@
 # XIntent
-An easy way to handle intent extra.<p>
+An easy way to handle intent extra for Android.<p>
 
 	public static void putSerializableExtra(Intent intent, Serializable... serializable) {
 		if (serializable.length == 0) return;
