@@ -10,22 +10,27 @@ import java.io.Serializable;
  * Created by donald on 2016/2/2.
  */
 public class XIntent extends Intent {
+	public static final String KEY_EXTRA = XIntent.class.getName();
+
 	public XIntent(Context packageContext, Class<?> cls, Serializable... serializable) {
 		super(packageContext, cls);
 		putSerializableExtra(this, serializable);
 	}
 
 	private static void putSerializableExtra(Intent intent, Serializable... serializable) {
-		String className = intent.getComponent().getClassName();
-		intent.putExtra(className, serializable.length > 1 ? serializable : serializable[0]);
+		intent.putExtra(KEY_EXTRA, serializable.length > 1 ? serializable : serializable[0]);
 	}
+
 
 	public static void putSerializableExtra(Activity activity, Serializable... serializable) {
 		putSerializableExtra(activity.getIntent(), serializable);
 	}
 
+	/**
+	 * key = XIntent's class name
+	 */
 	public static Serializable readSerializableExtra(Activity activity) {
-		return activity.getIntent().getSerializableExtra(activity.getClass().getName());
+		return activity.getIntent().getSerializableExtra(KEY_EXTRA);
 	}
 
 	public static <T extends Serializable> T readSerializableExtra(Activity activity, Class<T> cls) {
