@@ -2,7 +2,9 @@
 An easy way to handle intent extra for Android.<p>
 
 	public static void putSerializableExtra(Intent intent, Serializable... serializable) {
-		intent.putExtra(KEY_EXTRA, serializable.length == 1 ? serializable[0] : serializable);
+		if (serializable.length != 0) {
+			intent.putExtra(KEY_EXTRA, serializable.length == 1 ? serializable[0] : serializable);
+		}
 	}
 ##Set data
 	public static final String KEY_MSG_a = "key_msg_a";
