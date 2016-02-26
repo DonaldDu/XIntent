@@ -10,7 +10,6 @@ import java.io.Serializable;
  * Created by donald on 2016/2/2.
  * <p>key = XIntent's class name
  * </p>
- * intent.putExtra(key, serializable.length > 1 ? serializable : serializable[0]);
  */
 public class XIntent extends Intent {
 	public static final String KEY_EXTRA = XIntent.class.getName();
