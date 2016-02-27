@@ -55,4 +55,4 @@ An easy way to handle intent extra for Android.<p>
 		Data d = XIntent.readSerializableExtra(data, Data.class);
 	}
 ##Gradle dependencie
-compile 'com.dhy:xintent:1.0.1'
+	compile 'com.dhy:xintent:1.0.1'
