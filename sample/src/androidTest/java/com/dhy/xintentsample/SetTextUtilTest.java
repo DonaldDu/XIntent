@@ -43,7 +43,7 @@ public class SetTextUtilTest extends ActivityUnitTestCase<MainActivity> {
 
 	void check(String format, Object input, String output) {
 		textView.setContentDescription(format);
-		XCommon.setTextWithTagFormat(textView, input);
+		XCommon.setTextWithFormat(textView, input);
 		assertEquals(output, textView.getText().toString());
 	}
 }

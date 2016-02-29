@@ -8,45 +8,46 @@ public class XCommon {
 	//	region set text to textview
 
 	/**
-	 * {@link #setTextWithTagFormat(Object, int, Object, int)}
+	 * {@link #setTextWithFormat(Object, int, Object, int)}
 	 */
-	public static TextView setTextWithTagFormat(Object container, int rid, Object value) {
-		return setTextWithTagFormat(container, rid, value, false);
+	public static TextView setTextWithFormat(Object container, int rid, Object value) {
+		return setTextWithFormat(container, rid, value, false);
 	}
 
 	/**
-	 * {@link #setTextWithTagFormat(Object, int, Object, int)}
+	 * {@link #setTextWithFormat(Object, int, Object, int)}
 	 */
-	public static TextView setTextWithTagFormat(Object container, int rid, Object value, boolean show) {
-		return setTextWithTagFormat(findViewById(container, rid), value, show);
+	public static TextView setTextWithFormat(Object container, int rid, Object value, boolean show) {
+		return setTextWithFormat(findViewById(container, rid), value, show);
 	}
 
 	/**
 	 * @param container must be Activity ,View or IFindViewById
-	 * @param value     {@link #setTextWithTagFormat(TextView, Object, int)}
+	 * @param value     {@link #setTextWithFormat(TextView, Object, int)}
 	 */
-	public static TextView setTextWithTagFormat(Object container, int rid, Object value, int visibility) {
-		return setTextWithTagFormat(findViewById(container, rid), value, visibility);
+	public static TextView setTextWithFormat(Object container, int rid, Object value, int visibility) {
+		return setTextWithFormat(findViewById(container, rid), value, visibility);
 	}
 
 	/**
-	 * {@link #setTextWithTagFormat(TextView, Object, int)}
+	 * {@link #setTextWithFormat(TextView, Object, int)}
 	 */
-	public static TextView setTextWithTagFormat(TextView textView, Object value) {
-		return setTextWithTagFormat(textView, value, false);
+	public static TextView setTextWithFormat(TextView textView, Object value) {
+		return setTextWithFormat(textView, value, false);
 	}
 
 	/**
-	 * {@link #setTextWithTagFormat(TextView, Object, int)}
+	 * {@link #setTextWithFormat(TextView, Object, int)}
 	 */
-	public static TextView setTextWithTagFormat(TextView textView, Object value, final boolean show) {
-		return setTextWithTagFormat(textView, value, show ? View.VISIBLE : View.GONE);
+	public static TextView setTextWithFormat(TextView textView, Object value, final boolean show) {
+		return setTextWithFormat(textView, value, show ? View.VISIBLE : View.GONE);
 	}
 
 	/**
+	 * use contentDescription as format, can't be null or empty
 	 * @param value support Object[] for multiple values
 	 */
-	public static TextView setTextWithTagFormat(TextView textView, Object value, final int visibility) {
+	public static TextView setTextWithFormat(TextView textView, Object value, final int visibility) {
 		textView.setVisibility(visibility);
 		if (visibility == View.GONE) {
 			return textView;
