@@ -11,13 +11,13 @@ public class XCommon {
 	 * {@link #setTextWithFormat(Object, int, Object, int)}
 	 */
 	public static TextView setTextWithFormat(Object container, int rid, Object value) {
-		return setTextWithFormat(container, rid, value, false);
+		return setTextWithFormat(container, rid, value, true);
 	}
 
 	/**
 	 * {@link #setTextWithFormat(Object, int, Object, int)}
 	 */
-	public static TextView setTextWithFormat(Object container, int rid, Object value, boolean show) {
+	public static TextView setTextWithFormat(Object container, int rid, Object value, final boolean show) {
 		return setTextWithFormat(findViewById(container, rid), value, show);
 	}
 
@@ -45,6 +45,7 @@ public class XCommon {
 
 	/**
 	 * use contentDescription as format, can't be null or empty
+	 *
 	 * @param value support Object[] for multiple values
 	 */
 	public static TextView setTextWithFormat(TextView textView, Object value, final int visibility) {
