@@ -17,8 +17,8 @@ public class XCommon {
 	/**
 	 * {@link #setTextWithTagFormat(Object, int, Object, int)}
 	 */
-	public static TextView setTextWithTagFormat(Object container, int rid, Object value, boolean gone) {
-		return setTextWithTagFormat(findViewById(container, rid), value, gone);
+	public static TextView setTextWithTagFormat(Object container, int rid, Object value, boolean show) {
+		return setTextWithTagFormat(findViewById(container, rid), value, show);
 	}
 
 	/**
@@ -39,8 +39,8 @@ public class XCommon {
 	/**
 	 * {@link #setTextWithTagFormat(TextView, Object, int)}
 	 */
-	public static TextView setTextWithTagFormat(TextView textView, Object value, final boolean gone) {
-		return setTextWithTagFormat(textView, value, gone ? View.GONE : View.VISIBLE);
+	public static TextView setTextWithTagFormat(TextView textView, Object value, final boolean show) {
+		return setTextWithTagFormat(textView, value, show ? View.VISIBLE : View.GONE);
 	}
 
 	/**
