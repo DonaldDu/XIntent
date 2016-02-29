@@ -24,9 +24,14 @@ public class XIntent extends Intent {
 		context.startActivity(new XIntent(context, cls, serializable));
 	}
 
+	public XIntent(Bundle bundle) {
+		super();
+		replaceExtras(bundle);
+	}
+
 	/**
 	 * <p>Inserts Serializable value into the bundle.</p>
-	 * <p>When read, just convert bundle to intent, Intent intent = new Intent().replaceExtras(bundle)</p>
+	 * <p>When read, just convert bundle to intent, Intent intent = new XIntent(bundle)</p>
 	 * and then use {@link #readSerializableExtra(Intent, Class, int, Serializable)} or other methods
 	 */
 	public static void putSerializableExtra(Bundle bundle, Serializable... serializable) {
