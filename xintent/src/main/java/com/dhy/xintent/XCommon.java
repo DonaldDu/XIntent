@@ -33,7 +33,7 @@ public class XCommon {
 	 * {@link #setTextWithFormat(TextView, Object, int)}
 	 */
 	public static TextView setTextWithFormat(TextView textView, Object value) {
-		return setTextWithFormat(textView, value, false);
+		return setTextWithFormat(textView, value, true);
 	}
 
 	/**

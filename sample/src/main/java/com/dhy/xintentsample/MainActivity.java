@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
+import com.dhy.xintent.XCommon;
 import com.dhy.xintent.XIntent;
 
 public class MainActivity extends Activity {
@@ -15,9 +15,8 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		TextView v = (TextView) findViewById(R.id.textView);
 		final String msg = XIntent.readSerializableExtra(this, String.class);
-		v.setText(msg);
+		XCommon.setTextWithFormat(this, R.id.textView, msg);
 		final EditText editText = (EditText) findViewById(R.id.editText);
 		findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -25,7 +24,7 @@ public class MainActivity extends Activity {
 				startActivity(new XIntent(MainActivity.this, MainActivity.class, editText.getText().toString()));
 			}
 		});
-		normalSetMethod(null, true, 1, null);
+//		normalSetMethod(null, true, 1, null);
 	}
 
 	public static final String KEY_MSG_a = "key_msg_a";
