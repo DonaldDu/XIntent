@@ -2,29 +2,6 @@ apply plugin: 'com.android.library'
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'com.dhy.xintent'
-
-    publishedGroupId = 'com.dhy'
-    libraryName = 'XIntent'
-    artifact = 'xintent'
-
-    libraryDescription = 'An easy way to handle intent extra for Android'
-
-    siteUrl = 'https://github.com/DonaldDu/XIntent'
-    gitUrl = 'https://github.com/DonaldDu/XIntent.git'
-
-    libraryVersion = '1.0.1'
-
-    developerId = 'donalddu'
-    developerName = 'Donald Du'
-    developerEmail = '809077529@qq.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -43,7 +20,29 @@ android {
     productFlavors {
     }
 }
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'com.dhy.xintent'
 
+    publishedGroupId = 'com.dhy'
+    libraryName = 'XIntent'
+    artifact = 'xintent'
+
+    libraryDescription = 'An easy way to handle intent extra for Android'
+
+    siteUrl = 'https://github.com/DonaldDu/XIntent'
+    gitUrl = 'https://github.com/DonaldDu/XIntent.git'
+
+    libraryVersion = android.defaultConfig.versionName
+
+    developerId = 'donalddu'
+    developerName = 'Donald Du'
+    developerEmail = '809077529@qq.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
