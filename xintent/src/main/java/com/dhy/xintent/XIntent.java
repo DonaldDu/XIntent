@@ -3,6 +3,7 @@ package com.dhy.xintent;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import java.io.Serializable;
 
@@ -21,6 +22,17 @@ public class XIntent extends Intent {
 
 	public static void startActivity(Context context, Class<?> cls, Serializable... serializable) {
 		context.startActivity(new XIntent(context, cls, serializable));
+	}
+
+	/**
+	 * <p>Inserts Serializable value into the bundle.</p>
+	 * <p>When read, just convert bundle to intent, Intent intent = new Intent().replaceExtras(bundle)</p>
+	 * and then use {@link #readSerializableExtra(Intent, Class, int, Serializable)} or other methods
+	 */
+	public static void putSerializableExtra(Bundle bundle, Serializable... serializable) {
+		if (serializable.length != 0) {
+			bundle.putSerializable(KEY_EXTRA, serializable.length == 1 ? serializable[0] : serializable);
+		}
 	}
 
 	public static void putSerializableExtra(Intent intent, Serializable... serializable) {

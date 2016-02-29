@@ -50,4 +50,20 @@ public class MainActivity extends Activity {
 	public void XIntentSetMethod(String a, boolean b, int c, Data d) {
 		startActivity(new XIntent(this, MainActivity.class, a, b, c, d));
 	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		XIntent.putSerializableExtra(outState, "+", 10);
+		super.onSaveInstanceState(outState);
+		System.out.println("======================= onSaveInstanceState =======================");
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		Intent intent = new Intent().replaceExtras(savedInstanceState);
+		String a = XIntent.readSerializableExtra(intent, String.class, "");
+		Integer b = XIntent.readSerializableExtra(intent, Integer.class, 0);
+		System.out.println("======================= onRestoreInstanceState =======================" + a + b);
+	}
 }
