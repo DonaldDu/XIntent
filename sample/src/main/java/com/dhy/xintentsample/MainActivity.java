@@ -3,6 +3,7 @@ package com.dhy.xintentsample;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -10,6 +11,9 @@ import com.dhy.xintent.XCommon;
 import com.dhy.xintent.XIntent;
 
 public class MainActivity extends Activity {
+	boolean init = false;
+	int hash;
+	String tag = "MainActivity";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,15 @@ public class MainActivity extends Activity {
 				startActivity(new XIntent(MainActivity.this, MainActivity.class, editText.getText().toString()));
 			}
 		});
+		if (savedInstanceState != null) {
+			Intent intent = new Intent().replaceExtras(savedInstanceState);
+			hash = XIntent.readSerializableExtra(intent, Integer.class, -1);
+		}
+		Log.i(tag, "init " + init);
+		Log.i(tag, "hash1 " + hash);
+		init = true;
+		hash = findViewById(R.id.textView).hashCode();
+		Log.i(tag, "hash2 " + hash);
 //		normalSetMethod(null, true, 1, null);
 	}
 
@@ -53,9 +66,9 @@ public class MainActivity extends Activity {
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		XIntent.putSerializableExtra(outState, "+", 10);
+		XIntent.putSerializableExtra(outState, "+", hash);
 		super.onSaveInstanceState(outState);
-		System.out.println("======================= onSaveInstanceState =======================");
+		Log.i(tag, "======================= onSaveInstanceState =======================");
 	}
 
 	@Override
@@ -64,6 +77,6 @@ public class MainActivity extends Activity {
 		Intent intent = new Intent().replaceExtras(savedInstanceState);
 		String a = XIntent.readSerializableExtra(intent, String.class, "");
 		Integer b = XIntent.readSerializableExtra(intent, Integer.class, 0);
-		System.out.println("======================= onRestoreInstanceState =======================" + a + b);
+		Log.i(tag, "======================= onRestoreInstanceState =======================" + a + b);
 	}
 }
