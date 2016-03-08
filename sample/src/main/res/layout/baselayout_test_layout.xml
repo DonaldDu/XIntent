@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.dhy.xintent.BasedSizeLayout
+	android:id="@+id/action_bar_root"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+
+	<RelativeLayout
+		android:id="@+id/jjj"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:contentDescription="h:2h"
+		android:paddingLeft="10dp"
+		android:paddingRight="10dp">
+
+		<TextView
+			android:id="@+id/tv1"
+			style="@style/test"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:contentDescription="w:w,h:h"
+			android:text="Hello World!"/>
+
+		<TextView
+			android:id="@+id/tv2"
+			style="@style/test"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:background="#787887"
+			android:contentDescription="w:w,h:h"
+			android:text="Hello World!"/>
+
+		<TextView
+			android:id="@+id/tv3"
+			style="@style/test"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/tv1"
+			android:layout_marginTop="10dp"
+			android:background="#787337"
+			android:contentDescription="bw:0.5iw-5dp,bh:w,h:h"
+			android:text="Hello World!"/>
+
+		<TextView
+			android:id="@+id/tvcenter"
+			style="@style/test"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true"
+			android:background="#785587"
+			android:contentDescription="w:w,h:h"
+			android:text="Hello World!"
+			android:visibility="visible"/>
+	</RelativeLayout>
+
+
+</com.dhy.xintent.BasedSizeLayout>
+

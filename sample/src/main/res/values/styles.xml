@@ -5,5 +5,10 @@
 		<!-- Customize your theme here. -->
 
 	</style>
-
+	<style name="test">
+		<!-- Customize your theme here. -->
+		<item name="android:background">@color/colorPrimary</item>
+		<item name="android:padding">20dp</item>
+		<item name="android:gravity">center</item>
+	</style>
 </resources>
