@@ -1,6 +1,8 @@
 package com.dhy.xintent;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.Fragment;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,7 +24,7 @@ public class XCommon {
 	}
 
 	/**
-	 * @param container must be Activity ,View or IFindViewById
+	 * @param container must be Activity, Dialog, Fragment, View or IFindViewById
 	 * @param value     {@link #setTextWithFormat(TextView, Object, int)}
 	 */
 	public static TextView setTextWithFormat(Object container, int rid, Object value, int visibility) {
@@ -78,19 +80,24 @@ public class XCommon {
 		return setText(findViewById(container, rid), value);
 	}
 
-	/**
-	 * @param container must be Activity ,View or IFindViewById
-	 */
 	private static TextView findViewById(Object container, int rid) {
 		TextView textView;
-		if (container instanceof Activity) {
+		if (container instanceof IFindViewById) {
+			textView = (TextView) ((IFindViewById) container).findViewById(rid);
+		} else if (container instanceof Activity) {
 			textView = (TextView) ((Activity) container).findViewById(rid);
 		} else if (container instanceof View) {
 			textView = (TextView) ((View) container).findViewById(rid);
-		} else if (container instanceof IFindViewById) {
-			textView = (TextView) ((IFindViewById) container).findViewById(rid);
+		} else if (container instanceof Dialog) {
+			textView = (TextView) ((Dialog) container).findViewById(rid);
+		} else if (container instanceof Fragment) {
+			Fragment fragment = (Fragment) container;
+			View view = fragment.getView();
+			if (view != null) {
+				textView = (TextView) view.findViewById(rid);
+			} else textView = null;
 		} else {
-			throw new IllegalArgumentException("container must be Activity ,View or IFindViewById");
+			throw new IllegalArgumentException("container must be Activity, Dialog, Fragment, View or IFindViewById");
 		}
 		return textView;
 	}
