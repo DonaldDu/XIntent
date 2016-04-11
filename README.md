@@ -1,4 +1,4 @@
-# XIntent
+# XIntent[ ![Download](https://api.bintray.com/packages/donalddu/maven/com.dhy.xintent/images/download.svg) ](https://bintray.com/donalddu/maven/com.dhy.xintent/_latestVersion)
 An easy way to handle intent extra for Android.<p>
 
 	public static void putSerializableExtra(Intent intent, Serializable... serializable) {
