@@ -149,16 +149,20 @@ public class XCommon {
 	}
 
 	public static <T> T getSetting(Activity activity, Object key, Class<T> dataClass, @Nullable T defValue) {
-		String keyName = getKeyName(activity, key);
+		return getSetting(activity, getSharedPreferences(activity), key, dataClass, defValue);
+	}
+
+	public static <T> T getSetting(Context context, SharedPreferences sharedPreferences, Object key, Class<T> dataClass, @Nullable T defValue) {
+		String keyName = getKeyName(context, key);
 		if (TextUtils.isEmpty(keyName)) return null;
-		String value = getSharedPreferences(activity).getString(keyName, null);
+		String value = sharedPreferences.getString(keyName, null);
 		if (value == null) {
 			return defValue;
 		} else {
 			try {
 				return gson.fromJson(value, dataClass);
 			} catch (Exception e) {
-				if (isDebug(activity)) {
+				if (isDebug(context)) {
 					throw e;
 				}
 				return null;
@@ -178,8 +182,12 @@ public class XCommon {
 	 * @param value string, data object, or null to remove the setting
 	 */
 	public static void updateSetting(Activity activity, Object key, Object value) {
-		SharedPreferences.Editor edit = getSharedPreferences(activity).edit();
-		String keyName = getKeyName(activity, key);
+		updateSetting(activity, getSharedPreferences(activity), key, value);
+	}
+
+	public static void updateSetting(Context context, SharedPreferences sharedPreferences, Object key, Object value) {
+		SharedPreferences.Editor edit = sharedPreferences.edit();
+		String keyName = getKeyName(context, key);
 		if (TextUtils.isEmpty(keyName)) return;
 		if (value instanceof String) {
 			edit.putString(keyName, (String) value);
@@ -187,7 +195,7 @@ public class XCommon {
 			try {
 				edit.putString(keyName, gson.toJson(value));
 			} catch (Exception e) {
-				if (isDebug(activity)) {
+				if (isDebug(context)) {
 					throw e;
 				}
 			}
@@ -214,20 +222,20 @@ public class XCommon {
 	/**
 	 * @param key view, id, name, activity
 	 */
-	private static String getKeyName(Activity activity, Object key) {
+	private static String getKeyName(Context context, Object key) {
 		String keyName;
-		if (key instanceof View) {
+		if (key instanceof String) {
+			keyName = (String) key;
+		} else if (key instanceof Activity) {
+			keyName = context.getClass().getName();
+		} else if (key instanceof View) {
 			keyName = String.valueOf(((View) key).getId());
 		} else if (key instanceof Integer) {
 			keyName = String.valueOf(key);
-		} else if (key instanceof String) {
-			keyName = (String) key;
-		} else if (key instanceof Activity) {
-			keyName = activity.getClass().getName();
 		} else {
-			if (isDebug(activity)) {
-				Toast.makeText(activity, "setting key error", Toast.LENGTH_LONG).show();
-				Log.e(tag, activity.getClass().getName() + ",key " + key);
+			if (isDebug(context)) {
+				Toast.makeText(context, "setting key error", Toast.LENGTH_LONG).show();
+				Log.e(tag, context.getClass().getName() + ",key " + key);
 			}
 			keyName = null;
 		}
