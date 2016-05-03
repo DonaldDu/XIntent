@@ -8,11 +8,13 @@ public class ActivitySettingTest extends BaseActivityUnitTestCase {
 		assertNotNull(XCommon.isDebug(getActivity()));
 	}
 
-	public void testSetting_string() {
-		String value = getClass().getName();
-		XCommon.updateSetting(getActivity(), value);
-		String setting = XCommon.getSetting(getActivity());
-		assertEquals(value, setting);
+	public void testSetting_baseDataType() {
+		Object[] values = {"testSetting_baseDataType", 1, true, 7f, 4d};
+		for (Object value : values) {
+			XCommon.updateSetting(getActivity(), value);
+			Object setting = XCommon.getSetting(getActivity(), value.getClass());
+			assertEquals(value, setting);
+		}
 		XCommon.deleteSettings(getActivity());
 	}
 

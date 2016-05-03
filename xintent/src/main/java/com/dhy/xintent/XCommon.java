@@ -179,7 +179,7 @@ public class XCommon {
 
 	/**
 	 * @param key   view, id, name, activity
-	 * @param value string, data object, or null to remove the setting
+	 * @param value string, int, boolean, float, double, long, data object, or null to remove the setting
 	 */
 	public static void updateSetting(Activity activity, Object key, Object value) {
 		updateSetting(activity, getSharedPreferences(activity), key, value);
@@ -189,9 +189,7 @@ public class XCommon {
 		SharedPreferences.Editor edit = sharedPreferences.edit();
 		String keyName = getKeyName(context, key);
 		if (TextUtils.isEmpty(keyName)) return;
-		if (value instanceof String) {
-			edit.putString(keyName, (String) value);
-		} else if (value != null) {
+		if (value != null) {
 			try {
 				edit.putString(keyName, gson.toJson(value));
 			} catch (Exception e) {
