@@ -40,10 +40,11 @@ public class XIntent extends Intent {
 		}
 	}
 
-	public static void putSerializableExtra(Intent intent, Serializable... serializable) {
+	public static Intent putSerializableExtra(Intent intent, Serializable... serializable) {
 		if (serializable.length != 0) {
 			intent.putExtra(KEY_EXTRA, serializable.length == 1 ? serializable[0] : serializable);
 		}
+		return intent;
 	}
 
 	public static void putSerializableExtra(Activity activity, Serializable... serializable) {
