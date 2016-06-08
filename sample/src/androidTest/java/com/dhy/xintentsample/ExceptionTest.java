@@ -7,9 +7,9 @@ import android.widget.TextView;
 /**
  * Created by donald on 2016/2/24.
  */
-public class ExceptionTest extends ActivityUnitTestCase<MainActivity> {
+public class ExceptionTest extends ActivityUnitTestCase<XIntentSampleActivity> {
 	public ExceptionTest() {
-		super(MainActivity.class);
+		super(XIntentSampleActivity.class);
 	}
 
 	Context context;
