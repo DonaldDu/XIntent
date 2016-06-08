@@ -1,6 +1,5 @@
-<manifest
-	package="com.dhy.xintent">
+<manifest package="com.dhy.xintent">
 
-	<application/>
+    <application />
 
 </manifest>

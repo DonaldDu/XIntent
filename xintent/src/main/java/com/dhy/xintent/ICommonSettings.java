@@ -3,37 +3,65 @@ package com.dhy.xintent;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 /**
  * use to store common settings, such as login response
  */
 public abstract class ICommonSettings<T> {
-	protected Context context;
-	private final String SETTING_NAME;
-	private final SharedPreferences preferences;
+	protected final transient Context context;
+	private final transient Class<T> dataClass;
+	private final transient String SETTING_NAME;
+	private transient boolean transientCheck = false;
+	private final transient SharedPreferences preferences;
+	private static final transient Gson gson = new Gson();
+	/**
+	 * outter class instance
+	 */
+	private static final transient String THIS0 = "this$0";
 
 	/**
-	 * @param annotation fixed value = {@link Expose}.class, you need annotate the field with {@link Expose} to store it
+	 * use transient for unstored field
 	 */
-	public ICommonSettings(Context context, @NonNull final Class annotation) {
-		if (XCommon.isDebug(context) && !annotation.equals(Expose.class)) {
-			throw new IllegalArgumentException("you need annotate the field with Expose to store it");
-		}
+	public ICommonSettings(Context context) {
 		this.context = context;
 		SETTING_NAME = getClass().getName();
+		dataClass = (Class<T>) getClass();
 		preferences = context.getSharedPreferences(SETTING_NAME, Activity.MODE_PRIVATE);
+	}
+
+	private void transientCheck() {
+		if (!transientCheck && XCommon.isDebug(context)) {
+			Class<?> cls = getClass();
+			while (cls != Object.class) {
+				for (Field f : cls.getDeclaredFields()) {
+					if (!Modifier.isTransient(f.getModifiers())) {
+						if (!f.isAccessible()) f.setAccessible(true);
+						try {
+							Object v = f.get(this);
+							if (!f.getName().equals(THIS0) && v != null && !(v instanceof Serializable)) {
+								throw new IllegalStateException("Please set transient to unstored field: '" + f.getName() + "'");
+							}
+						} catch (IllegalAccessException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+				cls = cls.getSuperclass();
+			}
+		}
+		transientCheck = true;
 	}
 
 	public void save() {
 		try {
+			transientCheck();
 			preferences.edit().putString(SETTING_NAME, gson.toJson(this)).apply();
 		} catch (Exception e) {
 			if (XCommon.isDebug(context)) {
@@ -56,18 +84,19 @@ public abstract class ICommonSettings<T> {
 		return defValue;
 	}
 
-	public abstract T load();
-
-	protected T load(T container, Class<T> dataClass, @Nullable T defValue) {
-		T setting = readPreferences(dataClass, defValue);
+	/**
+	 * load the stored settings. When there's no stored setting nothing will be changed with current object
+	 */
+	public T load() {
+		T setting = readPreferences(dataClass, null);
 		if (setting != null) {
 			Class<?> cls = setting.getClass();
 			while (cls != ICommonSettings.class) {
 				for (Field f : cls.getDeclaredFields()) {
-					if (isExpose(f)) {
+					if (!f.getName().equals(THIS0) && !Modifier.isTransient(f.getModifiers())) {
 						try {
 							if (!f.isAccessible()) f.setAccessible(true);
-							f.set(container, f.get(setting));
+							f.set(this, f.get(setting));
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -76,13 +105,6 @@ public abstract class ICommonSettings<T> {
 				cls = cls.getSuperclass();
 			}
 		}
-		return container;
+		return (T) this;
 	}
-
-	private boolean isExpose(Field f) {
-		Expose expose = f.getAnnotation(Expose.class);
-		return expose != null && expose.deserialize();
-	}
-
-	private static final Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 }
