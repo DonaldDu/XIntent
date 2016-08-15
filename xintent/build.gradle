@@ -1,7 +1,4 @@
 apply plugin: 'com.android.library'
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
-}
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
@@ -9,7 +6,7 @@ android {
         minSdkVersion 11
         targetSdkVersion 23
         versionCode 1
-        versionName '1.0.11'
+        versionName '1.0.12'
     }
     buildTypes {
         release {
@@ -19,10 +16,17 @@ android {
     }
     productFlavors {
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    lintOptions {
+        abortOnError false
+    }
 }
 ext {
     bintrayRepo = 'maven'
-    bintrayName = 'com.dhy.xintent'
+    bintrayName = 'xintent'
 
     publishedGroupId = 'com.dhy'
     libraryName = 'XIntent'
