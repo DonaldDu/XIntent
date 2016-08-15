@@ -88,6 +88,12 @@ public class XCommon {
 		}
 	}
 
+	public static TextView setText(Object container, int rid, Object value, boolean show) {
+		TextView textView = setText(container, rid, value);
+		textView.setVisibility(show ? View.VISIBLE : View.GONE);
+		return textView;
+	}
+
 	public static TextView setText(Object container, int rid, Object value) {
 		return setText(findViewById(container, rid), value);
 	}
