@@ -1,1 +1,1 @@
-include ':xintent', ':sample', ':testjava'
+include ':xintent', ':sample'
