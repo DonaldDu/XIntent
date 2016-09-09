@@ -1,8 +1,11 @@
 # XIntent ![Download](https://api.bintray.com/packages/donalddu/maven/com.dhy.xintent/images/download.svg)
 
+
+<img src="https://api.bintray.com/packages/donalddu/maven/com.dhy.xintent/images/download.svg" width="110" height="20" style="position:absolute;clip:rect(0px,110px,20px,65px)"/>
+
 安卓开发中有一些操作，虽然逻辑很简单，但过程却有点麻烦。这个项目就是提供一些方法，让逻辑和过程同样简单。
 
-## 用Intent传输数据
+# 用Intent传输数据
 是安卓常用技术之一，通常的方法是声名一堆键名(key_name)，把数据存储到Intent中，然后在其它地方根据键名和类别读取。取键名是很简单的事情，但如果取太多的话，就不知道取什么好了，到最后可能干脆直接用‘KEY_1’什么的。取无意义键名，容易出现用错名或类型错误的问题，怎么破？用XIntent传输数据，告别取名的时代！
 
 ## 为什么不用EventBus？
@@ -31,15 +34,16 @@
 		setResult(RESULT_OK, intent);
 	}
 	
-	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		super.onActivityResult(requestCode, resultCode, intent);
-
-		String a = XIntent.readSerializableExtra(intent, String.class, "");
-		boolean b = XIntent.readSerializableExtra(intent, Boolean.class, false);
-		int c = XIntent.readSerializableExtra(intent, Integer.class, 1);
-		Data d = XIntent.readSerializableExtra(intent, Data.class);
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		String a = XIntent.readSerializableExtra(data, String.class, "");
+		boolean b = XIntent.readSerializableExtra(data, Boolean.class, false);
+		int c = XIntent.readSerializableExtra(data, Integer.class, 1);
+		Data d = XIntent.readSerializableExtra(data, Data.class);
 	}
 ## Bundle
+    
     protected void onSaveInstanceState(Bundle outState) {
         XIntent.putSerializableExtra(outState, "s", 1);
         super.onSaveInstanceState(outState);
@@ -54,7 +58,5 @@
     }
 ## Gradle dependency
 	compile 'com.dhy:xintent:1.0.11'
-
-# XCommon —— The most Common util
-
+	
 # 捐赠（感谢所有帮助）![image](https://raw.githubusercontent.com/DonaldDu/XIntent/master/qrcode_alipay.png)
