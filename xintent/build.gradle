@@ -54,5 +54,4 @@ dependencies {
     compile 'com.android.support:support-annotations:23.3.0'
 }
 
-apply from: 'installv1.gradle'
-apply from: 'bintrayv1.gradle'
+apply from: 'http://git.oschina.net/welldone2009/util/raw/master/publishToBintrayOrMavenLocal.gradle'
