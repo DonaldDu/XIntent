@@ -15,7 +15,7 @@ public class ActivitySettingTest extends BaseActivityUnitTestCase {
 			Object setting = XCommon.getSetting(getActivity(), value.getClass());
 			assertEquals(value, setting);
 		}
-		XCommon.deleteSettings(getActivity());
+		XCommon.clearSettings(getActivity());
 	}
 
 	public void testSetting_classData() {
@@ -25,7 +25,7 @@ public class ActivitySettingTest extends BaseActivityUnitTestCase {
 		XCommon.updateSetting(getActivity(), data);
 		Data setting = XCommon.getSetting(getActivity(), Data.class);
 		assertEquals(setting.sum(), data.sum());
-		XCommon.deleteSettings(getActivity());
+		XCommon.clearSettings(getActivity());
 	}
 
 	public void testSetting_exist_remove() {
@@ -38,7 +38,7 @@ public class ActivitySettingTest extends BaseActivityUnitTestCase {
 		XCommon.updateSetting(getActivity(), null);
 		setting = XCommon.getSetting(getActivity());
 		assertNull(setting);
-		XCommon.deleteSettings(getActivity());
+		XCommon.clearSettings(getActivity());
 	}
 
 	public void testSettings_remove() {
@@ -48,7 +48,7 @@ public class ActivitySettingTest extends BaseActivityUnitTestCase {
 		setting = XCommon.getSetting(getActivity());
 		assertEquals(value, setting);
 
-		XCommon.deleteSettings(getActivity());
+		XCommon.clearSettings(getActivity());
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException ignored) {

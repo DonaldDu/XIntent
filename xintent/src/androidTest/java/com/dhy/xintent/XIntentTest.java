@@ -5,9 +5,6 @@ import android.content.Intent;
 import com.dhy.xintent.util.BaseActivityUnitTestCase;
 import com.dhy.xintent.util.TestMainActivity;
 
-/**
- * Created by donald on 2016/2/24.
- */
 public class XIntentTest extends BaseActivityUnitTestCase {
 
 	final Boolean a = true;
