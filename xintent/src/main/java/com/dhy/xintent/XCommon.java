@@ -131,19 +131,19 @@ public class XCommon {
 
     //region Setting
 
-    public static <K extends Enum & ISettingKey> String getSetting(Context context, K key) {
-        return getSetting(context, getSharedPreferences(context), key, String.class, null);
+    public static <K extends Enum> String getSetting(Context context, K key) {
+        return getSetting(context, getSharedPreferences(context, key), key, String.class, null);
     }
 
-    public static <K extends Enum & ISettingKey, V> V getSetting(Context context, K key, Class<V> dataClass) {
-        return getSetting(context, getSharedPreferences(context), key, dataClass, null);
+    public static <K extends Enum, V> V getSetting(Context context, K key, Class<V> dataClass) {
+        return getSetting(context, getSharedPreferences(context, key), key, dataClass, null);
     }
 
-    public static <K extends Enum & ISettingKey, V> V getSetting(Context context, K key, Class<V> dataClass, @Nullable V defValue) {
-        return getSetting(context, getSharedPreferences(context), key, dataClass, defValue);
+    public static <K extends Enum, V> V getSetting(Context context, K key, Class<V> dataClass, @Nullable V defValue) {
+        return getSetting(context, getSharedPreferences(context, key), key, dataClass, defValue);
     }
 
-    private static <K extends Enum & ISettingKey, V> V getSetting(Context context, SharedPreferences sharedPreferences, K key, Class<V> dataClass, @Nullable V defValue) {
+    private static <K extends Enum, V> V getSetting(Context context, SharedPreferences sharedPreferences, K key, Class<V> dataClass, @Nullable V defValue) {
         String value = sharedPreferences.getString(key.name(), null);
         if (value == null) {
             return defValue;
@@ -163,14 +163,14 @@ public class XCommon {
      * @param key   view, id, name, activity
      * @param value string, int, boolean, float, double, long, data object, or null to remove setting
      */
-    public static <K extends Enum & ISettingKey> void updateSetting(Context context, K key, Object value) {
-        updateSetting(context, getSharedPreferences(context), key, value);
+    public static <K extends Enum> void updateSetting(Context context, K key, Object value) {
+        updateSetting(context, getSharedPreferences(context, key), key, value);
     }
 
     /**
      * @param value pass null to remove setting
      */
-    private static <K extends Enum & ISettingKey> void updateSetting(Context context, SharedPreferences preferences, K key, @Nullable Object value) {
+    private static <K extends Enum> void updateSetting(Context context, SharedPreferences preferences, K key, @Nullable Object value) {
         SharedPreferences.Editor edit = preferences.edit();
         String keyName = key.name();
         if (value != null) {
@@ -187,12 +187,12 @@ public class XCommon {
         edit.apply();
     }
 
-    private static SharedPreferences getSharedPreferences(Context context) {
-        return context.getSharedPreferences("settings", Activity.MODE_PRIVATE);
+    private static <K extends Enum> SharedPreferences getSharedPreferences(Context context, K key) {
+        return context.getSharedPreferences(key.getClass().getName(), Activity.MODE_PRIVATE);
     }
 
-    public static void clearSettings(final Context context) {
-        SharedPreferences preferences = getSharedPreferences(context);
+    public static <K extends Enum> void clearSettings(final Context context, K key) {
+        SharedPreferences preferences = getSharedPreferences(context, key);
         preferences.edit().clear().apply();
     }
     //endregion
