@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
@@ -19,14 +20,14 @@ public class XCommon {
     /**
      * {@link #setTextWithFormat(Object, int, Object, int)}
      */
-    public static TextView setTextWithFormat(Object container, int rid, Object value) {
+    public static TextView setTextWithFormat(Object container, @IdRes int rid, Object value) {
         return setTextWithFormat(container, rid, value, true);
     }
 
     /**
      * {@link #setTextWithFormat(Object, int, Object, int)}
      */
-    public static TextView setTextWithFormat(Object container, int rid, Object value, final boolean showOrGone) {
+    public static TextView setTextWithFormat(Object container, @IdRes int rid, Object value, final boolean showOrGone) {
         return setTextWithFormat(findViewById(container, rid), value, showOrGone);
     }
 
@@ -34,7 +35,7 @@ public class XCommon {
      * @param container must be Activity, Dialog, Fragment, View or IFindViewById
      * @param value     {@link #setTextWithFormat(TextView, Object, int)}
      */
-    public static TextView setTextWithFormat(Object container, int rid, Object value, int visibility) {
+    public static TextView setTextWithFormat(Object container, @IdRes int rid, Object value, int visibility) {
         return setTextWithFormat(findViewById(container, rid), value, visibility);
     }
 
@@ -84,40 +85,38 @@ public class XCommon {
         return textView.getContentDescription();
     }
 
-    public static TextView setText(Object container, int rid, Object value, Boolean showOrGone) {
+    public static TextView setText(Object container, @IdRes int rid, Object value, Boolean showOrGone) {
         return setText(container, rid, value, showOrGone ? View.VISIBLE : View.GONE);
     }
 
-    public static TextView setText(Object container, int rid, Object value, Integer visibility) {
+    public static TextView setText(Object container, @IdRes int rid, Object value, Integer visibility) {
         TextView textView = setText(container, rid, value);
         if (visibility != null) textView.setVisibility(visibility);
         return textView;
     }
 
-    public static TextView setText(Object container, int rid, Object value) {
+    public static TextView setText(Object container, @IdRes int rid, Object value) {
         return setText(findViewById(container, rid), value);
     }
 
-    private static TextView findViewById(Object container, int rid) {
-        TextView textView;
+    private static TextView findViewById(Object container, @IdRes int rid) {
         if (container instanceof IFindViewById) {
-            textView = (TextView) ((IFindViewById) container).findViewById(rid);
+            return (TextView) ((IFindViewById) container).findViewById(rid);
         } else if (container instanceof Activity) {
-            textView = (TextView) ((Activity) container).findViewById(rid);
+            return (TextView) ((Activity) container).findViewById(rid);
         } else if (container instanceof View) {
-            textView = (TextView) ((View) container).findViewById(rid);
+            return (TextView) ((View) container).findViewById(rid);
         } else if (container instanceof Dialog) {
-            textView = (TextView) ((Dialog) container).findViewById(rid);
+            return (TextView) ((Dialog) container).findViewById(rid);
         } else if (container instanceof Fragment) {
-            Fragment fragment = (Fragment) container;
-            View view = fragment.getView();
-            if (view != null) {
-                textView = (TextView) view.findViewById(rid);
-            } else textView = null;
+            return findViewById(((Fragment) container).getView(), rid);
+        } else if (container instanceof android.support.v4.app.Fragment) {
+            return findViewById(((android.support.v4.app.Fragment) container).getView(), rid);
+        } else if (container == null) {
+            return null;
         } else {
             throw new IllegalArgumentException("container must be Activity, Dialog, Fragment, View or IFindViewById");
         }
-        return textView;
     }
 
     /**
@@ -154,7 +153,7 @@ public class XCommon {
                 if (isDebug(context)) {
                     throw e;
                 }
-                return null;
+                return defValue;
             }
         }
     }
