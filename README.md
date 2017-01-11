@@ -57,6 +57,6 @@
         Integer b = XIntent.readSerializableExtra(intent, Integer.class, 0);
     }
 ## Gradle dependency
-	compile 'com.dhy:xintent:1.0.11'
+	compile 'com.dhy:xintent:1.0.16'
 	
 # 捐赠（感谢所有帮助）![image](https://raw.githubusercontent.com/DonaldDu/XIntent/master/qrcode_alipay.png)
