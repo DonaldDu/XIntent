@@ -129,11 +129,12 @@ public class XCommon {
 //	endregion
 
     //region Setting
-
+    @Nullable
     public static <K extends Enum> String getSetting(Context context, K key) {
         return getSetting(context, getSharedPreferences(context, key), key, String.class, null);
     }
 
+    @Nullable
     public static <K extends Enum, V> V getSetting(Context context, K key, Class<V> dataClass) {
         return getSetting(context, getSharedPreferences(context, key), key, dataClass, null);
     }
