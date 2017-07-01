@@ -114,13 +114,13 @@ public class XCommon {
     //	endregion
 
     //region setImageResource
-    public static ImageView setImageResource(Object container, @IdRes int rid, @DrawableRes int image) {
+    public static ImageView setImage(Object container, @IdRes int rid, @DrawableRes int image) {
         ImageView imageView = (ImageView) findViewById(container, rid);
         imageView.setImageResource(image);
         return imageView;
     }
 
-    public static ImageView setImageURI(Object container, @IdRes int rid, Uri uri) {
+    public static ImageView setImage(Object container, @IdRes int rid, Uri uri) {
         ImageView imageView = (ImageView) findViewById(container, rid);
         imageView.setImageURI(uri);
         return imageView;
