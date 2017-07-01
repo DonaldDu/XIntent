@@ -17,6 +17,9 @@ import com.google.gson.Gson;
 
 import java.lang.reflect.Field;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class XCommon {
     //	region set text to textview
 
@@ -38,7 +41,7 @@ public class XCommon {
      * @param container must be Activity, Dialog, Fragment, View or IfindViewTextViewById
      * @param value     {@link #setTextWithFormat(TextView, Object, int)}
      */
-    public static TextView setTextWithFormat(Object container, @IdRes int rid, Object value, int visibility) {
+    public static TextView setTextWithFormat(Object container, @IdRes int rid, Object value, @Visibility int visibility) {
         return setTextWithFormat(findTextViewById(container, rid), value, visibility);
     }
 
@@ -53,7 +56,7 @@ public class XCommon {
      * {@link #setTextWithFormat(TextView, Object, int)}
      */
     public static TextView setTextWithFormat(TextView textView, Object value, final boolean showOrGone) {
-        return setTextWithFormat(textView, value, showOrGone ? View.VISIBLE : View.GONE);
+        return setTextWithFormat(textView, value, showOrGone ? VISIBLE : GONE);
     }
 
     /**
@@ -61,9 +64,9 @@ public class XCommon {
      *
      * @param value support Object[] for multiple values
      */
-    public static TextView setTextWithFormat(TextView textView, Object value, final int visibility) {
+    public static TextView setTextWithFormat(TextView textView, Object value, @Visibility final int visibility) {
         textView.setVisibility(visibility);
-        if (visibility == View.GONE) {
+        if (visibility == GONE) {
             return textView;
         }
         CharSequence f = getFormat(textView);
@@ -89,7 +92,7 @@ public class XCommon {
     }
 
     public static TextView setText(Object container, @IdRes int rid, Object value, Boolean showOrGone) {
-        return setText(container, rid, value, showOrGone ? View.VISIBLE : View.GONE);
+        return setText(container, rid, value, showOrGone ? VISIBLE : GONE);
     }
 
     public static TextView setText(Object container, @IdRes int rid, Object value, Integer visibility) {

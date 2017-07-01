@@ -1,6 +1,7 @@
 package com.dhy.xintent;
 
 import android.content.Context;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -59,6 +60,11 @@ public abstract class IBaseAdapter<ITEM> extends BaseAdapter implements IFindVie
     }
 
     @Override
+    public View findViewById(@IdRes int id) {
+        return currentConvertView.findViewById(id);
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = inflater.inflate(layoutId, parent, false);
@@ -74,11 +80,6 @@ public abstract class IBaseAdapter<ITEM> extends BaseAdapter implements IFindVie
         getDatas().clear();
         if (list != null) getDatas().addAll(list);
         notifyDataSetChanged();
-    }
-
-    @Override
-    public View findViewById(int id) {
-        return currentConvertView.findViewById(id);
     }
 }
 
