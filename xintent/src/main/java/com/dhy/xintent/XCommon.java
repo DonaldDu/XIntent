@@ -5,9 +5,12 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -28,15 +31,15 @@ public class XCommon {
      * {@link #setTextWithFormat(Object, int, Object, int)}
      */
     public static TextView setTextWithFormat(Object container, @IdRes int rid, Object value, final boolean showOrGone) {
-        return setTextWithFormat(findViewById(container, rid), value, showOrGone);
+        return setTextWithFormat(findTextViewById(container, rid), value, showOrGone);
     }
 
     /**
-     * @param container must be Activity, Dialog, Fragment, View or IFindViewById
+     * @param container must be Activity, Dialog, Fragment, View or IfindViewTextViewById
      * @param value     {@link #setTextWithFormat(TextView, Object, int)}
      */
     public static TextView setTextWithFormat(Object container, @IdRes int rid, Object value, int visibility) {
-        return setTextWithFormat(findViewById(container, rid), value, visibility);
+        return setTextWithFormat(findTextViewById(container, rid), value, visibility);
     }
 
     /**
@@ -96,18 +99,46 @@ public class XCommon {
     }
 
     public static TextView setText(Object container, @IdRes int rid, Object value) {
-        return setText(findViewById(container, rid), value);
+        return setText(findTextViewById(container, rid), value);
     }
 
-    private static TextView findViewById(Object container, @IdRes int rid) {
+
+    /**
+     * set the value or empty for null
+     */
+    public static TextView setText(TextView textView, Object value) {
+        textView.setText(value != null ? String.valueOf(value) : "");
+        return textView;
+    }
+
+    //	endregion
+
+    //region setImageResource
+    public static ImageView setImageResource(Object container, @IdRes int rid, @DrawableRes int image) {
+        ImageView imageView = (ImageView) findViewById(container, rid);
+        imageView.setImageResource(image);
+        return imageView;
+    }
+
+    public static ImageView setImageURI(Object container, @IdRes int rid, Uri uri) {
+        ImageView imageView = (ImageView) findViewById(container, rid);
+        imageView.setImageURI(uri);
+        return imageView;
+    }
+
+    private static TextView findTextViewById(Object container, @IdRes int rid) {
+        return (TextView) findViewById(container, rid);
+    }
+
+    private static View findViewById(Object container, @IdRes int rid) {
         if (container instanceof IFindViewById) {
-            return (TextView) ((IFindViewById) container).findViewById(rid);
+            return ((IFindViewById) container).findViewById(rid);
         } else if (container instanceof Activity) {
-            return (TextView) ((Activity) container).findViewById(rid);
+            return ((Activity) container).findViewById(rid);
         } else if (container instanceof View) {
-            return (TextView) ((View) container).findViewById(rid);
+            return ((View) container).findViewById(rid);
         } else if (container instanceof Dialog) {
-            return (TextView) ((Dialog) container).findViewById(rid);
+            return ((Dialog) container).findViewById(rid);
         } else if (container instanceof Fragment) {
             return findViewById(((Fragment) container).getView(), rid);
         } else if (container instanceof android.support.v4.app.Fragment) {
@@ -119,14 +150,7 @@ public class XCommon {
         }
     }
 
-    /**
-     * set the value or empty for null
-     */
-    public static TextView setText(TextView textView, Object value) {
-        textView.setText(value != null ? String.valueOf(value) : "");
-        return textView;
-    }
-//	endregion
+    //	endregion
 
     //region Setting
     @Nullable
