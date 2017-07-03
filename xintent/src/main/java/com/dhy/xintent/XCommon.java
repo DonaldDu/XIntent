@@ -95,7 +95,7 @@ public class XCommon {
         return setText(container, rid, value, showOrGone ? VISIBLE : GONE);
     }
 
-    public static TextView setText(Object container, @IdRes int rid, Object value, Integer visibility) {
+    public static TextView setText(Object container, @IdRes int rid, Object value, @Visibility Integer visibility) {
         TextView textView = setText(container, rid, value);
         if (visibility != null) textView.setVisibility(visibility);
         return textView;
