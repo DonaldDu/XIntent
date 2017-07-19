@@ -116,18 +116,66 @@ public class XCommon {
 
     //	endregion
 
-    //region setImageResource
-    public static ImageView setImage(Object container, @IdRes int rid, @DrawableRes int image) {
-        ImageView imageView = (ImageView) findViewById(container, rid);
+    //region setImage
+    public static ImageView setImage(android.app.Activity activity, @IdRes int rid, @DrawableRes int image) {
+        return setImage((ImageView) activity.findViewById(rid), image);
+    }
+
+    public static ImageView setImage(android.app.Activity activity, @IdRes int rid, Uri uri) {
+        return setImage((ImageView) activity.findViewById(rid), uri);
+    }
+
+    public static ImageView setImage(android.app.Dialog dialog, @IdRes int rid, @DrawableRes int image) {
+        return setImage((ImageView) dialog.findViewById(rid), image);
+    }
+
+    public static ImageView setImage(android.app.Dialog dialog, @IdRes int rid, Uri uri) {
+        return setImage((ImageView) dialog.findViewById(rid), uri);
+    }
+
+    public static ImageView setImage(android.view.View view, @IdRes int rid, @DrawableRes int image) {
+        return setImage((ImageView) view.findViewById(rid), image);
+    }
+
+    public static ImageView setImage(android.view.View view, @IdRes int rid, Uri uri) {
+        return setImage((ImageView) view.findViewById(rid), uri);
+    }
+
+    public static ImageView setImage(com.dhy.xintent.IFindViewById iFindViewById, @IdRes int rid, @DrawableRes int image) {
+        return setImage((ImageView) iFindViewById.findViewById(rid), image);
+    }
+
+    public static ImageView setImage(com.dhy.xintent.IFindViewById iFindViewById, @IdRes int rid, Uri uri) {
+        return setImage((ImageView) iFindViewById.findViewById(rid), uri);
+    }
+
+    public static ImageView setImage(android.app.Fragment fragment, @IdRes int rid, @DrawableRes int image) {
+        return setImage((ImageView) fragment.getView().findViewById(rid), image);
+    }
+
+    public static ImageView setImage(android.app.Fragment fragment, @IdRes int rid, Uri uri) {
+        return setImage((ImageView) fragment.getView().findViewById(rid), uri);
+    }
+
+    public static ImageView setImage(android.support.v4.app.Fragment fragment, @IdRes int rid, @DrawableRes int image) {
+        return setImage((ImageView) fragment.getView().findViewById(rid), image);
+    }
+
+    public static ImageView setImage(android.support.v4.app.Fragment fragment, @IdRes int rid, Uri uri) {
+        return setImage((ImageView) fragment.getView().findViewById(rid), uri);
+    }
+
+    private static ImageView setImage(ImageView imageView, @DrawableRes int image) {
         imageView.setImageResource(image);
         return imageView;
     }
 
-    public static ImageView setImage(Object container, @IdRes int rid, Uri uri) {
-        ImageView imageView = (ImageView) findViewById(container, rid);
+    private static ImageView setImage(ImageView imageView, Uri uri) {
         imageView.setImageURI(uri);
         return imageView;
     }
+
+    //	endregion
 
     private static TextView findTextViewById(Object container, @IdRes int rid) {
         return (TextView) findViewById(container, rid);
@@ -153,7 +201,6 @@ public class XCommon {
         }
     }
 
-    //	endregion
 
     //region Setting
     @Nullable
