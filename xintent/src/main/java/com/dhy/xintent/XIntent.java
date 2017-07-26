@@ -33,9 +33,7 @@ public class XIntent extends Intent {
     }
 
     public static Intent putSerializableExtra(Intent intent, Serializable... serializable) {
-        if (serializable.length != 0) {
-            intent.putExtra(KEY_EXTRA, serializable.length == 1 ? serializable[0] : serializable);
-        }
+        if (serializable.length != 0) intent.putExtra(KEY_EXTRA, serializable);
         return intent;
     }
 
@@ -43,9 +41,7 @@ public class XIntent extends Intent {
      * use {@link #readSerializableExtra(Activity, Class)} or other methods to get data out
      */
     public static void putSerializableExtra(Bundle bundle, Serializable... serializable) {
-        if (serializable.length != 0) {
-            bundle.putSerializable(KEY_EXTRA, serializable.length == 1 ? serializable[0] : serializable);
-        }
+        if (serializable.length != 0) bundle.putSerializable(KEY_EXTRA, serializable);
     }
 
     public static void putSerializableExtra(Activity activity, Serializable... serializable) {
@@ -103,7 +99,7 @@ public class XIntent extends Intent {
         if (serializable instanceof Object[]) {
             Object[] data = (Object[]) serializable;
             if (index < data.length) return cls.cast(data[index]);
-        } else if (index == 0) return cls.cast(serializable);
+        }
         return defaultValue;
     }
 }
