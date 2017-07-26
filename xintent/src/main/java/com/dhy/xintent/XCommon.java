@@ -5,135 +5,402 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 
 import java.lang.reflect.Field;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class XCommon {
-    //	region set text to textview
+    //region setTextWithFormat
+    public static TextView setTextWithFormat(Activity activity, @IdRes int rid, Object value, final Boolean show) {
+        return setTextWithFormat((TextView) activity.findViewById(rid), value, show);
+    }
 
-    /**
-     * {@link #setTextWithFormat(Object, int, Object, int)}
-     */
-    public static TextView setTextWithFormat(Object container, @IdRes int rid, Object value) {
-        return setTextWithFormat(container, rid, value, true);
+    public static TextView setTextWithFormat(Activity activity, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setTextWithFormat((TextView) activity.findViewById(rid), value, visibility);
+    }
+
+    public static TextView setTextWithFormat(Activity activity, @IdRes int rid, Object value) {
+        return setTextWithFormat((TextView) activity.findViewById(rid), value);
+    }
+
+    public static TextView setTextWithFormat(Dialog dialog, @IdRes int rid, Object value, final Boolean show) {
+        return setTextWithFormat((TextView) dialog.findViewById(rid), value, show);
+    }
+
+    public static TextView setTextWithFormat(Dialog dialog, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setTextWithFormat((TextView) dialog.findViewById(rid), value, visibility);
+    }
+
+    public static TextView setTextWithFormat(Dialog dialog, @IdRes int rid, Object value) {
+        return setTextWithFormat((TextView) dialog.findViewById(rid), value);
+    }
+
+    public static TextView setTextWithFormat(View view, @IdRes int rid, Object value, final Boolean show) {
+        return setTextWithFormat((TextView) view.findViewById(rid), value, show);
+    }
+
+    public static TextView setTextWithFormat(View view, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setTextWithFormat((TextView) view.findViewById(rid), value, visibility);
+    }
+
+    public static TextView setTextWithFormat(View view, @IdRes int rid, Object value) {
+        return setTextWithFormat((TextView) view.findViewById(rid), value);
+    }
+
+    public static TextView setTextWithFormat(IFindViewById iFindViewById, @IdRes int rid, Object value, final Boolean show) {
+        return setTextWithFormat((TextView) iFindViewById.findViewById(rid), value, show);
+    }
+
+    public static TextView setTextWithFormat(IFindViewById iFindViewById, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setTextWithFormat((TextView) iFindViewById.findViewById(rid), value, visibility);
+    }
+
+    public static TextView setTextWithFormat(IFindViewById iFindViewById, @IdRes int rid, Object value) {
+        return setTextWithFormat((TextView) iFindViewById.findViewById(rid), value);
+    }
+
+    public static TextView setTextWithFormat(Fragment fragment, @IdRes int rid, Object value, final Boolean show) {
+        return setTextWithFormat((TextView) fragment.getView().findViewById(rid), value, show);
+    }
+
+    public static TextView setTextWithFormat(Fragment fragment, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setTextWithFormat((TextView) fragment.getView().findViewById(rid), value, visibility);
+    }
+
+    public static TextView setTextWithFormat(Fragment fragment, @IdRes int rid, Object value) {
+        return setTextWithFormat((TextView) fragment.getView().findViewById(rid), value);
+    }
+
+    public static TextView setTextWithFormat(android.support.v4.app.Fragment fragment, @IdRes int rid, Object value, final Boolean show) {
+        return setTextWithFormat((TextView) fragment.getView().findViewById(rid), value, show);
+    }
+
+    public static TextView setTextWithFormat(android.support.v4.app.Fragment fragment, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setTextWithFormat((TextView) fragment.getView().findViewById(rid), value, visibility);
+    }
+
+    public static TextView setTextWithFormat(android.support.v4.app.Fragment fragment, @IdRes int rid, Object value) {
+        return setTextWithFormat((TextView) fragment.getView().findViewById(rid), value);
+    }
+
+    public static TextView setTextWithFormat(TextView textView, Object value, @Nullable final Boolean show) {
+        return setText(textView, getFormatedString(textView, value), show);
+    }
+
+
+    public static TextView setTextWithFormat(TextView textView, Object value, @Visibility @Nullable final Integer visibility) {
+        return setText(textView, getFormatedString(textView, value), visibility);
     }
 
     /**
-     * {@link #setTextWithFormat(Object, int, Object, int)}
-     */
-    public static TextView setTextWithFormat(Object container, @IdRes int rid, Object value, final boolean showOrGone) {
-        return setTextWithFormat(findViewById(container, rid), value, showOrGone);
-    }
-
-    /**
-     * @param container must be Activity, Dialog, Fragment, View or IFindViewById
-     * @param value     {@link #setTextWithFormat(TextView, Object, int)}
-     */
-    public static TextView setTextWithFormat(Object container, @IdRes int rid, Object value, int visibility) {
-        return setTextWithFormat(findViewById(container, rid), value, visibility);
-    }
-
-    /**
-     * {@link #setTextWithFormat(TextView, Object, int)}
-     */
-    public static TextView setTextWithFormat(TextView textView, Object value) {
-        return setTextWithFormat(textView, value, true);
-    }
-
-    /**
-     * {@link #setTextWithFormat(TextView, Object, int)}
-     */
-    public static TextView setTextWithFormat(TextView textView, Object value, final boolean showOrGone) {
-        return setTextWithFormat(textView, value, showOrGone ? View.VISIBLE : View.GONE);
-    }
-
-    /**
-     * use contentDescription as format, can't be null or empty
+     * use contentDescription as format, if null or empty will be ignored
      *
      * @param value support Object[] for multiple values
      */
-    public static TextView setTextWithFormat(TextView textView, Object value, final int visibility) {
-        textView.setVisibility(visibility);
-        if (visibility == View.GONE) {
-            return textView;
-        }
-        CharSequence f = getFormat(textView);
-        if (f != null) {
-            String format = f.toString();
+    public static TextView setTextWithFormat(TextView textView, Object value) {
+        return setText(textView, getFormatedString(textView, value));
+    }
+
+    private static Object getFormatedString(TextView textView, Object value) {
+        CharSequence description = textView.getContentDescription();
+        if (description != null) {
+            String format = description.toString();
             if (value instanceof Number) {
-                textView.setText(String.format(format, value));
-            } else {//string
+                return String.format(format, value);
+            } else {
                 if (value instanceof Object[]) {
-                    textView.setText(String.format(format, (Object[]) value));
+                    return String.format(format, (Object[]) value);
                 } else {
-                    textView.setText(String.format(format, (value != null) ? value : ""));
+                    return String.format(format, (value != null) ? value : "");
                 }
             }
-        } else {
-            setText(textView, value);
-        }
-        return textView;
+        } else return value;
     }
 
-    private static CharSequence getFormat(TextView textView) {
-        return textView.getContentDescription();
+    //endregion
+
+    //region setText
+    public static TextView setText(Activity activity, @IdRes int rid, Object value, @Nullable Boolean show) {
+        return setText((TextView) activity.findViewById(rid), value, show);
     }
 
-    public static TextView setText(Object container, @IdRes int rid, Object value, Boolean showOrGone) {
-        return setText(container, rid, value, showOrGone ? View.VISIBLE : View.GONE);
+    public static TextView setText(Activity activity, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setText((TextView) activity.findViewById(rid), value, visibility);
     }
 
-    public static TextView setText(Object container, @IdRes int rid, Object value, Integer visibility) {
-        TextView textView = setText(container, rid, value);
+    public static TextView setText(Activity activity, @IdRes int rid, Object value) {
+        return setText((TextView) activity.findViewById(rid), value);
+    }
+
+    public static TextView setText(Dialog dialog, @IdRes int rid, Object value, @Nullable Boolean show) {
+        return setText((TextView) dialog.findViewById(rid), value, show);
+    }
+
+    public static TextView setText(Dialog dialog, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setText((TextView) dialog.findViewById(rid), value, visibility);
+    }
+
+    public static TextView setText(Dialog dialog, @IdRes int rid, Object value) {
+        return setText((TextView) dialog.findViewById(rid), value);
+    }
+
+    public static TextView setText(View view, @IdRes int rid, Object value, @Nullable Boolean show) {
+        return setText((TextView) view.findViewById(rid), value, show);
+    }
+
+    public static TextView setText(View view, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setText((TextView) view.findViewById(rid), value, visibility);
+    }
+
+    public static TextView setText(View view, @IdRes int rid, Object value) {
+        return setText((TextView) view.findViewById(rid), value);
+    }
+
+    public static TextView setText(IFindViewById iFindViewById, @IdRes int rid, Object value, @Nullable Boolean show) {
+        return setText((TextView) iFindViewById.findViewById(rid), value, show);
+    }
+
+    public static TextView setText(IFindViewById iFindViewById, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setText((TextView) iFindViewById.findViewById(rid), value, visibility);
+    }
+
+    public static TextView setText(IFindViewById iFindViewById, @IdRes int rid, Object value) {
+        return setText((TextView) iFindViewById.findViewById(rid), value);
+    }
+
+    public static TextView setText(Fragment fragment, @IdRes int rid, Object value, @Nullable Boolean show) {
+        return setText((TextView) fragment.getView().findViewById(rid), value, show);
+    }
+
+    public static TextView setText(Fragment fragment, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setText((TextView) fragment.getView().findViewById(rid), value, visibility);
+    }
+
+    public static TextView setText(Fragment fragment, @IdRes int rid, Object value) {
+        return setText((TextView) fragment.getView().findViewById(rid), value);
+    }
+
+    public static TextView setText(android.support.v4.app.Fragment fragment, @IdRes int rid, Object value, @Nullable Boolean show) {
+        return setText((TextView) fragment.getView().findViewById(rid), value, show);
+    }
+
+    public static TextView setText(android.support.v4.app.Fragment fragment, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setText((TextView) fragment.getView().findViewById(rid), value, visibility);
+    }
+
+    public static TextView setText(android.support.v4.app.Fragment fragment, @IdRes int rid, Object value) {
+        return setText((TextView) fragment.getView().findViewById(rid), value);
+    }
+
+    public static TextView setText(TextView textView, Object value, final Boolean show) {
+        return setText(textView, value, show == null ? null : (show ? VISIBLE : GONE));
+    }
+
+    public static TextView setText(TextView textView, Object value, @Visibility final Integer visibility) {
+        setText(textView, value);
         if (visibility != null) textView.setVisibility(visibility);
         return textView;
     }
 
-    public static TextView setText(Object container, @IdRes int rid, Object value) {
-        return setText(findViewById(container, rid), value);
-    }
-
-    private static TextView findViewById(Object container, @IdRes int rid) {
-        if (container instanceof IFindViewById) {
-            return (TextView) ((IFindViewById) container).findViewById(rid);
-        } else if (container instanceof Activity) {
-            return (TextView) ((Activity) container).findViewById(rid);
-        } else if (container instanceof View) {
-            return (TextView) ((View) container).findViewById(rid);
-        } else if (container instanceof Dialog) {
-            return (TextView) ((Dialog) container).findViewById(rid);
-        } else if (container instanceof Fragment) {
-            return findViewById(((Fragment) container).getView(), rid);
-        } else if (container instanceof android.support.v4.app.Fragment) {
-            return findViewById(((android.support.v4.app.Fragment) container).getView(), rid);
-        } else if (container == null) {
-            return null;
-        } else {
-            throw new IllegalArgumentException("container must be Activity, Dialog, Fragment, View or IFindViewById");
-        }
-    }
-
-    /**
-     * set the value or empty for null
-     */
     public static TextView setText(TextView textView, Object value) {
         textView.setText(value != null ? String.valueOf(value) : "");
         return textView;
     }
-//	endregion
+    //	endregion
+
+    //region setImage
+    public static ImageView setImage(Activity activity, @IdRes int rid, @DrawableRes int image, @Nullable final Boolean show) {
+        return setImage((ImageView) activity.findViewById(rid), image, show);
+    }
+
+    public static ImageView setImage(Activity activity, @IdRes int rid, @DrawableRes int image, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) activity.findViewById(rid), image, visibility);
+    }
+
+    public static ImageView setImage(Activity activity, @IdRes int rid, @DrawableRes int image) {
+        return setImage((ImageView) activity.findViewById(rid), image);
+    }
+
+    public static ImageView setImage(Activity activity, @IdRes int rid, Uri uri, @Nullable final Boolean show) {
+        return setImage((ImageView) activity.findViewById(rid), uri, show);
+    }
+
+    public static ImageView setImage(Activity activity, @IdRes int rid, Uri uri, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) activity.findViewById(rid), uri, visibility);
+    }
+
+    public static ImageView setImage(Activity activity, @IdRes int rid, Uri uri) {
+        return setImage((ImageView) activity.findViewById(rid), uri);
+    }
+
+    public static ImageView setImage(Dialog dialog, @IdRes int rid, @DrawableRes int image, @Nullable final Boolean show) {
+        return setImage((ImageView) dialog.findViewById(rid), image, show);
+    }
+
+    public static ImageView setImage(Dialog dialog, @IdRes int rid, @DrawableRes int image, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) dialog.findViewById(rid), image, visibility);
+    }
+
+    public static ImageView setImage(Dialog dialog, @IdRes int rid, @DrawableRes int image) {
+        return setImage((ImageView) dialog.findViewById(rid), image);
+    }
+
+    public static ImageView setImage(Dialog dialog, @IdRes int rid, Uri uri, @Nullable final Boolean show) {
+        return setImage((ImageView) dialog.findViewById(rid), uri, show);
+    }
+
+    public static ImageView setImage(Dialog dialog, @IdRes int rid, Uri uri, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) dialog.findViewById(rid), uri, visibility);
+    }
+
+    public static ImageView setImage(Dialog dialog, @IdRes int rid, Uri uri) {
+        return setImage((ImageView) dialog.findViewById(rid), uri);
+    }
+
+    public static ImageView setImage(View view, @IdRes int rid, @DrawableRes int image, @Nullable final Boolean show) {
+        return setImage((ImageView) view.findViewById(rid), image, show);
+    }
+
+    public static ImageView setImage(View view, @IdRes int rid, @DrawableRes int image, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) view.findViewById(rid), image, visibility);
+    }
+
+    public static ImageView setImage(View view, @IdRes int rid, @DrawableRes int image) {
+        return setImage((ImageView) view.findViewById(rid), image);
+    }
+
+    public static ImageView setImage(View view, @IdRes int rid, Uri uri, @Nullable final Boolean show) {
+        return setImage((ImageView) view.findViewById(rid), uri, show);
+    }
+
+    public static ImageView setImage(View view, @IdRes int rid, Uri uri, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) view.findViewById(rid), uri, visibility);
+    }
+
+    public static ImageView setImage(View view, @IdRes int rid, Uri uri) {
+        return setImage((ImageView) view.findViewById(rid), uri);
+    }
+
+    public static ImageView setImage(IFindViewById iFindViewById, @IdRes int rid, @DrawableRes int image, @Nullable final Boolean show) {
+        return setImage((ImageView) iFindViewById.findViewById(rid), image, show);
+    }
+
+    public static ImageView setImage(IFindViewById iFindViewById, @IdRes int rid, @DrawableRes int image, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) iFindViewById.findViewById(rid), image, visibility);
+    }
+
+    public static ImageView setImage(IFindViewById iFindViewById, @IdRes int rid, @DrawableRes int image) {
+        return setImage((ImageView) iFindViewById.findViewById(rid), image);
+    }
+
+    public static ImageView setImage(IFindViewById iFindViewById, @IdRes int rid, Uri uri, @Nullable final Boolean show) {
+        return setImage((ImageView) iFindViewById.findViewById(rid), uri, show);
+    }
+
+    public static ImageView setImage(IFindViewById iFindViewById, @IdRes int rid, Uri uri, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) iFindViewById.findViewById(rid), uri, visibility);
+    }
+
+    public static ImageView setImage(IFindViewById iFindViewById, @IdRes int rid, Uri uri) {
+        return setImage((ImageView) iFindViewById.findViewById(rid), uri);
+    }
+
+    public static ImageView setImage(Fragment fragment, @IdRes int rid, @DrawableRes int image, @Nullable final Boolean show) {
+        return setImage((ImageView) fragment.getView().findViewById(rid), image, show);
+    }
+
+    public static ImageView setImage(Fragment fragment, @IdRes int rid, @DrawableRes int image, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) fragment.getView().findViewById(rid), image, visibility);
+    }
+
+    public static ImageView setImage(Fragment fragment, @IdRes int rid, @DrawableRes int image) {
+        return setImage((ImageView) fragment.getView().findViewById(rid), image);
+    }
+
+    public static ImageView setImage(Fragment fragment, @IdRes int rid, Uri uri, @Nullable final Boolean show) {
+        return setImage((ImageView) fragment.getView().findViewById(rid), uri, show);
+    }
+
+    public static ImageView setImage(Fragment fragment, @IdRes int rid, Uri uri, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) fragment.getView().findViewById(rid), uri, visibility);
+    }
+
+    public static ImageView setImage(Fragment fragment, @IdRes int rid, Uri uri) {
+        return setImage((ImageView) fragment.getView().findViewById(rid), uri);
+    }
+
+    public static ImageView setImage(android.support.v4.app.Fragment fragment, @IdRes int rid, @DrawableRes int image, @Nullable final Boolean show) {
+        return setImage((ImageView) fragment.getView().findViewById(rid), image, show);
+    }
+
+    public static ImageView setImage(android.support.v4.app.Fragment fragment, @IdRes int rid, @DrawableRes int image, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) fragment.getView().findViewById(rid), image, visibility);
+    }
+
+    public static ImageView setImage(android.support.v4.app.Fragment fragment, @IdRes int rid, @DrawableRes int image) {
+        return setImage((ImageView) fragment.getView().findViewById(rid), image);
+    }
+
+    public static ImageView setImage(android.support.v4.app.Fragment fragment, @IdRes int rid, Uri uri, @Nullable final Boolean show) {
+        return setImage((ImageView) fragment.getView().findViewById(rid), uri, show);
+    }
+
+    public static ImageView setImage(android.support.v4.app.Fragment fragment, @IdRes int rid, Uri uri, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) fragment.getView().findViewById(rid), uri, visibility);
+    }
+
+    public static ImageView setImage(android.support.v4.app.Fragment fragment, @IdRes int rid, Uri uri) {
+        return setImage((ImageView) fragment.getView().findViewById(rid), uri);
+    }
+
+    private static ImageView setImage(ImageView imageView, @DrawableRes int image, @Nullable final Boolean show) {
+        return setImage(imageView, image, show == null ? null : (show ? VISIBLE : GONE));
+    }
+
+    private static ImageView setImage(ImageView imageView, @DrawableRes int image, @Visibility @Nullable final Integer visibility) {
+        if (visibility != null) imageView.setVisibility(visibility);
+        return setImage(imageView, image);
+    }
+
+    private static ImageView setImage(ImageView imageView, @DrawableRes int image) {
+        imageView.setImageResource(image);
+        return imageView;
+    }
+
+    private static ImageView setImage(ImageView imageView, Uri uri, @Nullable final Boolean show) {
+        return setImage(imageView, uri, show == null ? null : (show ? VISIBLE : GONE));
+    }
+
+    private static ImageView setImage(ImageView imageView, Uri uri, @Visibility @Nullable final Integer visibility) {
+        if (visibility != null) imageView.setVisibility(visibility);
+        return setImage(imageView, uri);
+    }
+
+    private static ImageView setImage(ImageView imageView, Uri uri) {
+        imageView.setImageURI(uri);
+        return imageView;
+    }
+
+    //	endregion
 
     //region Setting
-
+    @Nullable
     public static <K extends Enum> String getSetting(Context context, K key) {
         return getSetting(context, getSharedPreferences(context, key), key, String.class, null);
     }
 
+    @Nullable
     public static <K extends Enum, V> V getSetting(Context context, K key, Class<V> dataClass) {
         return getSetting(context, getSharedPreferences(context, key), key, dataClass, null);
     }
