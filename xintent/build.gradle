@@ -26,6 +26,11 @@ android {
     }
 }
 
+task androidReleaseJar(type: Jar, dependsOn: 'assembleRelease') {
+    from "$buildDir/intermediates/classes/release/"
+    exclude '**/BuildConfig.class'
+    exclude '**/R.class'
+}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
