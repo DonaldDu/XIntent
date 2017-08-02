@@ -25,12 +25,18 @@ android {
         abortOnError false
     }
 }
-
-task androidReleaseJar(type: Jar, dependsOn: 'assembleRelease') {
-    from "$buildDir/intermediates/classes/release/"
-    exclude '**/BuildConfig.class'
-    exclude '**/R.class'
+task removeBuildConfig(dependsOn: "compileReleaseSources") {
+    file("$buildDir/generated/source/buildConfig/release/com/dhy/xintent/BuildConfig.java").delete()
+    doLast {
+        file("$buildDir/generated/source/buildConfig/release/com/dhy/xintent/BuildConfig.java").delete()
+        file("$buildDir/intermediates/classes/release/com/dhy/xintent/BuildConfig.class").delete()
+    }
 }
+//task androidReleaseJar(type: Jar, dependsOn: 'assembleRelease') {
+//    from "$buildDir/intermediates/classes/release/"
+//    exclude '**/BuildConfig.class'
+//    exclude '**/R.class'
+//}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
