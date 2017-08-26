@@ -2,8 +2,8 @@ package com.dhy.xintent;
 
 import android.support.annotation.Nullable;
 
-public abstract class AsyncRunnable implements Runnable {
-    Async async;
+public abstract class AsyncRunnable<CALLBACK> implements Runnable, Callback<CALLBACK> {
+    private Async async;
 
     void init(Async async) {
         this.async = async;
@@ -17,6 +17,11 @@ public abstract class AsyncRunnable implements Runnable {
      */
     protected void next(@Nullable Object result) {
         async.next(result);
+    }
+
+    @Override
+    public void onCallback(CALLBACK callback) {
+        next(callback);
     }
 
     /**
