@@ -33,7 +33,6 @@ public abstract class AsyncRunnable implements Runnable {
      * @param step the flow step
      * @return the success or error result
      */
-    @Nullable
     protected Object getResultData(int step) {
         if (step < async.datas.size()) {
             return async.datas.get(step);
@@ -43,7 +42,6 @@ public abstract class AsyncRunnable implements Runnable {
     /**
      * @return the success or error result
      */
-    @Nullable
     protected <T> T getResultData(Class<T> cls) {
         for (Object data : async.datas) {
             if (cls.isInstance(data)) {
