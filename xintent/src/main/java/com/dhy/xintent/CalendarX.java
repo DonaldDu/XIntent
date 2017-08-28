@@ -8,11 +8,19 @@ public class CalendarX {
         return new CalendarX();
     }
 
+    public Calendar getCalendar() {
+        return calendar;
+    }
+
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
+    }
+
     private Calendar calendar = Calendar.getInstance();
 
     /**
      * Calendar.MONTH->[1,12]
-     * <br><br>Calendar.DAY_OF_WEEK->[Calendar#MONDAY, Calendar#SUNDAY] [1,7]
+     * <br>Calendar.DAY_OF_WEEK->[Calendar#MONDAY, Calendar#SUNDAY] [1,7]
      */
     public int get(int field) {
         int value = calendar.get(field);

@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dhy.xintent.annotation.Visibility;
+import com.dhy.xintent.interfaces.IFindViewById;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Field;

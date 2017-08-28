@@ -1,6 +1,8 @@
-package com.dhy.xintent;
+package com.dhy.xintent.async;
 
 import android.support.annotation.Nullable;
+
+import com.dhy.xintent.interfaces.Callback;
 
 public abstract class AsyncRunnable<CALLBACK> implements Runnable, Callback<CALLBACK> {
     private Async async;

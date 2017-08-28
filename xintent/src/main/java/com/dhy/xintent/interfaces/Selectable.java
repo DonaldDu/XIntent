@@ -1,4 +1,4 @@
-package com.dhy.xintent;
+package com.dhy.xintent.interfaces;
 
 public interface Selectable {
     Boolean isChecked();

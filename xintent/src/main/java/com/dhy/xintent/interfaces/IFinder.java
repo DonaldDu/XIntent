@@ -1,4 +1,4 @@
-package com.dhy.xintent;
+package com.dhy.xintent.interfaces;
 
 public interface IFinder<U> {
     boolean apply(U u);

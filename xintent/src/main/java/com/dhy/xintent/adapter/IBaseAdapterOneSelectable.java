@@ -1,8 +1,10 @@
-package com.dhy.xintent;
+package com.dhy.xintent.adapter;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+
+import com.dhy.xintent.interfaces.Selectable;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.dhy.xintent;
+package com.dhy.xintent.annotation;
 
 import android.support.annotation.IntDef;
 
