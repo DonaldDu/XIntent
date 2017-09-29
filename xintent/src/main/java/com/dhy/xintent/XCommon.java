@@ -466,7 +466,12 @@ public class XCommon {
     //endregion
 
     //region init
-    private static final Gson gson = new Gson();
+    private static Gson gson = new Gson();
+
+    public static void setGson(Gson gson) {
+        XCommon.gson = gson;
+    }
+
     private static Boolean debug;
 
     /**
