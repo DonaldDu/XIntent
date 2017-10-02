@@ -1,4 +1,4 @@
-package com.dhy.xintent;
+package com.dhy.xintent.adapter;
 
 import android.content.Context;
 import android.support.annotation.IdRes;
@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.dhy.xintent.interfaces.IFindViewById;
 
 import java.util.ArrayList;
 import java.util.Arrays;

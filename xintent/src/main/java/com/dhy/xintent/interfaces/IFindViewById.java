@@ -1,4 +1,4 @@
-package com.dhy.xintent;
+package com.dhy.xintent.interfaces;
 
 import android.support.annotation.IdRes;
 import android.view.View;

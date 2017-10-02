@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.view.View;
 
+import com.dhy.xintent.interfaces.IFindViewById;
+
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 
