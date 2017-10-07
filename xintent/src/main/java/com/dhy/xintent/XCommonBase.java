@@ -232,7 +232,12 @@ class XCommonBase {
 
     //endregion
     //region init
-    static final Gson gson = new Gson();
+    private static Gson gson = new Gson();
+
+    public static void setGson(Gson gson) {
+        XCommonBase.gson = gson;
+    }
+
     static Boolean debug;
 
     /**
