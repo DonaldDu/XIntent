@@ -1,8 +1,6 @@
 package com.dhy.xintent;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.app.Fragment;
 import android.view.View;
 
 import com.dhy.xintent.interfaces.IFindViewById;
@@ -10,61 +8,65 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
-import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GenCode {
     @Test
-    public void testMe() throws FileNotFoundException {
+    public void genCode() throws FileNotFoundException {
         File file = getJavaFileByClass(XCommonBase.class);
         if (file.exists()) {
             FileInputStream in = new FileInputStream(file);
             CompilationUnit cu = JavaParser.parse(in);
-            cu.getType(0).getMethods();
-            cu.accept(new MethodVisitor(), null);
-        }else {
+            Map<String, StringBuilder> map = new HashMap<>();
+            for (MethodDeclaration method : cu.getType(0).getMethods()) {
+                if (isGenCode(method)) printGenCode(map, method);
+            }
+            printGenCode(map);
+        } else {
             System.out.println("file not found");
         }
     }
 
-    private static class MethodVisitor extends VoidVisitorAdapter<Void> {
-        @Override
-        public void visit(MethodDeclaration n, Void arg) {
-            /* here you can access the attributes of the method.
-             this method will be called for all methods in this
-             CompilationUnit, including inner class methods */
-            Optional<AnnotationExpr> annotation = n.getAnnotationByClass(com.dhy.xintent.annotation.GenCode.class);
-            if (annotation.isPresent()) {
-                testF(n);
-            }
-
-            super.visit(n, arg);
+    void printGenCode(Map<String, StringBuilder> map, MethodDeclaration m) {
+        StringBuilder sb = map.get(m.getName().toString());
+        if (sb == null) {
+            sb = new StringBuilder();
+            map.put(m.getName().toString(), sb);
         }
-    }
-
-    static void testF(MethodDeclaration m) {
         if (m.getComment().isPresent()) {
             m.removeComment();
         }
-        StringBuilder sb = new StringBuilder();
         MethodDeclaration method = m.clone();
         Parameter parameter = method.getParameter(0);
         for (Class cls : classes) {
             parameter.setType(cls);
             sb.append("\n").append(method.toString());
         }
+    }
+
+    void printGenCode(Map<String, StringBuilder> map) {
+        StringBuilder sb = new StringBuilder();
+        for (String key : map.keySet()) {
+            sb.append("\n\t//region " + key);
+            sb.append(map.get(key));
+            sb.append("\n\t//endregion ");
+        }
         sb.deleteCharAt(0);
         String s = sb.toString();
-        s = s.replaceAll("@GenCode", "");
+        String name = com.dhy.xintent.annotation.GenCode.class.getSimpleName();
+        s = s.replaceAll("@" + name, "");
         System.out.println(s);
+    }
+
+    boolean isGenCode(MethodDeclaration method) {
+        return method.getAnnotationByClass(com.dhy.xintent.annotation.GenCode.class).isPresent();
     }
 
     private static final Class[] classes = {Dialog.class, View.class, IFindViewById.class};
@@ -74,5 +76,4 @@ public class GenCode {
         String path = cls.getName().replaceAll("\\.", "\\\\") + ".java";
         return new File(rootPath + "\\" + path);
     }
-
 }
