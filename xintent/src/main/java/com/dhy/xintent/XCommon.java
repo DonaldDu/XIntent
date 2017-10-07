@@ -1,6 +1,160 @@
 package com.dhy.xintent;
 
-public class XCommon extends XCommonBase {
+import android.app.Dialog;
+import android.net.Uri;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.dhy.xintent.annotation.Visibility;
+import com.dhy.xintent.interfaces.IFindViewById;
+
+public class XCommon extends XCommonBase {
+    public static TextView setTextWithFormat(View container, @IdRes int rid, Object value, final Boolean show) {
+        return setTextWithFormat((TextView) container.findViewById(rid), value, show);
+    }
+
+    public static TextView setTextWithFormat(Dialog container, @IdRes int rid, Object value, final Boolean show) {
+        return setTextWithFormat((TextView) container.findViewById(rid), value, show);
+    }
+
+    public static TextView setTextWithFormat(IFindViewById container, @IdRes int rid, Object value, final Boolean show) {
+        return setTextWithFormat((TextView) container.findViewById(rid), value, show);
+    }
+
+    public static TextView setTextWithFormat(View container, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setTextWithFormat((TextView) container.findViewById(rid), value, visibility);
+    }
+
+    public static TextView setTextWithFormat(Dialog container, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setTextWithFormat((TextView) container.findViewById(rid), value, visibility);
+    }
+
+    public static TextView setTextWithFormat(IFindViewById container, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setTextWithFormat((TextView) container.findViewById(rid), value, visibility);
+    }
+
+    public static TextView setTextWithFormat(View container, @IdRes int rid, Object value) {
+        return setTextWithFormat((TextView) container.findViewById(rid), value);
+    }
+
+    public static TextView setTextWithFormat(Dialog container, @IdRes int rid, Object value) {
+        return setTextWithFormat((TextView) container.findViewById(rid), value);
+    }
+
+    public static TextView setTextWithFormat(IFindViewById container, @IdRes int rid, Object value) {
+        return setTextWithFormat((TextView) container.findViewById(rid), value);
+    }
+
+    public static TextView setText(View container, @IdRes int rid, Object value, @Nullable Boolean show) {
+        return setText((TextView) container.findViewById(rid), value, show);
+    }
+
+    public static TextView setText(Dialog container, @IdRes int rid, Object value, @Nullable Boolean show) {
+        return setText((TextView) container.findViewById(rid), value, show);
+    }
+
+    public static TextView setText(IFindViewById container, @IdRes int rid, Object value, @Nullable Boolean show) {
+        return setText((TextView) container.findViewById(rid), value, show);
+    }
+
+    public static TextView setText(View container, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setText((TextView) container.findViewById(rid), value, visibility);
+    }
+
+    public static TextView setText(Dialog container, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setText((TextView) container.findViewById(rid), value, visibility);
+    }
+
+    public static TextView setText(IFindViewById container, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setText((TextView) container.findViewById(rid), value, visibility);
+    }
+
+    public static TextView setText(View container, @IdRes int rid, Object value) {
+        return setText((TextView) container.findViewById(rid), value);
+    }
+
+    public static TextView setText(Dialog container, @IdRes int rid, Object value) {
+        return setText((TextView) container.findViewById(rid), value);
+    }
+
+    public static TextView setText(IFindViewById container, @IdRes int rid, Object value) {
+        return setText((TextView) container.findViewById(rid), value);
+    }
+
+    public static ImageView setImage(View container, @IdRes int rid, @DrawableRes int image, @Nullable final Boolean show) {
+        return setImage((ImageView) container.findViewById(rid), image, show);
+    }
+
+    public static ImageView setImage(Dialog container, @IdRes int rid, @DrawableRes int image, @Nullable final Boolean show) {
+        return setImage((ImageView) container.findViewById(rid), image, show);
+    }
+
+    public static ImageView setImage(IFindViewById container, @IdRes int rid, @DrawableRes int image, @Nullable final Boolean show) {
+        return setImage((ImageView) container.findViewById(rid), image, show);
+    }
+
+    public static ImageView setImage(View container, @IdRes int rid, @DrawableRes int image, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) container.findViewById(rid), image, visibility);
+    }
+
+    public static ImageView setImage(Dialog container, @IdRes int rid, @DrawableRes int image, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) container.findViewById(rid), image, visibility);
+    }
+
+    public static ImageView setImage(IFindViewById container, @IdRes int rid, @DrawableRes int image, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) container.findViewById(rid), image, visibility);
+    }
+
+    public static ImageView setImage(View container, @IdRes int rid, @DrawableRes int image) {
+        return setImage((ImageView) container.findViewById(rid), image);
+    }
+
+    public static ImageView setImage(Dialog container, @IdRes int rid, @DrawableRes int image) {
+        return setImage((ImageView) container.findViewById(rid), image);
+    }
+
+    public static ImageView setImage(IFindViewById container, @IdRes int rid, @DrawableRes int image) {
+        return setImage((ImageView) container.findViewById(rid), image);
+    }
+
+    public static ImageView setImage(View container, @IdRes int rid, Uri uri, @Nullable final Boolean show) {
+        return setImage((ImageView) container.findViewById(rid), uri, show);
+    }
+
+    public static ImageView setImage(Dialog container, @IdRes int rid, Uri uri, @Nullable final Boolean show) {
+        return setImage((ImageView) container.findViewById(rid), uri, show);
+    }
+
+    public static ImageView setImage(IFindViewById container, @IdRes int rid, Uri uri, @Nullable final Boolean show) {
+        return setImage((ImageView) container.findViewById(rid), uri, show);
+    }
+
+    public static ImageView setImage(View container, @IdRes int rid, Uri uri, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) container.findViewById(rid), uri, visibility);
+    }
+
+    public static ImageView setImage(Dialog container, @IdRes int rid, Uri uri, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) container.findViewById(rid), uri, visibility);
+    }
+
+    public static ImageView setImage(IFindViewById container, @IdRes int rid, Uri uri, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) container.findViewById(rid), uri, visibility);
+    }
+
+    public static ImageView setImage(View container, @IdRes int rid, Uri uri) {
+        return setImage((ImageView) container.findViewById(rid), uri);
+    }
+
+    public static ImageView setImage(Dialog container, @IdRes int rid, Uri uri) {
+        return setImage((ImageView) container.findViewById(rid), uri);
+    }
+
+    public static ImageView setImage(IFindViewById container, @IdRes int rid, Uri uri) {
+        return setImage((ImageView) container.findViewById(rid), uri);
+    }
 
 }

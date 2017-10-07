@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dhy.xintent.annotation.GenCode;
+import com.dhy.xintent.annotation.Visibility;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Field;
@@ -19,16 +21,19 @@ import static android.view.View.VISIBLE;
 
 class XCommonBase {
     //region setTextWithFormat
-    public static TextView setTextWithFormat(Activity activity, @IdRes int rid, Object value, final Boolean show) {
-        return setTextWithFormat((TextView) activity.findViewById(rid), value, show);
+    @GenCode
+    public static TextView setTextWithFormat(Activity container, @IdRes int rid, Object value, final Boolean show) {
+        return setTextWithFormat((TextView) container.findViewById(rid), value, show);
     }
 
-    public static TextView setTextWithFormat(Activity activity, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
-        return setTextWithFormat((TextView) activity.findViewById(rid), value, visibility);
+    @GenCode
+    public static TextView setTextWithFormat(Activity container, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setTextWithFormat((TextView) container.findViewById(rid), value, visibility);
     }
 
-    public static TextView setTextWithFormat(Activity activity, @IdRes int rid, Object value) {
-        return setTextWithFormat((TextView) activity.findViewById(rid), value);
+    @GenCode
+    public static TextView setTextWithFormat(Activity container, @IdRes int rid, Object value) {
+        return setTextWithFormat((TextView) container.findViewById(rid), value);
     }
 
     public static TextView setTextWithFormat(TextView textView, Object value, @Nullable final Boolean show) {
@@ -66,16 +71,20 @@ class XCommonBase {
 
     //endregion
     //region setText
-    public static TextView setText(Activity activity, @IdRes int rid, Object value, @Nullable Boolean show) {
-        return setText((TextView) activity.findViewById(rid), value, show);
+
+    @GenCode
+    public static TextView setText(Activity container, @IdRes int rid, Object value, @Nullable Boolean show) {
+        return setText((TextView) container.findViewById(rid), value, show);
     }
 
-    public static TextView setText(Activity activity, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
-        return setText((TextView) activity.findViewById(rid), value, visibility);
+    @GenCode
+    public static TextView setText(Activity container, @IdRes int rid, Object value, @Visibility @Nullable final Integer visibility) {
+        return setText((TextView) container.findViewById(rid), value, visibility);
     }
 
-    public static TextView setText(Activity activity, @IdRes int rid, Object value) {
-        return setText((TextView) activity.findViewById(rid), value);
+    @GenCode
+    public static TextView setText(Activity container, @IdRes int rid, Object value) {
+        return setText((TextView) container.findViewById(rid), value);
     }
 
     public static TextView setText(TextView textView, Object value, final Boolean show) {
@@ -95,28 +104,34 @@ class XCommonBase {
 
     //endregion
     //region setImage
-    public static ImageView setImage(Activity activity, @IdRes int rid, @DrawableRes int image, @Nullable final Boolean show) {
-        return setImage((ImageView) activity.findViewById(rid), image, show);
+    @GenCode
+    public static ImageView setImage(Activity container, @IdRes int rid, @DrawableRes int image, @Nullable final Boolean show) {
+        return setImage((ImageView) container.findViewById(rid), image, show);
     }
 
-    public static ImageView setImage(Activity activity, @IdRes int rid, @DrawableRes int image, @Visibility @Nullable final Integer visibility) {
-        return setImage((ImageView) activity.findViewById(rid), image, visibility);
+    @GenCode
+    public static ImageView setImage(Activity container, @IdRes int rid, @DrawableRes int image, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) container.findViewById(rid), image, visibility);
     }
 
-    public static ImageView setImage(Activity activity, @IdRes int rid, @DrawableRes int image) {
-        return setImage((ImageView) activity.findViewById(rid), image);
+    @GenCode
+    public static ImageView setImage(Activity container, @IdRes int rid, @DrawableRes int image) {
+        return setImage((ImageView) container.findViewById(rid), image);
     }
 
-    public static ImageView setImage(Activity activity, @IdRes int rid, Uri uri, @Nullable final Boolean show) {
-        return setImage((ImageView) activity.findViewById(rid), uri, show);
+    @GenCode
+    public static ImageView setImage(Activity container, @IdRes int rid, Uri uri, @Nullable final Boolean show) {
+        return setImage((ImageView) container.findViewById(rid), uri, show);
     }
 
-    public static ImageView setImage(Activity activity, @IdRes int rid, Uri uri, @Visibility @Nullable final Integer visibility) {
-        return setImage((ImageView) activity.findViewById(rid), uri, visibility);
+    @GenCode
+    public static ImageView setImage(Activity container, @IdRes int rid, Uri uri, @Visibility @Nullable final Integer visibility) {
+        return setImage((ImageView) container.findViewById(rid), uri, visibility);
     }
 
-    public static ImageView setImage(Activity activity, @IdRes int rid, Uri uri) {
-        return setImage((ImageView) activity.findViewById(rid), uri);
+    @GenCode
+    public static ImageView setImage(Activity container, @IdRes int rid, Uri uri) {
+        return setImage((ImageView) container.findViewById(rid), uri);
     }
 
     static ImageView setImage(ImageView imageView, @DrawableRes int image, @Nullable final Boolean show) {
@@ -180,7 +195,6 @@ class XCommonBase {
     }
 
     /**
-     * @param key   view, id, name, activity
      * @param value string, int, boolean, float, double, long, data object, or null to remove setting
      */
     public static <K extends Enum> void updateSetting(Context context, K key, Object value) {
