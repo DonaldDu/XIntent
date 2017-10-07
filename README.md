@@ -53,6 +53,10 @@
         Integer b = XIntent.readSerializableExtra(intent, Integer.class, 0);
     }
 ## Gradle dependency
+
+![Release](https://jitpack.io/v/DonaldDu/XIntent.svg)
+(https://jitpack.io/#DonaldDu/XIntent)
+
     allprojects {
         repositories {
             mavenLocal()
@@ -60,7 +64,8 @@
         }
     }
 
-    compile 'com.github.DonaldDu:XIntent:1.2.0'//add this to module's build.gradle
+    compile 'com.github.DonaldDu:XIntent:xxx'//add this to module's build.gradle
+
 
 # XCommon —— The most Common util
 
