@@ -72,8 +72,22 @@ public class GenCode {
     private static final Class[] classes = {Dialog.class, View.class, IFindViewById.class};
 
     private File getJavaFileByClass(Class cls) {
-        final String rootPath = new File("").getAbsolutePath() + "\\xintent\\src\\main\\java";
-        String path = cls.getName().replaceAll("\\.", "\\\\") + ".java";
-        return new File(rootPath + "\\" + path);
+        final String rootPath = getModulePath() + ".src.main.java";
+        String path = rootPath + "." + cls.getName();
+        path = path.replace(".", File.separator);
+        return new File(path + ".java");
+    }
+
+    /**
+     * @return the path of module end with no File.separator
+     */
+    private String getModulePath() {
+        String path = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+        return path.substring(0, path.indexOf("build") - 1);
+    }
+
+    @Test
+    public void testFile() {
+        System.out.println(getJavaFileByClass(XCommon.class));
     }
 }
