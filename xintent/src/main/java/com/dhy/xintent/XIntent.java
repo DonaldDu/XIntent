@@ -5,8 +5,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * An easy way to handle intent extra
@@ -91,6 +93,31 @@ public class XIntent extends Intent {
             }
         }
         return defaultValue;
+    }
+
+    @Nullable
+    public static <T> List<T> readSerializableExtraList(Activity activity, Class<T> cls) {
+        return readSerializableExtraList(activity.getIntent(), cls);
+    }
+
+    @Nullable
+    public static <T> List<T> readSerializableExtraList(Intent intent, Class<T> cls) {
+        Serializable serializable = readSerializableExtra(intent);
+        if (serializable instanceof Object[]) {
+            Object[] data = (Object[]) serializable;
+            List empty = null;
+            for (Object d : data) {
+                if (d instanceof List) {
+                    List list = (List) d;
+                    if (list.isEmpty()) empty = list;
+                    if (!list.isEmpty() && cls.isInstance(list.get(0))) {
+                        return (List<T>) d;
+                    }
+                }
+            }
+            return empty;
+        }
+        return null;
     }
 
     public static <T> T readSerializableExtra(Intent intent, Class<T> cls, int index, T defaultValue) {
