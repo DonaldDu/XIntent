@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import com.dhy.xintent.annotation.GenCode;
 import com.dhy.xintent.annotation.Visibility;
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.lang.reflect.Field;
 
 import static android.view.View.GONE;
@@ -164,20 +166,37 @@ class XCommonBase {
 
     //endregion
     //region Setting
+
+    /**
+     * use {@link com.dhy.xintent.preferences.JsonPreferences} please
+     */
+    @Deprecated
     @Nullable
     public static <K extends Enum> String getSetting(Context context, K key) {
         return getSetting(context, getSharedPreferences(context, key), key, String.class, null);
     }
 
+    /**
+     * use {@link com.dhy.xintent.preferences.JsonPreferences} please
+     */
+    @Deprecated
     @Nullable
     public static <K extends Enum, V> V getSetting(Context context, K key, Class<V> dataClass) {
         return getSetting(context, getSharedPreferences(context, key), key, dataClass, null);
     }
 
+    /**
+     * use {@link com.dhy.xintent.preferences.JsonPreferences} please
+     */
+    @Deprecated
     public static <K extends Enum, V> V getSetting(Context context, K key, Class<V> dataClass, @Nullable V defValue) {
         return getSetting(context, getSharedPreferences(context, key), key, dataClass, defValue);
     }
 
+    /**
+     * use {@link com.dhy.xintent.preferences.JsonPreferences} please
+     */
+    @Deprecated
     private static <K extends Enum, V> V getSetting(Context context, SharedPreferences sharedPreferences, K key, Class<V> dataClass, @Nullable V defValue) {
         String value = sharedPreferences.getString(key.name(), null);
         if (value == null) {
@@ -195,15 +214,17 @@ class XCommonBase {
     }
 
     /**
-     * @param value string, int, boolean, float, double, long, data object, or null to remove setting
+     * use {@link com.dhy.xintent.preferences.JsonPreferences} please
      */
+    @Deprecated
     public static <K extends Enum> void updateSetting(Context context, K key, Object value) {
         updateSetting(context, getSharedPreferences(context, key), key, value);
     }
 
     /**
-     * @param value pass null to remove setting
+     * use {@link com.dhy.xintent.preferences.JsonPreferences} please
      */
+    @Deprecated
     private static <K extends Enum> void updateSetting(Context context, SharedPreferences preferences, K key, @Nullable Object value) {
         SharedPreferences.Editor edit = preferences.edit();
         String keyName = key.name();
@@ -225,6 +246,10 @@ class XCommonBase {
         return context.getSharedPreferences(key.getClass().getName(), Activity.MODE_PRIVATE);
     }
 
+    /**
+     * use {@link com.dhy.xintent.preferences.JsonPreferences} please
+     */
+    @Deprecated
     public static <K extends Enum> void clearSettings(final Context context, K key) {
         SharedPreferences preferences = getSharedPreferences(context, key);
         preferences.edit().clear().apply();
@@ -256,4 +281,9 @@ class XCommonBase {
         return debug;
     }
 //endregion
+
+    public static File getStaticDirectory(Context context) {
+        File sdcard = Environment.getExternalStorageDirectory();
+        return new File(sdcard, "Android/static/" + context.getPackageName());
+    }
 }

@@ -78,6 +78,10 @@ public abstract class IBaseAdapter<ITEM> extends BaseAdapter implements IFindVie
 
     public abstract void updateItemView(ITEM i, int position, View convertView, ViewGroup parent);
 
+    /**
+     * Deprecated for "java.lang.IndexOutOfBoundsException: Invalid index 1, size is 1"(http://blog.csdn.net/xiabing082/article/details/52251298)
+     */
+    @Deprecated
     public void notifyDataSetChanged(@Nullable List<ITEM> list) {
         getDatas().clear();
         if (list != null) getDatas().addAll(list);
