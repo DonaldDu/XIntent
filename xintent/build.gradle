@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 android {
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
@@ -24,15 +25,12 @@ android {
         abortOnError false
     }
 }
-//region publish
-apply plugin: 'com.novoda.bintray-release'
 publish {
     userOrg = 'user'
     groupId = 'com.github.DonaldDu'
     artifactId = 'XIntent'
     publishVersion = android.defaultConfig.versionName
 }
-//endregion
 dependencies {
     implementation 'commons-io:commons-io:2.6'
     implementation 'com.google.code.gson:gson:2.8.4'
