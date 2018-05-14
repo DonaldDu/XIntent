@@ -3,11 +3,13 @@ package com.dhy.xintent;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -202,6 +204,7 @@ class XCommonBase {
         if (value == null) {
             return defValue;
         } else {
+            if (gson == null) gson = new Gson();
             try {
                 return gson.fromJson(value, dataClass);
             } catch (Exception e) {
@@ -229,6 +232,7 @@ class XCommonBase {
         SharedPreferences.Editor edit = preferences.edit();
         String keyName = key.name();
         if (value != null) {
+            if (gson == null) gson = new Gson();
             try {
                 edit.putString(keyName, gson.toJson(value));
             } catch (Exception e) {
@@ -257,7 +261,7 @@ class XCommonBase {
 
     //endregion
     //region init
-    private static Gson gson = new Gson();
+    private static Gson gson;
 
     public static void setGson(Gson gson) {
         XCommonBase.gson = gson;
@@ -285,5 +289,14 @@ class XCommonBase {
     public static File getStaticDirectory(Context context) {
         File sdcard = Environment.getExternalStorageDirectory();
         return new File(sdcard, "Android/static/" + context.getPackageName());
+    }
+
+    public static boolean checkSelfPermission(Context context, String[] permissions) {
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -56,7 +56,7 @@ public class JsonPreferences implements IPreferences {
         if (converter == null) converter = new GsonConverter();
     }
 
-    private final IPreferences preferences;
+    private IPreferences preferences;
 
     public <K extends Enum> JsonPreferences(Context context, @NonNull K key, boolean isStatic) {
         this(context, (Class<K>) key.getClass(), key, isStatic);
@@ -67,13 +67,15 @@ public class JsonPreferences implements IPreferences {
     }
 
     @Override
-    public void set(Object value) {
+    public IPreferences set(Object value) {
         preferences.set(value);
+        return this;
     }
 
     @Override
-    public <K extends Enum> void set(K key, Object value) {
+    public <K extends Enum> IPreferences set(K key, Object value) {
         preferences.set(key, value);
+        return this;
     }
 
     @Override
@@ -97,18 +99,21 @@ public class JsonPreferences implements IPreferences {
     }
 
     @Override
-    public void clear() {
+    public IPreferences clear() {
         preferences.clear();
+        return this;
     }
 
     @Override
-    public void apply() {
+    public IPreferences apply() {
         preferences.apply();
+        return this;
     }
 
     @Override
     public void exit() {
         preferences.exit();
+        preferences = null;
     }
 //endregion
 }

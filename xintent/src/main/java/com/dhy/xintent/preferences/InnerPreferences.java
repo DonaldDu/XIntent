@@ -24,19 +24,15 @@ class InnerPreferences implements IPreferences {
         preferences = context.getSharedPreferences(cls.getName(), Activity.MODE_PRIVATE);
     }
 
-    <K extends Enum> InnerPreferences(Context context, K key) {
-        this(context, (Class<K>) key.getClass(), key);
-    }
-
     @Override
-    public void set(Object value) {
-        set(enumKey, value);
+    public IPreferences set(Object value) {
+        return set(enumKey, value);
     }
 
 
     @SuppressLint("CommitPrefEdits")
     @Override
-    public <K extends Enum> void set(K key, Object value) {
+    public <K extends Enum> IPreferences set(K key, Object value) {
         if (edit == null) edit = preferences.edit();
         String keyName = key.name();
         if (value != null) {
@@ -50,6 +46,7 @@ class InnerPreferences implements IPreferences {
         } else {
             edit.remove(keyName);
         }
+        return this;
     }
 
     @Override
@@ -85,13 +82,15 @@ class InnerPreferences implements IPreferences {
     }
 
     @Override
-    public void clear() {
+    public IPreferences clear() {
         preferences.edit().clear().apply();
+        return this;
     }
 
     @Override
-    public void apply() {
+    public IPreferences apply() {
         if (edit != null) edit.apply();
+        return this;
     }
 
     @Override

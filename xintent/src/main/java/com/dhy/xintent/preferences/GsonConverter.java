@@ -2,7 +2,7 @@ package com.dhy.xintent.preferences;
 
 import com.google.gson.Gson;
 
-final public class GsonConverter implements JsonConverter {
+final class GsonConverter implements JsonConverter {
     private Gson gson = new Gson();
 
     @Override

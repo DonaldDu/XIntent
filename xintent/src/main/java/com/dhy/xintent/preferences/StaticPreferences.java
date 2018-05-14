@@ -77,12 +77,12 @@ class StaticPreferences implements IPreferences {
     }
 
     @Override
-    public void set(Object value) {
-        set(enumKey, value);
+    public IPreferences set(Object value) {
+        return set(enumKey, value);
     }
 
     @Override
-    public <K extends Enum> void set(K key, Object value) {
+    public <K extends Enum> IPreferences set(K key, Object value) {
         try {
             String name = key.name();
             if (value == null) jsonObject.remove(name);
@@ -92,6 +92,7 @@ class StaticPreferences implements IPreferences {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return this;
     }
 
     @Override
@@ -117,13 +118,14 @@ class StaticPreferences implements IPreferences {
     }
 
     @Override
-    public void clear() {
+    public IPreferences clear() {
         //noinspection ResultOfMethodCallIgnored
         jsonFile.delete();
+        return this;
     }
 
     @Override
-    public void apply() {
+    public IPreferences apply() {
         if (jsonObject.length() == 0) {
             //noinspection ResultOfMethodCallIgnored
             jsonFile.delete();
@@ -135,6 +137,7 @@ class StaticPreferences implements IPreferences {
                 throw new IllegalStateException(e);
             }
         }
+        return this;
     }
 
     @Override
