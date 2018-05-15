@@ -1,5 +1,4 @@
-# XIntent 
-
+# XIntent [![](https://jitpack.io/v/DonaldDu/XIntent.svg)](https://jitpack.io/#DonaldDu/XIntent)
 安卓开发中有一些操作，虽然逻辑很简单，但过程却有点麻烦。这个项目就是提供一些方法，让逻辑和过程同样简单。
 
 ## 用Intent传输数据
