@@ -7,7 +7,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 27
         versionCode 94
-        versionName '1.2.7'
+        versionName '1.2.7.4'
     }
     buildTypes {
         release {
@@ -29,7 +29,7 @@ publish {
     userOrg = 'user'
     groupId = 'com.github.DonaldDu'
     artifactId = 'XIntent'
-    publishVersion = android.defaultConfig.versionName
+    publishVersion = 'v' + android.defaultConfig.versionName
 }
 dependencies {
     implementation 'commons-io:commons-io:2.6'
