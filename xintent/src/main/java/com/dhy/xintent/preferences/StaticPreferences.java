@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 import static com.dhy.xintent.preferences.JsonPreferences.converter;
+import static com.dhy.xintent.preferences.JsonPreferences.generator;
 
 class StaticPreferences implements IPreferences {
     private Enum enumKey;
@@ -27,14 +28,14 @@ class StaticPreferences implements IPreferences {
     }
 
     <K extends Enum> StaticPreferences(@NonNull Class<K> cls, @Nullable K key, File root) {
-        JsonPreferences.initConverter();
+        JsonPreferences.init();
         this.enumKey = key;
         this.jsonFile = getJsonPrefsFile(root, cls);
         jsonObject = load(jsonFile);
     }
 
     private <K extends Enum> File getJsonPrefsFile(File root, Class<K> cls) {
-        String preferencesName = cls.getName();
+        String preferencesName = generator.generate(cls);
         return new File(root, "json_prefs" + File.separator + preferencesName);
     }
 
@@ -87,7 +88,7 @@ class StaticPreferences implements IPreferences {
             String name = key.name();
             if (value == null) jsonObject.remove(name);
             else {
-                jsonObject.put(name, converter.objectToJson(value));
+                jsonObject.put(name, converter.objectToString(value));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -101,8 +102,18 @@ class StaticPreferences implements IPreferences {
     }
 
     @Override
+    public String get() {
+        return get(enumKey, String.class, null);
+    }
+
+    @Override
     public <V> V get(Class<V> dataClass, @Nullable V defaultValue) {
         return get(enumKey, dataClass, defaultValue);
+    }
+
+    @Override
+    public <K extends Enum> String get(K key) {
+        return get(key, String.class, null);
     }
 
     @Override
@@ -113,7 +124,7 @@ class StaticPreferences implements IPreferences {
     @Override
     public <K extends Enum, V> V get(K key, Class<V> dataClass, @Nullable V defaultValue) {
         Object v = jsonObject.opt(key.name());
-        if (v != null) return converter.json2object(v.toString(), dataClass);
+        if (v != null) return converter.string2object(v.toString(), dataClass);
         return defaultValue;
     }
 

@@ -2,16 +2,16 @@ package com.dhy.xintent.preferences;
 
 import com.google.gson.Gson;
 
-final class GsonConverter implements JsonConverter {
+class GsonConverter implements ObjectConverter {
     private Gson gson = new Gson();
 
     @Override
-    public String objectToJson(Object obj) {
+    public String objectToString(Object obj) {
         return gson.toJson(obj);
     }
 
     @Override
-    public <V> V json2object(String json, Class<V> dataClass) {
-        return gson.fromJson(json, dataClass);
+    public <V> V string2object(String string, Class<V> dataClass) {
+        return gson.fromJson(string, dataClass);
     }
 }

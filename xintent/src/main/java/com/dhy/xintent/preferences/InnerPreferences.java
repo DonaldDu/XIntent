@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import com.dhy.xintent.XCommon;
 
 import static com.dhy.xintent.preferences.JsonPreferences.converter;
+import static com.dhy.xintent.preferences.JsonPreferences.generator;
 
 class InnerPreferences implements IPreferences {
     private Enum enumKey;
@@ -18,10 +19,10 @@ class InnerPreferences implements IPreferences {
     private SharedPreferences.Editor edit;
 
     <K extends Enum> InnerPreferences(Context context, @NonNull Class<K> cls, @Nullable K key) {
-        JsonPreferences.initConverter();
+        JsonPreferences.init();
         this.context = context;
         this.enumKey = key;
-        preferences = context.getSharedPreferences(cls.getName(), Activity.MODE_PRIVATE);
+        preferences = context.getSharedPreferences(generator.generate(cls), Activity.MODE_PRIVATE);
     }
 
     @Override
@@ -37,7 +38,7 @@ class InnerPreferences implements IPreferences {
         String keyName = key.name();
         if (value != null) {
             try {
-                edit.putString(keyName, converter.objectToJson(value));
+                edit.putString(keyName, converter.objectToString(value));
             } catch (Exception e) {
                 if (XCommon.isDebug(context)) {
                     throw e;
@@ -55,8 +56,18 @@ class InnerPreferences implements IPreferences {
     }
 
     @Override
+    public String get() {
+        return get(enumKey, String.class, null);
+    }
+
+    @Override
     public <V> V get(Class<V> dataClass, @Nullable V defaultValue) {
         return get(enumKey, dataClass, defaultValue);
+    }
+
+    @Override
+    public <K extends Enum> String get(K key) {
+        return get(key, String.class, null);
     }
 
     @Override
@@ -71,7 +82,7 @@ class InnerPreferences implements IPreferences {
             return defaultValue;
         } else {
             try {
-                return converter.json2object(value, dataClass);
+                return converter.string2object(value, dataClass);
             } catch (Exception e) {
                 if (XCommon.isDebug(context)) {
                     throw e;
