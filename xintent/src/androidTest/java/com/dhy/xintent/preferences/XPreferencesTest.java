@@ -1,14 +1,15 @@
 package com.dhy.xintent.preferences;
 
+import com.dhy.xintent.XCommon;
 import com.dhy.xintent.util.BaseActivityUnitTestCase;
 
-public class JsonPreferencesTest extends BaseActivityUnitTestCase {
+public class XPreferencesTest extends BaseActivityUnitTestCase {
     private KEY key = KEY.key;
 
     public void testInnerPreferences() {
         Long v, stored;
-        JsonPreferences.set(context, key, false, v = System.currentTimeMillis());
-        stored = JsonPreferences.get(context, key, false, Long.class);
+        XPreferences.set(context, key, false, v = System.currentTimeMillis());
+        stored = XPreferences.get(context, key, false, Long.class);
         assertEquals(v, stored);
     }
 
@@ -22,6 +23,14 @@ public class JsonPreferencesTest extends BaseActivityUnitTestCase {
         Long stored = preferences.get(key, Long.class);
         preferences.exit();
 
+        assertEquals(v, stored);
+    }
+
+    public void testCompatibleWithXCommon() {
+        Long v, stored;
+        XPreferences.set(context, key, false, v = System.currentTimeMillis());
+        //noinspection deprecation
+        stored = XCommon.getSetting(context, key, Long.class);
         assertEquals(v, stored);
     }
 

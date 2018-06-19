@@ -15,7 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-import static com.dhy.xintent.preferences.JsonPreferences.converter;
+import static com.dhy.xintent.preferences.XPreferences.converter;
 
 class StaticPreferences implements IPreferences {
     private Enum enumKey;
@@ -27,7 +27,7 @@ class StaticPreferences implements IPreferences {
     }
 
     <K extends Enum> StaticPreferences(@NonNull Class<K> cls, @Nullable K key, File root) {
-        JsonPreferences.initConverter();
+        XPreferences.initConverter();
         this.enumKey = key;
         this.jsonFile = getJsonPrefsFile(root, cls);
         jsonObject = load(jsonFile);

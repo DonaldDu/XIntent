@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 
 import com.dhy.xintent.XCommon;
 
-import static com.dhy.xintent.preferences.JsonPreferences.converter;
+import static com.dhy.xintent.preferences.XPreferences.converter;
 
 class InnerPreferences implements IPreferences {
     private Enum enumKey;
@@ -18,7 +18,7 @@ class InnerPreferences implements IPreferences {
     private SharedPreferences.Editor edit;
 
     <K extends Enum> InnerPreferences(Context context, @NonNull Class<K> cls, @Nullable K key) {
-        JsonPreferences.initConverter();
+        XPreferences.initConverter();
         this.context = context;
         this.enumKey = key;
         preferences = context.getSharedPreferences(cls.getName(), Activity.MODE_PRIVATE);

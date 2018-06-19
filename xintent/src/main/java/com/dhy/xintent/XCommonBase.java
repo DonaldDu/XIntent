@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.dhy.xintent.annotation.GenCode;
 import com.dhy.xintent.annotation.Visibility;
+import com.dhy.xintent.preferences.XPreferences;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -170,7 +171,7 @@ class XCommonBase {
     //region Setting
 
     /**
-     * use {@link com.dhy.xintent.preferences.JsonPreferences} please
+     * use {@link XPreferences} please
      */
     @Deprecated
     @Nullable
@@ -179,7 +180,7 @@ class XCommonBase {
     }
 
     /**
-     * use {@link com.dhy.xintent.preferences.JsonPreferences} please
+     * use {@link XPreferences} please
      */
     @Deprecated
     @Nullable
@@ -188,7 +189,7 @@ class XCommonBase {
     }
 
     /**
-     * use {@link com.dhy.xintent.preferences.JsonPreferences} please
+     * use {@link XPreferences} please
      */
     @Deprecated
     public static <K extends Enum, V> V getSetting(Context context, K key, Class<V> dataClass, @Nullable V defValue) {
@@ -196,7 +197,7 @@ class XCommonBase {
     }
 
     /**
-     * use {@link com.dhy.xintent.preferences.JsonPreferences} please
+     * use {@link XPreferences} please
      */
     @Deprecated
     private static <K extends Enum, V> V getSetting(Context context, SharedPreferences sharedPreferences, K key, Class<V> dataClass, @Nullable V defValue) {
@@ -217,7 +218,7 @@ class XCommonBase {
     }
 
     /**
-     * use {@link com.dhy.xintent.preferences.JsonPreferences} please
+     * use {@link XPreferences} please
      */
     @Deprecated
     public static <K extends Enum> void updateSetting(Context context, K key, Object value) {
@@ -225,7 +226,7 @@ class XCommonBase {
     }
 
     /**
-     * use {@link com.dhy.xintent.preferences.JsonPreferences} please
+     * use {@link XPreferences} please
      */
     @Deprecated
     private static <K extends Enum> void updateSetting(Context context, SharedPreferences preferences, K key, @Nullable Object value) {
@@ -251,7 +252,7 @@ class XCommonBase {
     }
 
     /**
-     * use {@link com.dhy.xintent.preferences.JsonPreferences} please
+     * use {@link XPreferences} please
      */
     @Deprecated
     public static <K extends Enum> void clearSettings(final Context context, K key) {
