@@ -28,7 +28,7 @@ class StaticPreferences implements IPreferences {
     }
 
     <K extends Enum> StaticPreferences(@NonNull Class<K> cls, @Nullable K key, File root) {
-        XPreferences.initConverter();
+        XPreferences.init();
         this.enumKey = key;
         this.jsonFile = getJsonPrefsFile(root, cls);
         jsonObject = load(jsonFile);

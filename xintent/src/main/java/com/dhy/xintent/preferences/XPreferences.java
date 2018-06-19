@@ -4,20 +4,16 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-/**
- * rename to XPreferences
- */
-@Deprecated
-public class JsonPreferences implements IPreferences {
+public class XPreferences implements IPreferences {
     static ObjectConverter converter;
     static IFileNameGenerator generator;
 
     public static void setObjectConverter(ObjectConverter converter) {
-        JsonPreferences.converter = converter;
+        XPreferences.converter = converter;
     }
 
     public static void setFileNameGenerator(IFileNameGenerator generator) {
-        JsonPreferences.generator = generator;
+        XPreferences.generator = generator;
     }
 
     static void init() {
@@ -30,7 +26,7 @@ public class JsonPreferences implements IPreferences {
     }
 
     public static <K extends Enum> void set(Context context, K key, boolean isStatic, Object value) {
-        JsonPreferences preferences = new JsonPreferences(context, key, isStatic);
+        XPreferences preferences = new XPreferences(context, key, isStatic);
         preferences.set(key, value);
         preferences.apply().exit();
     }
@@ -48,7 +44,7 @@ public class JsonPreferences implements IPreferences {
     }
 
     public static <K extends Enum, V> V get(Context context, K key, boolean isStatic, Class<V> dataClass, @Nullable V defaultValue) {
-        JsonPreferences preferences = new JsonPreferences(context, key, isStatic);
+        XPreferences preferences = new XPreferences(context, key, isStatic);
         V value = preferences.get(key, dataClass, defaultValue);
         preferences.exit();
         return value;
@@ -59,22 +55,22 @@ public class JsonPreferences implements IPreferences {
     }
 
     public static <K extends Enum> void clear(Context context, Class<K> cls, boolean isStatic) {
-        JsonPreferences preferences = new JsonPreferences(context, cls, null, isStatic);
+        XPreferences preferences = new XPreferences(context, cls, null, isStatic);
         preferences.clear().exit();
     }
 
     //region IPreferences
     private IPreferences preferences;
 
-    public <K extends Enum> JsonPreferences(Context context, @NonNull K key) {
+    public <K extends Enum> XPreferences(Context context, @NonNull K key) {
         this(context, key, false);
     }
 
-    public <K extends Enum> JsonPreferences(Context context, @NonNull K key, boolean isStatic) {
+    public <K extends Enum> XPreferences(Context context, @NonNull K key, boolean isStatic) {
         this(context, (Class<K>) key.getClass(), key, isStatic);
     }
 
-    public <K extends Enum> JsonPreferences(Context context, @NonNull Class<K> cls, @Nullable K key, boolean isStatic) {
+    public <K extends Enum> XPreferences(Context context, @NonNull Class<K> cls, @Nullable K key, boolean isStatic) {
         preferences = isStatic ? new StaticPreferences(context, cls, key) : new InnerPreferences(context, cls, key);
     }
 

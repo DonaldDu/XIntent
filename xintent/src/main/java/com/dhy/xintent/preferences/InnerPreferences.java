@@ -19,7 +19,7 @@ class InnerPreferences implements IPreferences {
     private SharedPreferences.Editor edit;
 
     <K extends Enum> InnerPreferences(Context context, @NonNull Class<K> cls, @Nullable K key) {
-        XPreferences.initConverter();
+        XPreferences.init();
         this.context = context;
         this.enumKey = key;
         preferences = context.getSharedPreferences(generator.generate(cls), Activity.MODE_PRIVATE);
