@@ -18,7 +18,9 @@ import com.dhy.xintent.annotation.Visibility;
 import com.dhy.xintent.preferences.XPreferences;
 import com.google.gson.Gson;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.lang.reflect.Field;
 
 import static android.view.View.GONE;
@@ -299,5 +301,24 @@ class XCommonBase {
             }
         }
         return true;
+    }
+
+    public static boolean isMainApplication(Context context) {
+        String processName = getProcessName();
+        return (processName == null || context.getPackageName().equals(processName));
+    }
+
+    @Nullable
+    private static String getProcessName() {
+        try {
+            int pid = android.os.Process.myPid();
+            BufferedReader cmd = new BufferedReader(new FileReader("/proc/" + pid + "/cmdline"));
+            String name = cmd.readLine().trim();
+            cmd.close();
+            return name;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
