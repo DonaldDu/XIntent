@@ -30,6 +30,8 @@ publish {
     groupId = 'com.github.DonaldDu'
     artifactId = 'XIntent'
     publishVersion = 'v' + android.defaultConfig.versionName
+    desc = 'desc'
+    website = 'website'
 }
 dependencies {
     implementation 'commons-io:commons-io:2.6'
