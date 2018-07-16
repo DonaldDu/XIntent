@@ -4,9 +4,12 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-public class XPreferences implements IPreferences {
-    static ObjectConverter converter;
-    static IFileNameGenerator generator;
+import java.util.List;
+
+public class XPreferences extends BasePreferences {
+    //region settings
+    private static ObjectConverter converter;
+    private static IFileNameGenerator generator;
 
     public static void setObjectConverter(ObjectConverter converter) {
         XPreferences.converter = converter;
@@ -16,20 +19,22 @@ public class XPreferences implements IPreferences {
         XPreferences.generator = generator;
     }
 
-    static void init() {
-        if (converter == null) converter = new GsonConverter();
-        if (generator == null) generator = new SimpleFileNameGenerator();
+    static {
+        converter = new GsonConverter();
+        generator = new SimpleFileNameGenerator();
     }
 
+    //endregion
+
+    //region methods
     public static <K extends Enum> void set(Context context, K key, Object value) {
         set(context, key, false, value);
     }
 
     public static <K extends Enum> void set(Context context, K key, boolean isStatic, Object value) {
-        XPreferences preferences = new XPreferences(context, key, isStatic);
-        preferences.set(key, value);
-        preferences.apply().exit();
+        new XPreferences(context, key, isStatic).set(key, value).apply().exit();
     }
+
 
     public static <K extends Enum, V> V get(Context context, K key, Class<V> dataClass) {
         return get(context, key, false, dataClass, null);
@@ -50,17 +55,41 @@ public class XPreferences implements IPreferences {
         return value;
     }
 
+
+    public static <K extends Enum> List<String> getList(Context context, K key) {
+        return getList(context, key, false, String.class, null);
+    }
+
+    public static <K extends Enum, V> List<V> getList(Context context, K key, Class<V> dataClass) {
+        return getList(context, key, false, dataClass, null);
+    }
+
+    public static <K extends Enum, V> List<V> getList(Context context, K key, Class<V> dataClass, @Nullable List<V> defaultValue) {
+        return getList(context, key, false, dataClass, defaultValue);
+    }
+
+    public static <K extends Enum, V> List<V> getList(Context context, K key, boolean isStatic, Class<V> dataClass) {
+        return getList(context, key, isStatic, dataClass, null);
+    }
+
+    public static <K extends Enum, V> List<V> getList(Context context, K key, boolean isStatic, Class<V> dataClass, @Nullable List<V> defaultValue) {
+        XPreferences preferences = new XPreferences(context, key, isStatic);
+        List<V> value = preferences.getList(key, dataClass, defaultValue);
+        preferences.exit();
+        return value;
+    }
+
     public static <K extends Enum> void clear(Context context, Class<K> cls) {
         clear(context, cls, false);
     }
 
     public static <K extends Enum> void clear(Context context, Class<K> cls, boolean isStatic) {
-        XPreferences preferences = new XPreferences(context, cls, null, isStatic);
-        preferences.clear().exit();
+        new XPreferences(context, cls, null, isStatic).clear().exit();
     }
 
-    //region IPreferences
-    private IPreferences preferences;
+    //endregion
+
+    //region constructor
 
     public <K extends Enum> XPreferences(Context context, @NonNull K key) {
         this(context, key, false);
@@ -71,67 +100,17 @@ public class XPreferences implements IPreferences {
     }
 
     public <K extends Enum> XPreferences(Context context, @NonNull Class<K> cls, @Nullable K key, boolean isStatic) {
-        preferences = isStatic ? new StaticPreferences(context, cls, key) : new InnerPreferences(context, cls, key);
+        super(key, getPreferencesStore(context, cls, isStatic), converter);
     }
 
-    @Override
-    public IPreferences set(Object value) {
-        preferences.set(value);
-        return this;
+    public <K extends Enum> XPreferences(@Nullable K key, @NonNull PreferencesStore store) {
+        super(key, store, converter);
     }
 
-    @Override
-    public <K extends Enum> IPreferences set(K key, Object value) {
-        preferences.set(key, value);
-        return this;
-    }
-
-    @Override
-    public <V> V get(Class<V> dataClass) {
-        return preferences.get(dataClass);
-    }
-
-    @Override
-    public String get() {
-        return preferences.get();
-    }
-
-    @Override
-    public <V> V get(Class<V> dataClass, @Nullable V defaultValue) {
-        return preferences.get(dataClass, defaultValue);
-    }
-
-    @Override
-    public <K extends Enum> String get(K key) {
-        return preferences.get(key);
-    }
-
-    @Override
-    public <K extends Enum, V> V get(K key, Class<V> dataClass) {
-        return preferences.get(key, dataClass);
-    }
-
-    @Override
-    public <K extends Enum, V> V get(K key, Class<V> dataClass, @Nullable V defaultValue) {
-        return preferences.get(key, dataClass, defaultValue);
-    }
-
-    @Override
-    public IPreferences clear() {
-        preferences.clear();
-        return this;
-    }
-
-    @Override
-    public IPreferences apply() {
-        preferences.apply();
-        return this;
-    }
-
-    @Override
-    public void exit() {
-        preferences.exit();
-        preferences = null;
+    private static <K extends Enum> PreferencesStore getPreferencesStore(Context context, @NonNull Class<K> cls, boolean isStatic) {
+        String name = generator.generate(cls);
+        return isStatic ? new StaticPreferencesStore(context, name) : new InnerPreferencesStore(context, name);
     }
 //endregion
+
 }

@@ -51,7 +51,7 @@ public class XIntentSampleActivity extends Activity {
     }
 
     public void startIntent(View view) {
-        final EditText editText = (EditText) findViewById(R.id.editText);
+        final EditText editText = findViewById(R.id.editText);
         String text = editText.getText().toString();
         if (text.length() > 2) {
             XIntent.startActivity(context, XIntentSampleActivity.class, text);

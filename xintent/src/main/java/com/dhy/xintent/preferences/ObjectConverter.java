@@ -1,7 +1,13 @@
 package com.dhy.xintent.preferences;
 
+import android.support.annotation.NonNull;
+
+import java.util.List;
+
 public interface ObjectConverter {
     String objectToString(Object obj);
 
-    <V> V string2object(String string, Class<V> dataClass);
+    <V> V string2object(@NonNull String string, Class<V> dataClass);
+
+    <V> List<V> string2listObject(@NonNull String string, Class<V> dataClass);
 }

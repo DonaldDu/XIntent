@@ -15,27 +15,20 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-import static com.dhy.xintent.preferences.XPreferences.converter;
-import static com.dhy.xintent.preferences.XPreferences.generator;
-
-class StaticPreferences implements IPreferences {
-    private Enum enumKey;
+public class StaticPreferencesStore implements PreferencesStore {
     private JSONObject jsonObject;
     private final File jsonFile;
 
-    <K extends Enum> StaticPreferences(Context context, @NonNull Class<K> cls, @Nullable K key) {
-        this(cls, key, XCommon.getStaticDirectory(context));
+    StaticPreferencesStore(@NonNull Context context, @NonNull String preferencesName) {
+        this(XCommon.getStaticDirectory(context), preferencesName);
     }
 
-    <K extends Enum> StaticPreferences(@NonNull Class<K> cls, @Nullable K key, File root) {
-        XPreferences.init();
-        this.enumKey = key;
-        this.jsonFile = getJsonPrefsFile(root, cls);
+    StaticPreferencesStore(@NonNull File root, @NonNull String preferencesName) {
+        jsonFile = getJsonPrefsFile(root, preferencesName);
         jsonObject = load(jsonFile);
     }
 
-    private <K extends Enum> File getJsonPrefsFile(File root, Class<K> cls) {
-        String preferencesName = generator.generate(cls);
+    private <K extends Enum> File getJsonPrefsFile(File root, @NonNull String preferencesName) {
         return new File(root, "json_prefs" + File.separator + preferencesName);
     }
 
@@ -77,18 +70,21 @@ class StaticPreferences implements IPreferences {
         return jsonObject;
     }
 
+
+    @Nullable
     @Override
-    public IPreferences set(Object value) {
-        return set(enumKey, value);
+    public <K extends Enum> String get(K key) {
+        return (String) jsonObject.opt(key.name());
+
     }
 
     @Override
-    public <K extends Enum> IPreferences set(K key, Object value) {
+    public <K extends Enum> PreferencesStore set(K key, @Nullable String value) {
         try {
             String name = key.name();
             if (value == null) jsonObject.remove(name);
             else {
-                jsonObject.put(name, converter.objectToString(value));
+                jsonObject.put(name, value);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -97,46 +93,14 @@ class StaticPreferences implements IPreferences {
     }
 
     @Override
-    public <V> V get(Class<V> dataClass) {
-        return get(enumKey, dataClass, null);
-    }
-
-    @Override
-    public String get() {
-        return get(enumKey, String.class, null);
-    }
-
-    @Override
-    public <V> V get(Class<V> dataClass, @Nullable V defaultValue) {
-        return get(enumKey, dataClass, defaultValue);
-    }
-
-    @Override
-    public <K extends Enum> String get(K key) {
-        return get(key, String.class, null);
-    }
-
-    @Override
-    public <K extends Enum, V> V get(K key, Class<V> dataClass) {
-        return get(key, dataClass, null);
-    }
-
-    @Override
-    public <K extends Enum, V> V get(K key, Class<V> dataClass, @Nullable V defaultValue) {
-        Object v = jsonObject.opt(key.name());
-        if (v != null) return converter.string2object(v.toString(), dataClass);
-        return defaultValue;
-    }
-
-    @Override
-    public IPreferences clear() {
+    public PreferencesStore clear() {
         //noinspection ResultOfMethodCallIgnored
         jsonFile.delete();
         return this;
     }
 
     @Override
-    public IPreferences apply() {
+    public PreferencesStore apply() {
         if (jsonObject.length() == 0) {
             //noinspection ResultOfMethodCallIgnored
             jsonFile.delete();
