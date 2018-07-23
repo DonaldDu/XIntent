@@ -17,13 +17,13 @@ class BasePreferences implements IPreferences {
     }
 
     @Override
-    public IPreferences set(Object value) {
+    public IPreferences set(@Nullable Object value) {
         return set(enumKey, value);
     }
 
     @Override
-    public <K extends Enum> IPreferences set(K key, Object value) {
-        store.set(key, converter.objectToString(value));
+    public <K extends Enum> IPreferences set(K key, @Nullable Object value) {
+        store.set(key, value != null ? converter.objectToString(value) : null);
         return this;
     }
 

@@ -8,9 +8,9 @@ public interface IPreferences {
     /**
      * @param value use 'null' to remove it
      */
-    <K extends Enum> IPreferences set(K key, Object value);
+    <K extends Enum> IPreferences set(K key, @Nullable Object value);
 
-    IPreferences set(Object value);
+    IPreferences set(@Nullable Object value);
 
     //region get setting with key
     <K extends Enum, V> V get(K key, Class<V> dataClass, @Nullable V defaultValue);

@@ -14,7 +14,7 @@ class GsonConverter implements ObjectConverter {
     private Gson gson = new Gson();
 
     @Override
-    public String objectToString(Object obj) {
+    public String objectToString(@NonNull Object obj) {
         return gson.toJson(obj);
     }
 
