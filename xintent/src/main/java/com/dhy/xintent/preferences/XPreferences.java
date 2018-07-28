@@ -36,6 +36,10 @@ public class XPreferences extends BasePreferences {
     }
 
 
+    public static <K extends Enum> String get(Context context, K key) {
+        return get(context, key, false, String.class, null);
+    }
+
     public static <K extends Enum, V> V get(Context context, K key, Class<V> dataClass) {
         return get(context, key, false, dataClass, null);
     }
