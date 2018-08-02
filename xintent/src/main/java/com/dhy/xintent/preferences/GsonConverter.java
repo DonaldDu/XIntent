@@ -23,21 +23,21 @@ class GsonConverter implements ObjectConverter {
         return gson.fromJson(string, dataClass);
     }
 
+    @NonNull
     @Override
     public <V> List<V> string2listObject(@NonNull String string, Class<V> dataClass) {
+        List<V> list = new ArrayList<>();
         try {
             JSONArray array = new JSONArray(string);
             if (array.length() > 0) {
-                List<V> list = new ArrayList<>();
                 for (int i = 0; i < array.length(); i++) {
                     String json = array.get(i).toString();
                     list.add(gson.fromJson(json, dataClass));
                 }
-                return list;
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return null;
+        return list;
     }
 }

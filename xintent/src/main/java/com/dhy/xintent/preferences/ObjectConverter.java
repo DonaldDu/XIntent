@@ -9,5 +9,6 @@ public interface ObjectConverter {
 
     <V> V string2object(@NonNull String string, Class<V> dataClass);
 
+    @NonNull
     <V> List<V> string2listObject(@NonNull String string, Class<V> dataClass);
 }
