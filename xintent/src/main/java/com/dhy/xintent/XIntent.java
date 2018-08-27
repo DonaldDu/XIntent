@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.io.Serializable;
@@ -76,6 +77,11 @@ public class XIntent extends Intent {
 
     public static Serializable readSerializableExtra(Intent intent, int index) {
         return readSerializableExtra(intent, Serializable.class, index, null);
+    }
+
+    public static <T> T readSerializableExtra(Activity activity, @NonNull T defaultValue) {
+        Class<T> cls = (Class<T>) defaultValue.getClass();
+        return readSerializableExtra(activity, cls, defaultValue);
     }
 
     public static <T> T readSerializableExtra(Activity activity, Class<T> cls, int index, T defaultValue) {
