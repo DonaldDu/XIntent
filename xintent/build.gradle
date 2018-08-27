@@ -1,13 +1,14 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 android {
-    compileSdkVersion 28
+    compileSdkVersion 27
     buildToolsVersion '27.0.3'
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 28
+        //noinspection OldTargetApi
+        targetSdkVersion 27
         versionCode 94
-        versionName '1.2.7.4'
+        versionName '1.3.7'
     }
     buildTypes {
         release {
@@ -29,14 +30,14 @@ publish {
     userOrg = 'user'
     groupId = 'com.github.DonaldDu'
     artifactId = 'XIntent'
-    publishVersion = 'v' + android.defaultConfig.versionName
+    publishVersion = android.defaultConfig.versionName
     desc = 'desc'
     website = 'website'
 }
 dependencies {
     implementation 'commons-io:commons-io:2.6'
     implementation 'com.google.code.gson:gson:2.8.5'
-    compileOnly 'com.android.support:appcompat-v7:28.0.0-alpha3'
+    compileOnly 'com.android.support:appcompat-v7:27.1.1'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'commons-codec:commons-codec:1.11'
