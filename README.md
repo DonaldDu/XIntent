@@ -53,9 +53,6 @@
     }
 ## Gradle dependency
 
-![Release](https://jitpack.io/v/DonaldDu/XIntent.svg)
-(https://jitpack.io/#DonaldDu/XIntent)
-
     allprojects {
         repositories {
             mavenLocal()
