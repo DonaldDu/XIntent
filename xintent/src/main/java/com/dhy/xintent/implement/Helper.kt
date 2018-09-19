@@ -11,6 +11,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Handler
 import android.os.Looper
 import android.support.annotation.LayoutRes
 import android.support.annotation.StyleRes
@@ -41,6 +42,31 @@ import java.lang.reflect.Modifier
 import java.util.*
 
 open class Helper(application: Application, @StyleRes private val themeDialog: Int, private val debug: Boolean) : IHelper {
+    override fun isNotEmpty(vararg textViews: TextView): Boolean {
+        for (textView in textViews) {
+            if (textView.length() == 0) {
+                Toast.makeText(textView.context, textView.hint, Toast.LENGTH_SHORT).show()
+                return false
+            }
+        }
+        return true
+    }
+
+    override fun scrollToBottom(scroll: ScrollView?) {
+        if (scroll == null) return
+        Handler().post {
+            var offset = scroll.getChildAt(0).measuredHeight - scroll.height
+            if (offset < 0) offset = 0
+            scroll.scrollTo(0, offset)
+        }
+    }
+
+    override fun setVisibility(visibility: Int, vararg views: View) {
+        for (view in views) {
+            view.visibility = visibility
+        }
+    }
+
     override fun append(vararg values: Any?): String {
         val sb = StringBuilder()
         for (value in values) {

@@ -10,10 +10,7 @@ import android.text.TextWatcher
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.EditText
-import android.widget.PopupWindow
-import android.widget.TextView
+import android.widget.*
 import com.dhy.xintent.adapter.IPopMenuAdapter
 import com.dhy.xintent.data.ArrowType
 import com.dhy.xintent.data.DefaultInputSetting
@@ -100,4 +97,11 @@ interface IHelper {
     fun show(container: View, @IdRes id: Int, trueShowFalseGone: Boolean): View
 
     fun setItemInfo(viewGroup: ViewGroup, index: Int, key: String, value: String?)
+    /**
+     * 检查所有TextView的信息是否为空，如果遇到空则用Toast展示Hint并立即返回。
+     * */
+    fun isNotEmpty(vararg textViews: TextView): Boolean
+
+    fun scrollToBottom(scroll: ScrollView?)
+    fun setVisibility(visibility: Int, vararg views: View)
 }
