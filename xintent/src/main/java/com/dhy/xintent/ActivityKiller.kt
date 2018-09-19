@@ -8,8 +8,10 @@ import java.util.*
 import kotlin.reflect.KClass
 
 object ActivityKiller {
+    private var inited = false
     @JvmStatic
     fun init(application: Application) {
+        inited = true
         application.registerActivityLifecycleCallbacks(object : SimpleActivityLifecycleCallbacks() {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                 activities.add(activity)
@@ -49,6 +51,9 @@ object ActivityKiller {
     }
 
     private fun kill(activities: List<Activity>) {
+        if (!inited) {
+            throw  IllegalStateException("you should init ${ActivityKiller.javaClass.simpleName} first")
+        }
         activities.forEach { it.finish() }
     }
 
