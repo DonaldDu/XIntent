@@ -3,6 +3,7 @@ package com.dhy.xintent
 import android.app.Activity
 import java.util.*
 import java.util.concurrent.LinkedBlockingQueue
+import kotlin.reflect.KClass
 
 /**
  *@param activity for run onUiThread
@@ -45,6 +46,11 @@ class Waterfall(private val activity: Activity? = null) {
     }
 
     private val flow = object : Flow {
+        override fun <T : Any> getResult(cls: KClass<T>): T? {
+            @Suppress("UNCHECKED_CAST")
+            return results.find { cls.isInstance(it) } as T?
+        }
+
         override fun getPreResult(): Any? {
             return results.lastOrNull()
         }

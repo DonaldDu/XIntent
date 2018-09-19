@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="xintent_default_text" type="id" />
+    <item name="xintent_pop_root" type="id" />
+    <item name="xintent_compound_drawables" type="id" />
+    <item name="xintent_compound_drawable_type" type="id" />
+</resources>

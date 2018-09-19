@@ -1,0 +1,16 @@
+<resources>
+    <dimen name="xintent_activity_horizontal_margin">16dp</dimen>
+    <dimen name="xintent_space_small">10dp</dimen>
+    <dimen name="xintent_space_medium">15dp</dimen>
+    <dimen name="xintent_space_large">25dp</dimen>
+    <dimen name="xintent_space_xlarge">35dp</dimen>
+
+    <dimen name="xintent_divider_line_margin">0dp</dimen>
+
+    <dimen name="xintent_corner_button">4dp</dimen>
+
+    <dimen name="xintent_simple_button_height">40dp</dimen>
+    <dimen name="xintent_text_size_button">15sp</dimen>
+    <dimen name="xintent_text_size_default">15sp</dimen>
+    <dimen name="xintent_pop_drop_down_margin">3dp</dimen>
+</resources>

@@ -1,1 +1,6 @@
-<resources/>
+<resources>
+    <string name="xintent_default_input_setting_buttoncommit">确定</string>
+    <string name="xintent_default_input_setting_buttoncancel">取消</string>
+    <string name="xintent_default_input_setting_canempty">false</string>
+
+</resources>
