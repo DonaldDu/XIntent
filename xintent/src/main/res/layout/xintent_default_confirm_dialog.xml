@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/xintent_space_xlarge"
+    android:background="@drawable/xintent_rectangle_white_corner"
+    android:divider="@drawable/xintent_divider_line_h"
+    android:orientation="vertical"
+    android:showDividers="middle">
+
+    <TextView
+        android:id="@+id/textViewMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/xintent_space_small"
+        android:minLines="3"
+        android:padding="@dimen/xintent_space_medium"
+        android:text="message" />
+
+    <include layout="@layout/xintent_commit_cancel_buttons" />
+
+</LinearLayout>

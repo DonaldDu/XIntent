@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/xintent_pop_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/xintent_pop_drop_down_margin">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/xintent_pop_bg"
+        android:divider="@drawable/xintent_divider_line_h"
+        android:orientation="vertical"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/textViewOutGoingregistration"
+            style="@style/xintent_pop_menu"
+            android:text="发货登记" />
+
+        <TextView
+            android:id="@+id/textViewAddDevice"
+            style="@style/xintent_pop_menu"
+            android:text="添加设备" />
+
+        <TextView
+            android:id="@+id/textViewApplyDevice"
+            style="@style/xintent_pop_menu"
+            android:text="设备申请" />
+    </LinearLayout>
+</ScrollView>

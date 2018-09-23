@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <item
+        android:bottom="@dimen/xintent_divider_line_margin"
+        android:top="@dimen/xintent_divider_line_margin">
+        <shape android:shape="rectangle">
+            <size android:width="1px" />
+            <solid android:color="@color/xintent_divider" />
+        </shape>
+    </item>
+</layer-list>

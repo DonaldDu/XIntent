@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/xintent_space_xlarge"
+    android:background="@drawable/xintent_rectangle_white_corner"
+    android:divider="@drawable/xintent_divider_line_h"
+    android:orientation="vertical"
+    android:showDividers="middle">
+
+    <EditText
+        android:id="@+id/editText"
+        style="@style/xintent_simple_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:hint="hint"
+        android:minLines="5"
+        android:padding="@dimen/xintent_space_medium"
+        tools:ignore="TextFields" />
+
+    <include layout="@layout/xintent_commit_cancel_buttons" />
+
+</LinearLayout>

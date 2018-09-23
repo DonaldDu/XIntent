@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/xintent_space_xlarge"
+    android:background="@drawable/xintent_rectangle_white_corner"
+    android:divider="@drawable/xintent_divider_line_h"
+    android:orientation="vertical"
+    android:showDividers="middle">
+
+    <TextView
+        android:id="@+id/textViewMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minLines="3"
+        android:padding="@dimen/xintent_space_medium"
+        android:text="message" />
+
+    <TextView
+        android:id="@+id/buttonCommit"
+        style="@style/xintent_button_blue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="确定"
+        android:textColor="@color/xintent_theme" />
+</LinearLayout>

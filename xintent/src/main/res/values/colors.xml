@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="xintent_colorPrimary">#3F51B5</color>
+    <color name="xintent_colorPrimaryDark">#303F9F</color>
+    <color name="xintent_colorAccent">#21c4fa</color>
+
+    <color name="xintent_divider">#e4e4e4</color>
+    <color name="xintent_theme">@color/xintent_colorAccent</color>
+    <color name="xintent_button_gray">#cccccc</color>
+    <color name="xintent_default_content">#333333</color>
+
+    <color name="xintent_default_gray_content">#828282</color>
+</resources>
