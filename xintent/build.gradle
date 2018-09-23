@@ -42,7 +42,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'commons-codec:commons-codec:1.11'
-    testImplementation 'com.github.javaparser:javaparser-core:3.5.13'
+    testImplementation 'com.github.javaparser:javaparser-core:3.6.22'
 
     androidTestImplementation 'junit-addons:junit-addons:1.4'
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
