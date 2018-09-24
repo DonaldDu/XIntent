@@ -45,18 +45,18 @@ class Waterfall(private val activity: Activity? = null) {
         } else exit()
     }
 
+    @Suppress("UNCHECKED_CAST")
     private val flow = object : Flow {
         override fun <T : Any> getResult(cls: KClass<T>): T? {
-            @Suppress("UNCHECKED_CAST")
             return results.find { cls.isInstance(it) } as T?
         }
 
-        override fun getPreResult(): Any? {
-            return results.lastOrNull()
+        override fun <T : Any> getPreResult(): T {
+            return results.lastOrNull() as T
         }
 
-        override fun getResult(step: Int): Any? {
-            return results[step]
+        override fun <T : Any> getResult(step: Int): T {
+            return results[step] as T
         }
 
         override fun next(result: Any?, onUiThread: Boolean) {
