@@ -10,7 +10,7 @@ import kotlin.reflect.KClass
  * */
 class Waterfall(private val activity: Activity? = null) {
     private val flowActions: Queue<(Flow) -> Unit> = LinkedBlockingQueue()
-    private var onError: ((Flow) -> Unit)? = null
+    private var onEnd: ((Flow) -> Unit)? = null
     private val results: MutableList<Any?> = mutableListOf()
     /**
      * on the end of {@link Flow} *SHOULD INVOKE* {@link Flow#next} when has more Flows
@@ -20,8 +20,8 @@ class Waterfall(private val activity: Activity? = null) {
         return this
     }
 
-    fun onError(onError: ((Flow) -> Unit)): Waterfall {
-        this.onError = onError
+    fun onEnd(onEnd: ((Flow) -> Unit)): Waterfall {
+        this.onEnd = onEnd
         return this
     }
 
@@ -64,11 +64,11 @@ class Waterfall(private val activity: Activity? = null) {
             this@Waterfall.next(onUiThread)
         }
 
-        override fun error(result: Any?, onUiThread: Boolean) {
+        override fun end(result: Any?, onUiThread: Boolean) {
             flowActions.clear()
-            if (onError != null) {
-                flowActions.add(onError)
-                onError = null
+            if (onEnd != null) {
+                flowActions.add(onEnd)
+                onEnd = null
             }
             next(result, onUiThread)
         }
