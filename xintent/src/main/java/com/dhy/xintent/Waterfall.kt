@@ -26,23 +26,12 @@ class Waterfall(private val activity: Activity? = null) {
     }
 
     fun start(onUiThread: Boolean = false) {
-        next(onUiThread)
+        flow.next(null, onUiThread)
     }
 
     private fun exit() {
         flowActions.clear()
         results.clear()
-    }
-
-    private fun next(onUiThread: Boolean) {
-        val action = flowActions.poll()
-        if (action != null) {
-            if (onUiThread && activity?.isFinishing != true) {
-                activity!!.runOnUiThread {
-                    action.invoke(flow)
-                }
-            } else action.invoke(flow)
-        } else exit()
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -61,15 +50,22 @@ class Waterfall(private val activity: Activity? = null) {
 
         override fun next(result: Any?, onUiThread: Boolean) {
             results.add(result)
-            this@Waterfall.next(onUiThread)
+            var action = flowActions.poll()
+            if (action == null && onEnd != null) {
+                action = onEnd
+                onEnd = null
+            }
+            if (action != null) {
+                if (onUiThread && activity?.isFinishing != true) {
+                    activity!!.runOnUiThread {
+                        action.invoke(this)
+                    }
+                } else action.invoke(this)
+            } else exit()
         }
 
         override fun end(result: Any?, onUiThread: Boolean) {
             flowActions.clear()
-            if (onEnd != null) {
-                flowActions.add(onEnd)
-                onEnd = null
-            }
             next(result, onUiThread)
         }
     }
