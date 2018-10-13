@@ -64,9 +64,13 @@ class Waterfall(private val activity: Activity? = null) {
             } else exit()
         }
 
-        override fun end(result: Any?, onUiThread: Boolean) {
+        private var isError: Boolean = false
+        override fun end(error: Any?, onUiThread: Boolean) {
+            isError = error != null
             flowActions.clear()
-            next(result, onUiThread)
+            next(error, onUiThread)
         }
+
+        override fun isError() = isError
     }
 }
