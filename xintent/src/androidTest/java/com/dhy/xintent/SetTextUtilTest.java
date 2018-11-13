@@ -4,8 +4,10 @@ import android.widget.TextView;
 
 import com.dhy.xintent.util.BaseActivityUnitTestCase;
 
+import junit.framework.TestCase;
+
 public class SetTextUtilTest extends BaseActivityUnitTestCase {
-    TextView textView;
+    private TextView textView;
 
     public void testSetText() {
         textView = new TextView(context);
@@ -18,6 +20,6 @@ public class SetTextUtilTest extends BaseActivityUnitTestCase {
     void check(String format, Object input, String output) {
         textView.setContentDescription(format);
         XCommon.setTextWithFormat(textView, input);
-        assertEquals(output, textView.getText().toString());
+        TestCase.assertEquals(output, textView.getText().toString());
     }
 }

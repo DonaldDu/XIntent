@@ -8,6 +8,8 @@ import java.util.List;
 
 import junitx.framework.ListAssert;
 
+import static junit.framework.TestCase.assertEquals;
+
 public class XPreferencesTest extends BaseActivityUnitTestCase {
     private KEY key = KEY.key;
 
