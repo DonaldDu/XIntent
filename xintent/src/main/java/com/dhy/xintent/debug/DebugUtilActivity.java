@@ -115,7 +115,7 @@ public class DebugUtilActivity extends AppCompatActivity {
     }
 
     public static boolean isDebugStarted(Activity activity) {
-        String starter = XIntent.readSerializableExtra(activity, String.class);
+        String starter = XIntent.Companion.readSerializableExtra(activity, String.class);
         return getStarterName().equals(starter);
     }
 
@@ -232,7 +232,7 @@ public class DebugUtilActivity extends AppCompatActivity {
         static boolean startActivity(Context context, String cls) {
             try {
                 Class activity = Class.forName(cls);
-                XIntent.startActivity(context, activity, getStarterName());
+                XIntent.Companion.startActivity(context, activity, getStarterName());
                 return true;
             } catch (ClassNotFoundException e) {
                 Toast.makeText(context, "Error:" + cls, Toast.LENGTH_SHORT).show();

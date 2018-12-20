@@ -34,7 +34,7 @@ public class Sample extends Activity {
 	//region 用XIntent(com.dhy.xintent.XIntent extends Intent)可以简化如下
 
 	public void XIntentSetMethod(String a, boolean b, int c, Data d) {
-		XIntent.startActivity(this, MainActivity.class, a, b, c, d);
+		XIntent.Companion.startActivity(this, MainActivity.class, a, b, c, d);
 	}
 
 	public void XIntentSetMethod2(String a, boolean b, int c, Data d) {
@@ -42,10 +42,10 @@ public class Sample extends Activity {
 	}
 
 	void XIntentGetMethod() {
-		String a = XIntent.readSerializableExtra(this, String.class, "");
-		boolean b = XIntent.readSerializableExtra(this, Boolean.class, false);
-		int c = XIntent.readSerializableExtra(this, Integer.class, 1);
-		Data d = XIntent.readSerializableExtra(this, Data.class);
+		String a = XIntent.Companion.readSerializableExtra(this, String.class, "");
+		boolean b = XIntent.Companion.readSerializableExtra(this, Boolean.class, false);
+		int c = XIntent.Companion.readSerializableExtra(this, Integer.class, 1);
+		Data d = XIntent.Companion.readSerializableExtra(this, Data.class);
 	}
 
 	//endregion
@@ -53,17 +53,17 @@ public class Sample extends Activity {
 	//region 也可以直接操作Intent
 	public void XIntentSetResult(String a, boolean b, int c, Data d) {
 		Intent intent = new Intent();
-		XIntent.putSerializableExtra(intent, a, b, c, d);
+		XIntent.Companion.putSerializableExtra(intent, a, b, c, d);
 		setResult(RESULT_OK, intent);
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		String a = XIntent.readSerializableExtra(data, String.class, "");
-		boolean b = XIntent.readSerializableExtra(data, Boolean.class, false);
-		int c = XIntent.readSerializableExtra(data, Integer.class, 1);
-		Data d = XIntent.readSerializableExtra(data, Data.class);
+		String a = XIntent.Companion.readSerializableExtra(data, String.class, "");
+		boolean b = XIntent.Companion.readSerializableExtra(data, Boolean.class, false);
+		int c = XIntent.Companion.readSerializableExtra(data, Integer.class, 1);
+		Data d = XIntent.Companion.readSerializableExtra(data, Data.class);
 	}
 	//endregion
 }

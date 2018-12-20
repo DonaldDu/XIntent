@@ -20,10 +20,10 @@ public class XIntentTest extends BaseActivityUnitTestCase {
     @Test
     public void testReadSerializable() {
         Intent intent = new XIntent(context, MainActivity.class, a, b);
-        assertEquals(XIntent.readSerializableExtra(intent, Boolean.class, null), a);
-        assertEquals(XIntent.readSerializableExtra(intent, Boolean.class, 0, null), a);
+        assertEquals(XIntent.Companion.readSerializableExtra(intent, Boolean.class, null), a);
+        assertEquals(XIntent.Companion.readSerializableExtra(intent, Boolean.class, 0, null), a);
 
-        assertEquals(XIntent.readSerializableExtra(intent, String.class, null), b);
-        assertEquals(XIntent.readSerializableExtra(intent, String.class, 1, null), b);
+        assertEquals(XIntent.Companion.readSerializableExtra(intent, String.class, null), b);
+        assertEquals(XIntent.Companion.readSerializableExtra(intent, String.class, 1, null), b);
     }
 }
