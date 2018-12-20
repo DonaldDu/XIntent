@@ -31,6 +31,7 @@ class XIntent : Intent {
         @Suppress("MemberVisibilityCanBePrivate")
         val KEY_EXTRA: String = XIntent::class.java.name
 
+        @JvmStatic
         fun startActivity(context: Context, cls: Class<out Activity>, vararg serializable: Serializable?) {
             context.startActivity(XIntent(context, cls, *serializable))
         }
