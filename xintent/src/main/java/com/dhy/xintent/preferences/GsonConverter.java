@@ -1,6 +1,7 @@
 package com.dhy.xintent.preferences;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 
@@ -10,8 +11,16 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-class GsonConverter implements ObjectConverter {
-    private Gson gson = new Gson();
+public class GsonConverter implements ObjectConverter {
+    private final Gson gson;
+
+    public GsonConverter() {
+        this(null);
+    }
+
+    public GsonConverter(@Nullable Gson gson) {
+        this.gson = gson != null ? gson : new Gson();
+    }
 
     @Override
     public String objectToString(@NonNull Object obj) {
