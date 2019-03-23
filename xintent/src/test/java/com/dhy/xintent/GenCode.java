@@ -20,18 +20,18 @@ import java.util.Map;
 public class GenCode {
     @Test
     public void genCode() throws FileNotFoundException {
-        File file = getJavaFileByClass(XCommonBase.class);
-        if (file.exists()) {
-            FileInputStream in = new FileInputStream(file);
-            CompilationUnit cu = JavaParser.parse(in);
-            Map<String, StringBuilder> map = new HashMap<>();
-            for (MethodDeclaration method : cu.getType(0).getMethods()) {
-                if (isGenCode(method)) printGenCode(map, method);
-            }
-            printGenCode(map);
-        } else {
-            System.out.println("file not found");
-        }
+//        File file = getJavaFileByClass(XCommonBase.class);
+//        if (file.exists()) {
+//            FileInputStream in = new FileInputStream(file);
+//            CompilationUnit cu = JavaParser.parse(in);
+//            Map<String, StringBuilder> map = new HashMap<>();
+//            for (MethodDeclaration method : cu.getType(0).getMethods()) {
+//                if (isGenCode(method)) printGenCode(map, method);
+//            }
+//            printGenCode(map);
+//        } else {
+//            System.out.println("file not found");
+//        }
     }
 
     private void printGenCode(Map<String, StringBuilder> map, MethodDeclaration m) {

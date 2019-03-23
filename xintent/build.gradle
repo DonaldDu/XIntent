@@ -9,7 +9,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 28
         versionCode 94
-        versionName '1.4.5'
+        versionName '1.4.6'
     }
     buildTypes {
         release {
@@ -41,8 +41,8 @@ dependencies {
     compileOnly 'com.android.support:appcompat-v7:28.0.0'
     
     testImplementation 'junit:junit:4.12'
-    testImplementation 'commons-codec:commons-codec:1.11'
-    testImplementation 'com.github.javaparser:javaparser-core:3.8.0'
+    testImplementation 'commons-codec:commons-codec:1.12'
+    testImplementation 'com.github.javaparser:javaparser-core:3.13.3'
 
     androidTestImplementation 'junit-addons:junit-addons:1.4'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

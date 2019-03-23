@@ -1,32 +1,31 @@
 package com.dhy.xintent
 
-import android.app.Activity
 import java.util.*
 import java.util.concurrent.LinkedBlockingQueue
 import kotlin.reflect.KClass
 
-/**
- *@param activity for run onUiThread
- * */
-class Waterfall(private val activity: Activity? = null) {
-    private val flowActions: Queue<(Flow) -> Unit> = LinkedBlockingQueue()
-    private var onEnd: ((Flow) -> Unit)? = null
+class Waterfall {
+    private val flowActions: Queue<Flow.(Flow) -> Unit> = LinkedBlockingQueue()
+    private var onEnd: (Flow.(Flow) -> Unit)? = null
     private val results: MutableList<Any?> = mutableListOf()
+    private var running = false
     /**
      * on the end of {@link Flow} *SHOULD INVOKE* {@link Flow#next} when has more Flows
      */
-    fun flow(action: (Flow) -> Unit): Waterfall {
+    fun flow(action: Flow.(Flow) -> Unit): Waterfall {
         flowActions.add(action)
+        if (!running) startAction()
         return this
     }
 
-    fun onEnd(onEnd: ((Flow) -> Unit)): Waterfall {
+    fun onEnd(onEnd: Flow.(Flow) -> Unit): Waterfall {
         this.onEnd = onEnd
         return this
     }
 
-    fun start(onUiThread: Boolean = false) {
-        startAction(onUiThread)
+    @Deprecated("")
+    fun start() {
+
     }
 
     private fun exit() {
@@ -34,18 +33,16 @@ class Waterfall(private val activity: Activity? = null) {
         results.clear()
     }
 
-    private fun startAction(onUiThread: Boolean) {
+    private fun startAction() {
+        if (running) return
         var action = flowActions.poll()
         if (action == null && onEnd != null) {
             action = onEnd
             onEnd = null
         }
         if (action != null) {
-            if (onUiThread && activity?.isFinishing != true) {
-                activity!!.runOnUiThread {
-                    action(flow)
-                }
-            } else action(flow)
+            running = true
+            action(flow, flow)
         } else exit()
     }
 
@@ -63,16 +60,17 @@ class Waterfall(private val activity: Activity? = null) {
             return results[step] as T
         }
 
-        override fun next(result: Any?, onUiThread: Boolean) {
+        override fun next(result: Any?) {
             results.add(result)
-            startAction(onUiThread)
+            running = false
+            startAction()
         }
 
         private var isError: Boolean = false
-        override fun end(error: Any?, onUiThread: Boolean) {
+        override fun end(error: Any?) {
             isError = error != null
             flowActions.clear()
-            next(error, onUiThread)
+            next(error)
         }
 
         override fun isError() = isError

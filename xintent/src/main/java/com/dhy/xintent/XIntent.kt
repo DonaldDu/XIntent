@@ -19,8 +19,8 @@ class XIntent : Intent {
         replaceExtras(bundle)
     }
 
-    constructor(context: Context, cls: KClass<out Activity>, vararg serializable: Serializable?) : super(context, cls.java) {
-        putSerializableExtra(this, *serializable)
+    constructor(context: Context, cls: KClass<out Activity>, vararg serializable: Any?) : super(context, cls.java) {
+        putSerializableExtra(this, *serializable as Array<out Serializable?>)
     }
 
     constructor(context: Context, cls: Class<out Activity>, vararg serializable: Serializable?) : super(context, cls) {
@@ -140,6 +140,6 @@ inline fun <reified T : Serializable> Activity.readListExtra(): List<T>? {
     return XIntent.readSerializableExtraList(this, T::class.java)
 }
 
-fun Activity.startActivity(cls: KClass<out Activity>, vararg serializable: Serializable?) {
+fun Activity.startActivity(cls: KClass<out Activity>, vararg serializable: Any?) {
     startActivity(XIntent(this, cls, *serializable))
 }
