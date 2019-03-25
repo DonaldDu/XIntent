@@ -40,6 +40,7 @@ class XIntent : Intent {
             context.startActivity(XIntent(context, cls, *serializable))
         }
 
+        @JvmStatic
         fun putSerializableExtra(intent: Intent, vararg serializable: Serializable?): Intent {
             if (serializable.isNotEmpty()) intent.putExtra(KEY_EXTRA, serializable)
             return intent
@@ -48,51 +49,63 @@ class XIntent : Intent {
         /**
          * use [.readSerializableExtra] or other methods to get data out
          */
+        @JvmStatic
         fun putSerializableExtra(bundle: Bundle, vararg serializable: Serializable?) {
             if (serializable.isNotEmpty()) bundle.putSerializable(KEY_EXTRA, serializable)
         }
 
+        @JvmStatic
         fun putSerializableExtra(activity: Activity, vararg serializable: Serializable?) {
             putSerializableExtra(activity.intent, *serializable)
         }
 
+        @JvmStatic
         fun <T> readSerializableExtra(activity: Activity, cls: Class<T>, defaultValue: T?): T? {
             return readSerializableExtra(activity.intent, cls, defaultValue)
         }
 
+        @JvmStatic
         fun <T> readSerializableExtra(activity: Activity, cls: Class<T>): T? {
             return readSerializableExtra(activity.intent, cls)
         }
 
+        @JvmStatic
         fun readSerializableExtra(activity: Activity): Serializable? {
             return readSerializableExtra(activity.intent)
         }
 
+        @JvmStatic
         fun <T> readSerializableExtra(intent: Intent, cls: Class<T>): T? {
             return readSerializableExtra(intent, cls, null)
         }
 
+        @JvmStatic
         fun readSerializableExtra(intent: Intent): Serializable? {
             return intent.getSerializableExtra(KEY_EXTRA)
         }
 
+        @JvmStatic
         fun readSerializableExtra(activity: Activity, index: Int): Serializable? {
             return readSerializableExtra(activity.intent, index)
         }
 
+        @JvmStatic
         fun readSerializableExtra(intent: Intent, index: Int): Serializable? {
             return readSerializableExtra(intent, Serializable::class.java, index, null)
         }
 
+        @JvmStatic
         inline fun <reified T> readSerializableExtra(activity: Activity, defaultValue: T?): T? {
             val cls = T::class.java
             return readSerializableExtra(activity, cls, defaultValue)
         }
 
+        @JvmStatic
         fun <T> readSerializableExtra(activity: Activity, cls: Class<T>, index: Int, defaultValue: T?): T? {
             return readSerializableExtra(activity.intent, cls, index, defaultValue)
         }
 
+        @JvmStatic
         fun <T> readSerializableExtra(intent: Intent, cls: Class<T>, defaultValue: T?): T? {
             val serializable = readSerializableExtra(intent)
             if (serializable is Array<*>) {
@@ -105,10 +118,12 @@ class XIntent : Intent {
             return defaultValue
         }
 
+        @JvmStatic
         fun <T> readSerializableExtraList(activity: Activity, cls: Class<T>): List<T>? {
             return readSerializableExtraList(activity.intent, cls)
         }
 
+        @JvmStatic
         @Suppress("UNCHECKED_CAST")
         fun <T> readSerializableExtraList(intent: Intent, cls: Class<T>): List<T>? {
             val serializable = readSerializableExtra(intent)
@@ -122,6 +137,7 @@ class XIntent : Intent {
             return null
         }
 
+        @JvmStatic
         fun <T> readSerializableExtra(intent: Intent, cls: Class<T>, index: Int, defaultValue: T?): T? {
             val serializable = readSerializableExtra(intent)
             if (serializable is Array<*>) {
