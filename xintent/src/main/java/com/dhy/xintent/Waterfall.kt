@@ -5,6 +5,12 @@ import java.util.concurrent.LinkedBlockingQueue
 import kotlin.reflect.KClass
 
 class Waterfall {
+    companion object {
+        fun flow(action: Flow.(Flow) -> Unit): Waterfall {
+            return Waterfall().flow(action)
+        }
+    }
+
     private val flowActions: Queue<Flow.(Flow) -> Unit> = LinkedBlockingQueue()
     private var onEnd: (Flow.(Flow) -> Unit)? = null
     private val results: MutableList<Any?> = mutableListOf()
@@ -13,19 +19,16 @@ class Waterfall {
      * on the end of {@link Flow} *SHOULD INVOKE* {@link Flow#next} when has more Flows
      */
     fun flow(action: Flow.(Flow) -> Unit): Waterfall {
-        flowActions.add(action)
-        if (!running) startAction()
+        if (!isEnd) {
+            flowActions.add(action)
+            if (!running) startAction()
+        }
         return this
     }
 
     fun onEnd(onEnd: Flow.(Flow) -> Unit): Waterfall {
         this.onEnd = onEnd
         return this
-    }
-
-    @Deprecated("")
-    fun start() {
-
     }
 
     private fun exit() {
@@ -46,6 +49,7 @@ class Waterfall {
         } else exit()
     }
 
+    private var isEnd = false
     @Suppress("UNCHECKED_CAST")
     private val flow = object : Flow {
         override fun <T : Any> getResult(cls: KClass<T>): T? {
@@ -68,6 +72,7 @@ class Waterfall {
 
         private var isError: Boolean = false
         override fun end(error: Any?) {
+            isEnd = true
             isError = error != null
             flowActions.clear()
             next(error)
