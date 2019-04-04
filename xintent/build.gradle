@@ -9,7 +9,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 28
         versionCode 94
-        versionName '1.4.8'
+        versionName '1.4.9'
     }
     buildTypes {
         release {
@@ -39,7 +39,7 @@ dependencies {
     implementation 'commons-io:commons-io:2.6'
     implementation 'com.google.code.gson:gson:2.8.5'
     compileOnly 'com.android.support:appcompat-v7:28.0.0'
-    
+
     testImplementation 'junit:junit:4.12'
     testImplementation 'commons-codec:commons-codec:1.12'
     testImplementation 'com.github.javaparser:javaparser-core:3.13.3'

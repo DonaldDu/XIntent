@@ -28,6 +28,7 @@ class Waterfall {
 
     fun onEnd(onEnd: Flow.(Flow) -> Unit): Waterfall {
         this.onEnd = onEnd
+        startAction()
         return this
     }
 
