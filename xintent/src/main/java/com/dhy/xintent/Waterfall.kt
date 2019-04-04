@@ -31,22 +31,17 @@ class Waterfall {
         return this
     }
 
-    private fun exit() {
-        flowActions.clear()
-        results.clear()
-    }
-
     private fun startAction() {
         if (running) return
         var action = flowActions.poll()
-        if (action == null && onEnd != null) {
+        if (action == null && isEnd && onEnd != null) {
             action = onEnd
             onEnd = null
         }
         if (action != null) {
             running = true
             action(flow, flow)
-        } else exit()
+        }
     }
 
     private var isEnd = false
