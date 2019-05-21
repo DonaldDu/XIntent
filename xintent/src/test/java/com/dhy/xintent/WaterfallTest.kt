@@ -6,7 +6,7 @@ import org.junit.Test
 class WaterfallTest {
     @Test
     fun testMe() {
-        Waterfall().flow { f ->
+        Waterfall.flow {
             next()
         }.flow {
             val data: String? = this.getPreResult()
@@ -18,7 +18,7 @@ class WaterfallTest {
 
     @Test
     fun test2() {
-        Waterfall().flow {
+        Waterfall.flow {
             println("step:1")
             next()
         }.flow {

@@ -4,7 +4,7 @@ import java.util.*
 import java.util.concurrent.LinkedBlockingQueue
 import kotlin.reflect.KClass
 
-class Waterfall {
+class Waterfall private constructor() {
     companion object {
         fun flow(action: Flow.(Flow) -> Unit): Waterfall {
             return Waterfall().flow(action)
@@ -35,7 +35,7 @@ class Waterfall {
     private fun startAction() {
         if (running) return
         var action = flowActions.poll()
-        if (action == null && isEnd && onEnd != null) {
+        if (isEnd) {
             action = onEnd
             onEnd = null
         }

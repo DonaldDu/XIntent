@@ -20,7 +20,13 @@ class XIntent : Intent {
     }
 
     constructor(context: Context, cls: KClass<out Activity>, vararg serializable: Any?) : super(context, cls.java) {
-        putSerializableExtra(this, *serializable as Array<out Serializable?>)
+        if (serializable.isNotEmpty()) {
+            val datas: Array<Serializable?> = arrayOfNulls(serializable.size)
+            for ((i, d) in serializable.withIndex()) {
+                datas[i] = d as Serializable?
+            }
+            putSerializableExtra(this, *datas)
+        }
     }
 
     constructor(context: Context, cls: Class<out Activity>, vararg serializable: Serializable?) : super(context, cls) {
@@ -96,8 +102,7 @@ class XIntent : Intent {
 
         @JvmStatic
         inline fun <reified T> readSerializableExtra(activity: Activity, defaultValue: T?): T? {
-            val cls = T::class.java
-            return readSerializableExtra(activity, cls, defaultValue)
+            return readSerializableExtra(activity, T::class.java, defaultValue)
         }
 
         @JvmStatic
@@ -108,14 +113,10 @@ class XIntent : Intent {
         @JvmStatic
         fun <T> readSerializableExtra(intent: Intent, cls: Class<T>, defaultValue: T?): T? {
             val serializable = readSerializableExtra(intent)
-            if (serializable is Array<*>) {
-                for (d in serializable) {
-                    if (cls.isInstance(d)) {
-                        return cls.cast(d)
-                    }
-                }
-            }
-            return defaultValue
+            return if (serializable is Array<*>) {
+                val find = serializable.find { cls.isInstance(it) }
+                if (find != null) cls.cast(find) else defaultValue
+            } else defaultValue
         }
 
         @JvmStatic
@@ -128,11 +129,11 @@ class XIntent : Intent {
         fun <T> readSerializableExtraList(intent: Intent, cls: Class<T>): List<T>? {
             val serializable = readSerializableExtra(intent)
             if (serializable is Array<*>) {
-                return serializable.filter { it is List<*> && it.isNotEmpty() }
-                        .find {
-                            val list = it as List<*>
-                            list.find { i -> cls.isInstance(i) } != null
-                        } as List<T>?
+                return serializable.find {
+                    if (it is List<*>) {
+                        it.find { i -> cls.isInstance(i) } != null
+                    } else false
+                } as List<T>?
             }
             return null
         }
@@ -152,6 +153,11 @@ inline fun <reified T : Serializable> Activity.readExtra(defaultValue: T? = null
     return XIntent.readSerializableExtra(this, T::class.java, defaultValue)
 }
 
+inline fun <reified T : Serializable> Activity.readExtraOfList(): List<T>? {
+    return XIntent.readSerializableExtraList(this, T::class.java)
+}
+
+@Deprecated("use readExtraOfList", replaceWith = ReplaceWith("readExtraOfList"))
 inline fun <reified T : Serializable> Activity.readListExtra(): List<T>? {
     return XIntent.readSerializableExtraList(this, T::class.java)
 }

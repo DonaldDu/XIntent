@@ -14,11 +14,10 @@ import static junit.framework.TestCase.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class XIntentTest extends BaseActivityUnitTestCase {
 
-    final Boolean a = true;
-    final String b = "4564654";
-
     @Test
     public void testReadSerializable() {
+        Boolean a = true;
+        String b = "4564654";
         Intent intent = new XIntent(context, MainActivity.class, a, b);
         assertEquals(XIntent.Companion.readSerializableExtra(intent, Boolean.class, null), a);
         assertEquals(XIntent.Companion.readSerializableExtra(intent, Boolean.class, 0, null), a);
