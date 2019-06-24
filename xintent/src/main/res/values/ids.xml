@@ -4,4 +4,5 @@
     <item name="xintent_pop_root" type="id" />
     <item name="xintent_compound_drawables" type="id" />
     <item name="xintent_compound_drawable_type" type="id" />
+    <item name="IS_KEYBOAD_SHOWN" type="id" />
 </resources>

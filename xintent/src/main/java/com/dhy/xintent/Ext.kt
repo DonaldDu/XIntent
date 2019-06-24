@@ -118,43 +118,59 @@ fun Dialog.enableInputMethod(edit: EditText? = null): Dialog {
     return this
 }
 
-/**
- * must init after super.setContentView
- * */
-fun Activity.smartEditCursor() {
+fun Activity.isKeyboadShown(): Boolean {
+    val mDecorView = window.decorView
+    return mDecorView.getTag(R.id.IS_KEYBOAD_SHOWN) == true
+}
+
+fun Activity.watchKeyboad(onKeyboad: (show: Boolean) -> Unit) {
     window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
     val rect = Rect()
     val mDecorView = window.decorView
     val keyboadHeight = resources.displayMetrics.density * 150//dp
-    val onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
-        if (v is EditText) v.isCursorVisible = hasFocus
-    }
-    mDecorView.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-        fun setCursorVisible(show: Boolean) {
-            val v = currentFocus
-            if (v is EditText) {
-                v.isCursorVisible = show
-                if (!show) v.setOnFocusChangeListener(onFocusChangeListener)
-            }
-        }
 
+    mDecorView.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
         var isKeyboadShow = false
         override fun onLayoutChange(v: View, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
             mDecorView.getWindowVisibleDisplayFrame(rect)
-
-            if (bottom - rect.bottom > keyboadHeight) {//不能用(bottom!=rect.bottom) 来判断，因为有些手机的软键盘，一出来高度就不等了。
+            //不能用(bottom!=rect.bottom) 来判断，因为有些手机的软键盘，一出来高度就不等了。
+            if (bottom - rect.bottom > keyboadHeight) {
                 if (!isKeyboadShow) {
                     isKeyboadShow = true
-                    setCursorVisible(isKeyboadShow)
+                    mDecorView.setTag(R.id.IS_KEYBOAD_SHOWN, isKeyboadShow)
+                    onKeyboad(isKeyboadShow)
                 }
             } else {
                 if (isKeyboadShow) {
                     isKeyboadShow = false
-                    setCursorVisible(isKeyboadShow)
+                    mDecorView.setTag(R.id.IS_KEYBOAD_SHOWN, isKeyboadShow)
+                    onKeyboad(isKeyboadShow)
                 }
             }
         }
     })
+}
+
+/**
+ * must init after super.setContentView
+ * */
+fun Activity.smartEditCursor() {
+    val onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+        if (v is EditText) v.isCursorVisible = hasFocus
+    }
+
+    fun setCursorVisible(show: Boolean) {
+        val v = currentFocus
+        if (v is EditText) {
+            v.isCursorVisible = show
+            if (!show) v.setOnFocusChangeListener(onFocusChangeListener)
+        }
+    }
+
+    watchKeyboad {
+        setCursorVisible(it)
+    }
+
     fun findFirstEdit(vg: ViewGroup): EditText? {
         for (i in 0 until vg.childCount) {
             val v = vg.getChildAt(i)
@@ -166,9 +182,7 @@ fun Activity.smartEditCursor() {
         }
         return null
     }
-
-    val et = findFirstEdit(mDecorView as ViewGroup)
-    if (et != null) et.isCursorVisible = false
+    findFirstEdit(window.decorView as ViewGroup)?.isCursorVisible = false
 }
 
 fun String?.isNotEmpty(): Boolean {

@@ -157,7 +157,7 @@ inline fun <reified T : Serializable> Activity.readExtraOfList(): List<T>? {
     return XIntent.readSerializableExtraList(this, T::class.java)
 }
 
-@Deprecated("use readExtraOfList", replaceWith = ReplaceWith("readExtraOfList"))
+@Deprecated("use readExtraOfList", replaceWith = ReplaceWith("readExtraOfList()"))
 inline fun <reified T : Serializable> Activity.readListExtra(): List<T>? {
     return XIntent.readSerializableExtraList(this, T::class.java)
 }

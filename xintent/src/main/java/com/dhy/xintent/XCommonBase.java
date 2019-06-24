@@ -165,7 +165,7 @@ class XCommonBase {
     }
 
     static ImageView setImage(ImageView imageView, Uri uri) {
-        imageView.setImageURI(uri);
+        if (imageView != null) imageView.setImageURI(uri);
         return imageView;
     }
 
