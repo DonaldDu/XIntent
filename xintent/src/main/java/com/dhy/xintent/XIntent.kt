@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-
 import java.io.Serializable
 import kotlin.reflect.KClass
 
@@ -14,6 +13,16 @@ import kotlin.reflect.KClass
  */
 @SuppressLint("ParcelCreator")
 class XIntent : Intent {
+
+    constructor(vararg serializable: Any?) : super() {
+        if (serializable.isNotEmpty()) {
+            val datas: Array<Serializable?> = arrayOfNulls(serializable.size)
+            for ((i, d) in serializable.withIndex()) {
+                datas[i] = d as Serializable?
+            }
+            putSerializableExtra(this, *datas)
+        }
+    }
 
     constructor(bundle: Bundle) : super() {
         replaceExtras(bundle)
@@ -120,22 +129,22 @@ class XIntent : Intent {
         }
 
         @JvmStatic
-        fun <T> readSerializableExtraList(activity: Activity, cls: Class<T>): List<T>? {
+        fun <T> readSerializableExtraList(activity: Activity, cls: Class<T>): List<T> {
             return readSerializableExtraList(activity.intent, cls)
         }
 
         @JvmStatic
         @Suppress("UNCHECKED_CAST")
-        fun <T> readSerializableExtraList(intent: Intent, cls: Class<T>): List<T>? {
+        fun <T> readSerializableExtraList(intent: Intent, cls: Class<T>): List<T> {
             val serializable = readSerializableExtra(intent)
-            if (serializable is Array<*>) {
-                return serializable.find {
+            val data = if (serializable is Array<*>) {
+                serializable.find {
                     if (it is List<*>) {
                         it.find { i -> cls.isInstance(i) } != null
                     } else false
                 } as List<T>?
-            }
-            return null
+            } else null
+            return data ?: emptyList()
         }
 
         @JvmStatic
@@ -153,7 +162,12 @@ inline fun <reified T : Serializable> Activity.readExtra(defaultValue: T? = null
     return XIntent.readSerializableExtra(this, T::class.java, defaultValue)
 }
 
-inline fun <reified T : Serializable> Activity.readExtraOfList(): List<T>? {
+inline fun <reified T : Serializable> Activity.readExtraList(): List<T> {
+    return XIntent.readSerializableExtraList(this, T::class.java)
+}
+
+@Deprecated("use readExtraList", replaceWith = ReplaceWith("readExtraList()"))
+inline fun <reified T : Serializable> Activity.readExtraOfList(): List<T> {
     return XIntent.readSerializableExtraList(this, T::class.java)
 }
 

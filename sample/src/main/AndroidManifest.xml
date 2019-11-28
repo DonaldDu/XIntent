@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dhy.xintentsample">
 
-    <uses-permission android:name="android.permission.CAMERA" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -19,9 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.dhy.xintentsample.TestActivity" />
-        <activity
-            android:name="com.dhy.xintentsample.RequestPermissionDialogActivity"
-            android:theme="@style/Theme.AppCompat.Dialog" />
     </application>
+    <uses-permission android:name="android.permission.CAMERA" />
 
 </manifest>

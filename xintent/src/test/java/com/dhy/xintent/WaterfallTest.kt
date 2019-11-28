@@ -44,4 +44,9 @@ class WaterfallTest {
             this.next()
         }
     }
+
+    @Test
+    fun testInline() {
+
+    }
 }
