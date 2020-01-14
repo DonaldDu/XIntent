@@ -17,10 +17,8 @@ buildscript {
 allprojects {
     repositories {
         google()
-        mavenCentral()
         jcenter()
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://jitpack.io' }
     }
     tasks.withType(Javadoc) {
         enabled = false
