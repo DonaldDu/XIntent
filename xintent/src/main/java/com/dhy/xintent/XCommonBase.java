@@ -2,7 +2,6 @@ package com.dhy.xintent;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
@@ -15,8 +14,6 @@ import android.widget.TextView;
 
 import com.dhy.xintent.annotation.GenCode;
 import com.dhy.xintent.annotation.Visibility;
-import com.dhy.xintent.preferences.XPreferences;
-import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -168,108 +165,9 @@ class XCommonBase {
         if (imageView != null) imageView.setImageURI(uri);
         return imageView;
     }
-
     //endregion
-    //region Setting
 
-    /**
-     * use {@link XPreferences} please
-     */
-    @Deprecated
-    @Nullable
-    public static <K extends Enum> String getSetting(Context context, K key) {
-        return getSetting(context, getSharedPreferences(context, key), key, String.class, null);
-    }
-
-    /**
-     * use {@link XPreferences} please
-     */
-    @Deprecated
-    @Nullable
-    public static <K extends Enum, V> V getSetting(Context context, K key, Class<V> dataClass) {
-        return getSetting(context, getSharedPreferences(context, key), key, dataClass, null);
-    }
-
-    /**
-     * use {@link XPreferences} please
-     */
-    @Deprecated
-    public static <K extends Enum, V> V getSetting(Context context, K key, Class<V> dataClass, @Nullable V defValue) {
-        return getSetting(context, getSharedPreferences(context, key), key, dataClass, defValue);
-    }
-
-    /**
-     * use {@link XPreferences} please
-     */
-    @Deprecated
-    private static <K extends Enum, V> V getSetting(Context context, SharedPreferences sharedPreferences, K key, Class<V> dataClass, @Nullable V defValue) {
-        String value = sharedPreferences.getString(key.name(), null);
-        if (value == null) {
-            return defValue;
-        } else {
-            if (gson == null) gson = new Gson();
-            try {
-                return gson.fromJson(value, dataClass);
-            } catch (Exception e) {
-                if (isDebug(context)) {
-                    throw e;
-                }
-                return defValue;
-            }
-        }
-    }
-
-    /**
-     * use {@link XPreferences} please
-     */
-    @Deprecated
-    public static <K extends Enum> void updateSetting(Context context, K key, Object value) {
-        updateSetting(context, getSharedPreferences(context, key), key, value);
-    }
-
-    /**
-     * use {@link XPreferences} please
-     */
-    @Deprecated
-    private static <K extends Enum> void updateSetting(Context context, SharedPreferences preferences, K key, @Nullable Object value) {
-        SharedPreferences.Editor edit = preferences.edit();
-        String keyName = key.name();
-        if (value != null) {
-            if (gson == null) gson = new Gson();
-            try {
-                edit.putString(keyName, gson.toJson(value));
-            } catch (Exception e) {
-                if (isDebug(context)) {
-                    throw e;
-                }
-            }
-        } else {
-            edit.remove(keyName);
-        }
-        edit.apply();
-    }
-
-    private static <K extends Enum> SharedPreferences getSharedPreferences(Context context, K key) {
-        return context.getSharedPreferences(key.getClass().getName(), Activity.MODE_PRIVATE);
-    }
-
-    /**
-     * use {@link XPreferences} please
-     */
-    @Deprecated
-    public static <K extends Enum> void clearSettings(final Context context, K key) {
-        SharedPreferences preferences = getSharedPreferences(context, key);
-        preferences.edit().clear().apply();
-    }
-
-    //endregion
     //region init
-    private static Gson gson;
-
-    public static void setGson(Gson gson) {
-        XCommonBase.gson = gson;
-    }
-
     static Boolean debug;
 
     /**

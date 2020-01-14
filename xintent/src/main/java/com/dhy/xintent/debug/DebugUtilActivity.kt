@@ -19,17 +19,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.dhy.xintent.XIntent
-import com.dhy.xintent.preferences.XPreferences
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
+import com.dhy.xpreference.XPreferences
+import java.io.Serializable
 import java.util.*
 
 @DebugUtilActivity.Ignored
 class DebugUtilActivity : AppCompatActivity() {
-
-    private var context: Context? = null
-
-    val allActivities: MutableList<ActivityItem>
+    private lateinit var context: Context
+    private val allActivities: MutableList<ActivityItem>
         get() {
             val list = ArrayList<ActivityItem>()
             try {
@@ -63,16 +60,16 @@ class DebugUtilActivity : AppCompatActivity() {
                 val item = expandableListView.expandableListAdapter.getChild(groupPosition, childPosition) as ActivityItem
                 item.startActivity(context)
             } else {
-                XPreferences.set(context, Key.autoStart, null)
+                XPreferences.put(context, DebugSettings::class.java, null)
             }
             false
         }
         expandableListView.onItemLongClickListener = AdapterView.OnItemLongClickListener { parent, view, position, id ->
             val item = view.tag as ActivityItem
-            if (item != null && item.string != null) {
+            if (item.string.isNotEmpty()) {
                 dialog.dismiss()
                 val ok = item.startActivity(context)
-                if (ok) XPreferences.set(context, Key.autoStart, item.string)
+                if (ok) XPreferences.put(context, DebugSettings().apply { autoStartActivity = item.string })
                 return@OnItemLongClickListener true
             }
             false
@@ -93,12 +90,8 @@ class DebugUtilActivity : AppCompatActivity() {
     }
 
     @Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
-    @Retention(RetentionPolicy.RUNTIME)
+    @kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
     annotation class Ignored
-
-    private enum class Key {
-        autoStart
-    }
 
     class ActivityItem internal constructor(private val cls: String?) : StringGetter {
 
@@ -302,7 +295,8 @@ class DebugUtilActivity : AppCompatActivity() {
         }
 
         fun autoStart(context: Context): Boolean {
-            val name = XPreferences.get(context, Key.autoStart, String::class.java)
+            val s: DebugSettings = XPreferences.get(context)
+            val name = s.autoStartActivity
             if (!TextUtils.isEmpty(name)) {
                 ActivityItem.startActivity(context, name)
                 if (context is Activity) context.finish()
@@ -327,4 +321,8 @@ class DebugUtilActivity : AppCompatActivity() {
 
         var ACTIVITY_SOURCE_HEADER = ""
     }
+}
+
+private class DebugSettings : Serializable {
+    var autoStartActivity: String? = null
 }

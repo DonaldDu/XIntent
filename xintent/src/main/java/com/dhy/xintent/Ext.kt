@@ -100,11 +100,17 @@ fun Dialog.bottomGravity(): Dialog {
     return this
 }
 
-fun Context.toast(tip: String, duration: Int = Toast.LENGTH_SHORT, gravityCenter: Boolean = false) {
-    Toast.makeText(this, null, duration).apply {
+var globalToastSetting: ((Toast) -> Unit)? = null
+fun Context.toast(tip: String, duration: Int = Toast.LENGTH_SHORT) {
+
+    Toast.makeText(this, "", duration).apply {
         setText(tip)
-        if (gravityCenter) setGravity(Gravity.CENTER, 0, 0)
+        globalToastSetting?.invoke(this)
     }.show()
+}
+
+fun Toast.centerGravity() {
+    setGravity(Gravity.CENTER, 0, 0)
 }
 
 /**
