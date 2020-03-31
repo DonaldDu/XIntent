@@ -191,7 +191,10 @@ fun Activity.smartEditCursor() {
         }
         return null
     }
-    findFirstEdit(window.decorView as ViewGroup)?.isCursorVisible = false
+    findFirstEdit(window.decorView as ViewGroup)?.apply {
+        isCursorVisible = false
+        setOnFocusChangeListener(onFocusChangeListener)
+    }
 }
 
 fun String?.isNotEmpty(): Boolean {
