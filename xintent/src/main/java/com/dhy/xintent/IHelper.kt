@@ -4,8 +4,8 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.support.annotation.IdRes
-import android.support.annotation.LayoutRes
+import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
 import android.text.TextWatcher
 import android.util.DisplayMetrics
 import android.view.View

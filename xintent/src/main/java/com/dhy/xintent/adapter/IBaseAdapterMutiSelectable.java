@@ -1,9 +1,9 @@
 package com.dhy.xintent.adapter;
 
 import android.content.Context;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
+import androidx.annotation.IdRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.CheckBox;
 

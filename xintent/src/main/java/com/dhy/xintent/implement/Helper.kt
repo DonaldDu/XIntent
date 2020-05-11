@@ -13,8 +13,8 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
-import android.support.annotation.LayoutRes
-import android.support.annotation.StyleRes
+import androidx.annotation.LayoutRes
+import androidx.annotation.StyleRes
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher

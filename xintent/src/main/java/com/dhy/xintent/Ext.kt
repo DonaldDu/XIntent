@@ -4,7 +4,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Rect
-import android.support.annotation.IdRes
+import androidx.annotation.IdRes
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher

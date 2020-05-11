@@ -4,50 +4,51 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import com.dhy.xintent.simple.SimpleActivityLifecycleCallbacks
-import java.util.*
 import kotlin.reflect.KClass
 
 object ActivityKiller {
     private var inited = false
+
     @JvmStatic
     fun init(application: Application) {
+        if (inited) return
         inited = true
         application.registerActivityLifecycleCallbacks(object : SimpleActivityLifecycleCallbacks() {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-                activities.add(activity)
+                activityStack.add(activity)
             }
 
             override fun onActivityDestroyed(activity: Activity) {
-                activities.remove(activity)
+                activityStack.remove(activity)
             }
         })
     }
 
     @JvmStatic
     fun killAll() {
-        kill(activities)
+        kill(activityStack)
     }
 
     @JvmStatic
     fun killAllExcept(vararg activityClasses: KClass<out Activity>) {
         val classes = activityClasses.map { it.java }
-        kill(activities.filter { !classes.contains(it.javaClass) })
+        kill(activityStack.filter { !classes.contains(it.javaClass) })
     }
 
     @JvmStatic
     fun killAllExcept(vararg activityClasses: Class<out Activity>) {
-        kill(activities.filter { !activityClasses.contains(it.javaClass) })
+        kill(activityStack.filter { !activityClasses.contains(it.javaClass) })
     }
 
     @JvmStatic
     fun kill(vararg activityClasses: KClass<out Activity>) {
         val classes = activityClasses.map { it.java }
-        kill(activities.filter { classes.contains(it.javaClass) })
+        kill(activityStack.filter { classes.contains(it.javaClass) })
     }
 
     @JvmStatic
     fun kill(vararg activityClasses: Class<out Activity>) {
-        kill(activities.filter { activityClasses.contains(it.javaClass) })
+        kill(activityStack.filter { activityClasses.contains(it.javaClass) })
     }
 
     private fun kill(activities: List<Activity>) {
@@ -57,5 +58,5 @@ object ActivityKiller {
         activities.forEach { it.finish() }
     }
 
-    private val activities = ArrayList<Activity>()
+    val activityStack: MutableList<Activity> = mutableListOf()
 }

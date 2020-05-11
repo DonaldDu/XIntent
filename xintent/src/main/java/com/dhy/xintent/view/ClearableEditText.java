@@ -13,7 +13,7 @@ import android.view.MotionEvent;
 /**
  * use  DrawableRight as clearable icon
  */
-public class ClearableEditText extends android.support.v7.widget.AppCompatEditText {
+public class ClearableEditText extends androidx.appcompat.widget.AppCompatEditText {
     private Drawable mClearDrawable;
     private boolean mIsClearVisible = true;
 

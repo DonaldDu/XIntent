@@ -1,6 +1,6 @@
 package com.dhy.xintent.data;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.inputmethod.EditorInfo;
 
 public class DefaultInputSetting {

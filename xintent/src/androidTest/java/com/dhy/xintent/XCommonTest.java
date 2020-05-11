@@ -1,6 +1,6 @@
 package com.dhy.xintent;
 
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import android.widget.TextView;
 
 import com.dhy.xintent.util.BaseActivityUnitTestCase;

@@ -1,10 +1,10 @@
 package com.dhy.xintent.data;
 
 import android.graphics.Rect;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
 import android.view.ViewGroup;
 
 import com.dhy.xintent.R;
