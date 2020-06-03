@@ -1,6 +1,7 @@
 package com.dhy.xintent.util;
 
 import android.content.Context;
+
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Before;
@@ -10,6 +11,6 @@ public class BaseActivityUnitTestCase {
 
     @Before
     public void initContext() {
-        context = InstrumentationRegistry.getTargetContext();
+        context = InstrumentationRegistry.getInstrumentation().getTargetContext();
     }
 }
