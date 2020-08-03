@@ -9,7 +9,8 @@ android {
         minSdkVersion 14
         targetSdkVersion 28
         versionCode 94
-        versionName '1.5.2.2'
+        versionName '1.5.3'
+        consumerProguardFiles 'proguard-rules.pro'
     }
     buildTypes {
         release {
@@ -20,8 +21,8 @@ android {
     productFlavors {
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     lintOptions {
         abortOnError false
@@ -43,7 +44,7 @@ publish {
 }
 if (hasProperty('publishToNexus')) publishToNexus()
 dependencies {
-    implementation 'commons-io:commons-io:2.6'
+    implementation 'commons-io:commons-io:2.7'
     implementation 'com.google.code.gson:gson:2.8.6'
     compileOnly 'androidx.appcompat:appcompat:1.1.0'
 

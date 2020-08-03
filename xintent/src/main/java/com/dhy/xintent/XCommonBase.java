@@ -5,12 +5,13 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.dhy.xintent.annotation.GenCode;
 import com.dhy.xintent.annotation.Visibility;
@@ -171,8 +172,9 @@ class XCommonBase {
     static Boolean debug;
 
     /**
-     * get application's BuildConfig.DEBUG
+     * get application's BuildConfig.DEBUG; use Context.isDebugable instead
      */
+    @Deprecated
     public static boolean isDebug(Context context) {
         if (debug != null) return debug;
         try {

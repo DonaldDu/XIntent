@@ -3,6 +3,7 @@ package com.dhy.xintent
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import android.graphics.Rect
 import androidx.annotation.IdRes
 import android.text.Editable
@@ -16,6 +17,11 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+
+fun Context.isDebugable(pn: String = packageName): Boolean {
+    val info = packageManager.getApplicationInfo(pn, 0)
+    return info.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
+}
 
 fun Boolean.toInt(): Int {
     return if (this) 1 else 0

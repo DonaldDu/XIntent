@@ -3,6 +3,7 @@ package com.dhy.xintentsample
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -16,8 +17,8 @@ import com.dhy.xintent.readExtra
 import com.dhy.xintent.toast
 import kotlinx.android.synthetic.main.activity_main.*
 
-class XIntentSampleActivity : Activity() {
-    var tag = XIntentSampleActivity::class.java.simpleName
+class MainActivity : Activity() {
+    var tag = MainActivity::class.java.simpleName
     var init = false
     var context: Context? = null
     var hash = 0
@@ -39,6 +40,12 @@ class XIntentSampleActivity : Activity() {
         btToast.setOnClickListener {
             toast("test hash2hash2hash2hash2")
         }
+        btToast.text = "isDebugable " + isDebugable()
+    }
+
+    fun Context.isDebugable(pn: String = packageName): Boolean {
+        val info = packageManager.getApplicationInfo(pn, 0)
+        return info.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -57,9 +64,9 @@ class XIntentSampleActivity : Activity() {
         val editText = findViewById<EditText>(R.id.editText)
         val text = editText.text.toString()
         if (text.length > 2) {
-            startActivity(context!!, XIntentSampleActivity::class.java, text)
+            startActivity(context!!, MainActivity::class.java, text)
         } else {
-            val intent: Intent = XIntent(context, XIntentSampleActivity::class.java, text)
+            val intent: Intent = XIntent(context, MainActivity::class.java, text)
             startActivity(intent)
         }
     }
