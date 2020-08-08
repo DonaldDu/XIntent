@@ -4,9 +4,9 @@ import java.util.*
 import java.util.concurrent.LinkedBlockingQueue
 import kotlin.reflect.KClass
 
-class Waterfall private constructor() {
-    companion object {
-        fun flow(action: Flow.(Flow) -> Unit): Waterfall {
+class Waterfall private constructor() : IFlow {
+    companion object : IFlow {
+        override fun flow(action: Flow.(Flow) -> Unit): Waterfall {
             return Waterfall().flow(action)
         }
     }
@@ -15,13 +15,14 @@ class Waterfall private constructor() {
     private var onEnd: (Flow.(Flow) -> Unit)? = null
     private val results: MutableList<Any?> = mutableListOf()
     private var running = false
+
     /**
      * on the end of {@link Flow} *SHOULD INVOKE* {@link Flow#next} when has more Flows
      */
-    fun flow(action: Flow.(Flow) -> Unit): Waterfall {
-        if (!isEnd) {
+    override fun flow(action: Flow.(Flow) -> Unit): Waterfall {
+        if (!end) {
             flowActions.add(action)
-            if (!running) startAction()
+            startAction()
         }
         return this
     }
@@ -35,7 +36,7 @@ class Waterfall private constructor() {
     private fun startAction() {
         if (running) return
         var action = flowActions.poll()
-        if (isEnd) {
+        if (end) {
             action = onEnd
             onEnd = null
         }
@@ -45,7 +46,8 @@ class Waterfall private constructor() {
         }
     }
 
-    private var isEnd = false
+    private var end = false
+
     @Suppress("UNCHECKED_CAST")
     private val flow = object : Flow {
         override fun <T : Any> getResult(cls: KClass<T>): T? {
@@ -68,7 +70,7 @@ class Waterfall private constructor() {
 
         private var isError: Boolean = false
         override fun end(error: Any?) {
-            isEnd = true
+            end = true
             isError = error != null
             flowActions.clear()
             next(error)
@@ -76,4 +78,8 @@ class Waterfall private constructor() {
 
         override fun isError() = isError
     }
+}
+
+interface IFlow {
+    fun flow(action: Flow.(Flow) -> Unit): Waterfall
 }
