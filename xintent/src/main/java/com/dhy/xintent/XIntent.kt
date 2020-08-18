@@ -158,6 +158,16 @@ class XIntent : Intent {
     }
 }
 
+fun Intent.putSerializableExtra(vararg serializable: Serializable?): Intent {
+    if (serializable.isNotEmpty()) putExtra(XIntent.KEY_EXTRA, serializable)
+    return this
+}
+
+inline fun <reified T : Serializable> Intent?.readExtra(defaultValue: T? = null): T? {
+    return if (this != null) XIntent.readSerializableExtra(this, T::class.java, defaultValue)
+    else defaultValue
+}
+
 inline fun <reified T : Serializable> Activity.readExtra(defaultValue: T? = null): T? {
     return XIntent.readSerializableExtra(this, T::class.java, defaultValue)
 }

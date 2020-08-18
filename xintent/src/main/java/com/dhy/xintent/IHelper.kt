@@ -34,7 +34,7 @@ interface IHelper {
 
     fun showActionDone(context: Context, canceledOnTouchOutside: Boolean = true, onDismissAction: Runnable? = null): Dialog
 
-    fun showProgressDialog(context: Context): Dialog
+    fun showProgressDialog(context: Context): Dialog?
 
     fun dismissProgressDialog(context: Context)
 

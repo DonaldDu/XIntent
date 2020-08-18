@@ -216,7 +216,7 @@ open class Helper(application: Application, @StyleRes private val themeDialog: I
         return showDialog(context, R.layout.xintent_default_progress_dialog, false)
     }
 
-    override fun showProgressDialog(context: Context): Dialog {
+    override fun showProgressDialog(context: Context): Dialog? {
         val progressDialog = getProgressDialog(context)
         if (!progressDialog.isShowing) progressDialog.show()
         return progressDialog
