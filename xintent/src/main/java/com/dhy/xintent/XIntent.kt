@@ -95,8 +95,9 @@ class XIntent : Intent {
         }
 
         @JvmStatic
-        fun readSerializableExtra(intent: Intent): Serializable? {
-            return intent.getSerializableExtra(KEY_EXTRA)
+        fun readSerializableExtra(intent: Intent): Array<Serializable?>? {
+            @Suppress("UNCHECKED_CAST")
+            return intent.getSerializableExtra(KEY_EXTRA) as Array<Serializable?>?
         }
 
         @JvmStatic
@@ -121,9 +122,9 @@ class XIntent : Intent {
 
         @JvmStatic
         fun <T> readSerializableExtra(intent: Intent, cls: Class<T>, defaultValue: T?): T? {
-            val serializable = readSerializableExtra(intent)
-            return if (serializable is Array<*>) {
-                val find = serializable.find { cls.isInstance(it) }
+            val array = readSerializableExtra(intent)
+            return if (array != null) {
+                val find = array.find { cls.isInstance(it) }
                 if (find != null) cls.cast(find) else defaultValue
             } else defaultValue
         }
@@ -136,12 +137,10 @@ class XIntent : Intent {
         @JvmStatic
         @Suppress("UNCHECKED_CAST")
         fun <T> readSerializableExtraList(intent: Intent, cls: Class<T>): List<T> {
-            val serializable = readSerializableExtra(intent)
-            val data = if (serializable is Array<*>) {
-                serializable.find {
-                    if (it is List<*>) {
-                        it.find { i -> cls.isInstance(i) } != null
-                    } else false
+            val array = readSerializableExtra(intent)
+            val data = if (array != null) {
+                array.find {
+                    if (it is List<*>) it.any { i -> cls.isInstance(i) } else false
                 } as List<T>?
             } else null
             return data ?: emptyList()
@@ -149,9 +148,9 @@ class XIntent : Intent {
 
         @JvmStatic
         fun <T> readSerializableExtra(intent: Intent, cls: Class<T>, index: Int, defaultValue: T?): T? {
-            val serializable = readSerializableExtra(intent)
-            if (serializable is Array<*>) {
-                if (index < serializable.size) return cls.cast(serializable[index])
+            val array = readSerializableExtra(intent)
+            if (array != null) {
+                if (index < array.size) return cls.cast(array[index])
             }
             return defaultValue
         }
@@ -172,7 +171,7 @@ inline fun <reified T : Serializable> Activity.readExtraOfList(): List<T> {
 }
 
 @Deprecated("use readExtraOfList", replaceWith = ReplaceWith("readExtraOfList()"))
-inline fun <reified T : Serializable> Activity.readListExtra(): List<T>? {
+inline fun <reified T : Serializable> Activity.readListExtra(): List<T> {
     return XIntent.readSerializableExtraList(this, T::class.java)
 }
 
