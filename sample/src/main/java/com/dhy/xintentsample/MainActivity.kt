@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.EditText
 import com.dhy.xintent.XCommon
 import com.dhy.xintent.XIntent
-import com.dhy.xintent.XIntent.Companion.putSerializableExtra
 import com.dhy.xintent.XIntent.Companion.readSerializableExtra
 import com.dhy.xintent.XIntent.Companion.startActivity
 import com.dhy.xintent.readExtra
@@ -20,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : Activity() {
     var tag = MainActivity::class.java.simpleName
     var init = false
-    var context: Context? = null
+    private lateinit var context: Context
     var hash = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +30,9 @@ class MainActivity : Activity() {
         if (savedInstanceState != null) {
             val intent: Intent = XIntent(savedInstanceState)
             hash = readSerializableExtra(intent, Int::class.java, -1)!!
+            XIntent.with(savedInstanceState).apply {
+                hash = readExtra(-1)!!
+            }
         }
         Log.i(tag, "init $init")
         Log.i(tag, "hash1 $hash")
@@ -49,22 +51,23 @@ class MainActivity : Activity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        putSerializableExtra(outState, "s", 1)
+        XIntent.with(outState).putSerializableExtra("s", 1)
         super.onSaveInstanceState(outState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        val intent: Intent = XIntent(savedInstanceState)
-        val a = readSerializableExtra(intent, String::class.java, "")!!
-        val b = readSerializableExtra(intent, Int::class.java, 0)!!
+        XIntent.with(savedInstanceState).apply {
+            val s: String? = readExtra()
+            val i: Int? = readExtra()
+        }
     }
 
     fun startIntent(view: View?) {
         val editText = findViewById<EditText>(R.id.editText)
         val text = editText.text.toString()
         if (text.length > 2) {
-            startActivity(context!!, MainActivity::class.java, text)
+            startActivity(context, MainActivity::class.java, text)
         } else {
             val intent: Intent = XIntent(context, MainActivity::class.java, text)
             startActivity(intent)

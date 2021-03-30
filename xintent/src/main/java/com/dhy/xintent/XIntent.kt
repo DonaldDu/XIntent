@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import java.io.Serializable
+import java.lang.reflect.Field
 import kotlin.reflect.KClass
 
 /**
@@ -14,167 +15,177 @@ import kotlin.reflect.KClass
 @SuppressLint("ParcelCreator")
 class XIntent : Intent {
 
-    constructor(vararg serializable: Any?) : super() {
-        if (serializable.isNotEmpty()) {
-            val datas: Array<Serializable?> = arrayOfNulls(serializable.size)
-            for ((i, d) in serializable.withIndex()) {
-                datas[i] = d as Serializable?
-            }
-            putSerializableExtra(this, *datas)
-        }
-    }
-
     constructor(bundle: Bundle) : super() {
-        replaceExtras(bundle)
+        directExtras = bundle
     }
 
-    constructor(context: Context, cls: KClass<out Activity>, vararg serializable: Any?) : super(context, cls.java) {
-        if (serializable.isNotEmpty()) {
-            val datas: Array<Serializable?> = arrayOfNulls(serializable.size)
-            for ((i, d) in serializable.withIndex()) {
-                datas[i] = d as Serializable?
-            }
-            putSerializableExtra(this, *datas)
-        }
+    constructor(context: Context, cls: Class<out Activity>, vararg serializable: Any?) : super(context, cls) {
+        with(this).putSerializableExtra(*serializable)
     }
 
-    constructor(context: Context, cls: Class<out Activity>, vararg serializable: Serializable?) : super(context, cls) {
-        putSerializableExtra(this, *serializable)
-    }
+    constructor(context: Context, cls: KClass<out Activity>, vararg serializable: Any?) : this(context, cls.java, *serializable)
 
     companion object {
         @Suppress("MemberVisibilityCanBePrivate")
         val KEY_EXTRA: String = XIntent::class.java.name
 
+        private val mExtrasFiled: Field by lazy {
+            val f = Intent::class.java.getDeclaredField("mExtras")
+            f.isAccessible = true
+            f
+        }
+
+        private var Intent.directExtras: Bundle?
+            get() {
+                return mExtrasFiled.get(this) as Bundle?
+            }
+            set(value) {
+                mExtrasFiled.set(this, value)
+            }
+
         @JvmStatic
-        fun startActivity(context: Context, cls: Class<out Activity>, vararg serializable: Serializable?) {
+        fun with(container: Bundle): IntentWrapper {
+            return with(XIntent(container))
+        }
+
+        @JvmStatic
+        fun with(container: Intent? = null): IntentWrapper {
+            return IntentWrapper(container ?: Intent())
+        }
+
+        @JvmStatic
+        fun with(container: Activity): IntentWrapper {
+            return with(container.intent)
+        }
+
+        @JvmStatic
+        fun startActivity(context: Context, cls: Class<out Activity>, vararg serializable: Any?) {
             context.startActivity(XIntent(context, cls, *serializable))
         }
 
-        fun startActivity(context: Context, cls: KClass<out Activity>, vararg serializable: Serializable?) {
+        fun startActivity(context: Context, cls: KClass<out Activity>, vararg serializable: Any?) {
             context.startActivity(XIntent(context, cls, *serializable))
         }
 
+        //region Deprecated
+        @Deprecated("use XIntent.with()")
         @JvmStatic
         fun putSerializableExtra(intent: Intent, vararg serializable: Serializable?): Intent {
-            if (serializable.isNotEmpty()) intent.putExtra(KEY_EXTRA, serializable)
+            with(intent).putSerializableExtra(*serializable)
             return intent
         }
 
+        @Deprecated("use XIntent.with()")
         /**
          * use [.readSerializableExtra] or other methods to get data out
          */
         @JvmStatic
         fun putSerializableExtra(bundle: Bundle, vararg serializable: Serializable?) {
-            if (serializable.isNotEmpty()) bundle.putSerializable(KEY_EXTRA, serializable)
+            with(bundle).putSerializableExtra(*serializable)
         }
 
+        @Deprecated("use XIntent.with()")
         @JvmStatic
         fun putSerializableExtra(activity: Activity, vararg serializable: Serializable?) {
-            putSerializableExtra(activity.intent, *serializable)
+            with(activity).putSerializableExtra(*serializable)
         }
 
+        @Deprecated("use XIntent.with()")
         @JvmStatic
-        fun <T> readSerializableExtra(activity: Activity, cls: Class<T>, defaultValue: T?): T? {
-            return readSerializableExtra(activity.intent, cls, defaultValue)
+        fun <T : Serializable> readSerializableExtra(activity: Activity, cls: Class<T>, defaultValue: T?): T? {
+            return with(activity).readExtra(cls, defaultValue)
         }
 
+        @Deprecated("use XIntent.with()")
         @JvmStatic
-        fun <T> readSerializableExtra(activity: Activity, cls: Class<T>): T? {
-            return readSerializableExtra(activity.intent, cls)
+        fun <T : Serializable> readSerializableExtra(activity: Activity, cls: Class<T>): T? {
+            return with(activity).readExtra(cls)
         }
 
+        @Deprecated("use XIntent.with()")
         @JvmStatic
         fun readSerializableExtra(activity: Activity): Serializable? {
-            return readSerializableExtra(activity.intent)
+            return with(activity).getSerializableExtra()
         }
 
+        @Deprecated("use XIntent.with()")
         @JvmStatic
-        fun <T> readSerializableExtra(intent: Intent, cls: Class<T>): T? {
-            return readSerializableExtra(intent, cls, null)
+        fun <T : Serializable> readSerializableExtra(intent: Intent, cls: Class<T>): T? {
+            return with(intent).readExtra(cls)
         }
 
+        @Deprecated("use XIntent.with()")
         @JvmStatic
         fun readSerializableExtra(intent: Intent): Array<Serializable?>? {
-            @Suppress("UNCHECKED_CAST")
-            return intent.getSerializableExtra(KEY_EXTRA) as Array<Serializable?>?
+            return with(intent).getSerializableExtra()
         }
 
+        @Deprecated("use XIntent.with()")
         @JvmStatic
         fun readSerializableExtra(activity: Activity, index: Int): Serializable? {
-            return readSerializableExtra(activity.intent, index)
+            return with(activity).readExtra(Serializable::class.java, index, null)
         }
 
+        @Deprecated("use XIntent.with()")
         @JvmStatic
         fun readSerializableExtra(intent: Intent, index: Int): Serializable? {
-            return readSerializableExtra(intent, Serializable::class.java, index, null)
+            return with(intent).readExtra(Serializable::class.java, index, null)
         }
 
+        @Deprecated("use XIntent.with()")
         @JvmStatic
-        inline fun <reified T> readSerializableExtra(activity: Activity, defaultValue: T?): T? {
-            return readSerializableExtra(activity, T::class.java, defaultValue)
+        inline fun <reified T : Serializable> readSerializableExtra(activity: Activity, defaultValue: T?): T? {
+            return with(activity).readExtra(defaultValue)
         }
 
+        @Deprecated("use XIntent.with()")
         @JvmStatic
-        fun <T> readSerializableExtra(activity: Activity, cls: Class<T>, index: Int, defaultValue: T?): T? {
-            return readSerializableExtra(activity.intent, cls, index, defaultValue)
+        fun <T : Serializable> readSerializableExtra(activity: Activity, cls: Class<T>, index: Int, defaultValue: T?): T? {
+            return with(activity).readExtra(cls, index, defaultValue)
         }
 
+        @Deprecated("use XIntent.with()")
         @JvmStatic
-        fun <T> readSerializableExtra(intent: Intent, cls: Class<T>, defaultValue: T?): T? {
-            val array = readSerializableExtra(intent)
-            return if (array != null) {
-                val find = array.find { cls.isInstance(it) }
-                if (find != null) cls.cast(find) else defaultValue
-            } else defaultValue
+        fun <T : Serializable> readSerializableExtra(intent: Intent, cls: Class<T>, defaultValue: T?): T? {
+            return with(intent).readExtra(cls, defaultValue)
         }
 
+        @Deprecated("use XIntent.with()")
         @JvmStatic
-        fun <T> readSerializableExtraList(activity: Activity, cls: Class<T>): List<T> {
-            return readSerializableExtraList(activity.intent, cls)
+        fun <T : Serializable> readSerializableExtraList(activity: Activity, cls: Class<T>): List<T> {
+            return with(activity).readExtraList(cls)
         }
 
+        @Deprecated("use XIntent.with()")
         @JvmStatic
         @Suppress("UNCHECKED_CAST")
-        fun <T> readSerializableExtraList(intent: Intent, cls: Class<T>): List<T> {
-            val array = readSerializableExtra(intent)
-            val data = if (array != null) {
-                array.find {
-                    if (it is List<*>) it.any { i -> cls.isInstance(i) } else false
-                } as List<T>?
-            } else null
-            return data ?: emptyList()
+        fun <T : Serializable> readSerializableExtraList(intent: Intent, cls: Class<T>): List<T> {
+            return with(intent).readExtraList(cls)
         }
 
+        @Deprecated("use XIntent.with()")
         @JvmStatic
-        fun <T> readSerializableExtra(intent: Intent, cls: Class<T>, index: Int, defaultValue: T?): T? {
-            val array = readSerializableExtra(intent)
-            if (array != null) {
-                if (index < array.size) return cls.cast(array[index])
-            }
-            return defaultValue
+        fun <T : Serializable> readSerializableExtra(intent: Intent, cls: Class<T>, index: Int, defaultValue: T?): T? {
+            return with(intent).readExtra(cls, index, defaultValue)
         }
+        //endregion
     }
 }
 
 inline fun <reified T : Serializable> Activity.readExtra(defaultValue: T? = null): T? {
-    return XIntent.readSerializableExtra(this, T::class.java, defaultValue)
+    return XIntent.with(this).readExtra(defaultValue)
 }
 
 inline fun <reified T : Serializable> Activity.readExtraList(): List<T> {
-    return XIntent.readSerializableExtraList(this, T::class.java)
+    return XIntent.with(this).readExtraList()
 }
 
 @Deprecated("use readExtraList", replaceWith = ReplaceWith("readExtraList()"))
 inline fun <reified T : Serializable> Activity.readExtraOfList(): List<T> {
-    return XIntent.readSerializableExtraList(this, T::class.java)
+    return readExtraList()
 }
 
-@Deprecated("use readExtraOfList", replaceWith = ReplaceWith("readExtraOfList()"))
+@Deprecated("use readExtraList", replaceWith = ReplaceWith("readExtraList()"))
 inline fun <reified T : Serializable> Activity.readListExtra(): List<T> {
-    return XIntent.readSerializableExtraList(this, T::class.java)
-}
-
-fun Activity.startActivity(cls: KClass<out Activity>, vararg serializable: Any?) {
-    startActivity(XIntent(this, cls, *serializable))
+    return readExtraList()
 }
