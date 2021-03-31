@@ -1,18 +1,21 @@
 package com.dhy.xintent
 
 import android.os.Bundle
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.dhy.xintent.data.DataNotSerializable
+import com.dhy.xintent.data.DataSerializable
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
-@RunWith(AndroidJUnit4::class)
+@RunWith(RobolectricTestRunner::class)
 class IntentWrapperTest {
     @Test
     fun testIntent() {
         XIntent.with().apply {
-            putSerializableExtra(1, false, "1", listOf("1"))
+            val ds = DataSerializable()
+            ds.anInt = 1
+            putSerializableExtra(1, false, "1", listOf("1"), ds)
             val i: Int? = readExtra()
             Assert.assertEquals(1, i)
 
@@ -27,6 +30,9 @@ class IntentWrapperTest {
 
             val listByIndex: List<String>? = readExtra(3, null)
             Assert.assertEquals(listOf("1"), listByIndex)
+
+            val d: DataSerializable? = readExtra()
+            Assert.assertEquals(1, d?.anInt)
         }
     }
 
