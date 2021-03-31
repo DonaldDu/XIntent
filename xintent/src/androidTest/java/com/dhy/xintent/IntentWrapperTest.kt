@@ -2,6 +2,7 @@ package com.dhy.xintent
 
 import android.os.Bundle
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.dhy.xintent.data.DataNotSerializable
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -66,5 +67,10 @@ class IntentWrapperTest {
             val list: List<String>? = readExtra(0, null)
             Assert.assertEquals(null, list)
         }
+    }
+
+    @Test(expected = ClassCastException::class)
+    fun testNotSerializable() {
+        XIntent.with().putSerializableExtra(DataNotSerializable())
     }
 }
