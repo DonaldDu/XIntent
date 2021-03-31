@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tvTime"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contentDescription="sendTime:%s"
+    android:gravity="center"
+    android:text="sendTime:2015-03-27 21:13:23-555"
+    tools:context=".ReceiveExtraActivity" />

@@ -3,7 +3,6 @@ package com.dhy.xintent
 import android.content.Intent
 import java.io.Serializable
 
-@Suppress("MemberVisibilityCanBePrivate")
 class IntentWrapper(val intent: Intent) {
     fun putSerializableExtra(vararg serializable: Any?) {
         if (serializable.isNotEmpty()) {

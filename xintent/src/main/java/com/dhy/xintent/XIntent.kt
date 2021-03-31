@@ -178,7 +178,7 @@ fun Intent.putSerializableExtra(vararg serializable: Serializable?): Intent {
 }
 
 inline fun <reified T : Serializable> Intent?.readExtra(defaultValue: T? = null): T? {
-    return if (this != null) XIntent.readSerializableExtra(this, T::class.java, defaultValue)
+    return if (this != null) XIntent.with(this).readExtra(defaultValue)
     else defaultValue
 }
 

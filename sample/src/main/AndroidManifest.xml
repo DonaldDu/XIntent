@@ -3,12 +3,15 @@
     package="com.dhy.xintentsample">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ReceiveExtraActivity"></activity>
+        <activity android:name=".SendExtraActivity" />
         <activity
             android:name=".MainActivity"
             android:label="XIntentSampleActivity">
@@ -18,7 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.dhy.xintentsample.TestActivity" />
+        <activity android:name=".TestActivity" />
     </application>
 
 </manifest>
