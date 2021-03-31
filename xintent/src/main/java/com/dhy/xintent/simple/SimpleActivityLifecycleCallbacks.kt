@@ -18,7 +18,7 @@ open class SimpleActivityLifecycleCallbacks : Application.ActivityLifecycleCallb
     override fun onActivityDestroyed(activity: Activity) {
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
     }
 
     override fun onActivityStopped(activity: Activity) {
