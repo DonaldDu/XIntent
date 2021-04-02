@@ -1,9 +1,10 @@
 package com.dhy.xintentsample
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.dhy.xintent.XIntent
+import com.dhy.xintent.readExtra
 import kotlinx.android.synthetic.main.activity_send_extra.*
 
 class SendExtraActivity : AppCompatActivity() {

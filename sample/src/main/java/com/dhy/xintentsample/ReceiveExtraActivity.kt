@@ -1,10 +1,11 @@
 package com.dhy.xintentsample
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
+import androidx.appcompat.app.AppCompatActivity
 import com.dhy.xintent.XIntent
 import com.dhy.xintent.formatText
+import com.dhy.xintent.putSerializableExtra
 import com.dhy.xintent.readExtra
 import kotlinx.android.synthetic.main.activity_receive_extra.*
 import java.text.SimpleDateFormat

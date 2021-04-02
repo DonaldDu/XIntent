@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import com.dhy.xintent.XIntent
+import com.dhy.xintent.readExtra
 
 /**
  * Created by donald on 2016/2/5.

@@ -44,18 +44,18 @@ class XIntent : Intent {
             }
 
         @JvmStatic
-        fun with(container: Intent? = null): IntentWrapper {
-            return IntentWrapper(container ?: Intent())
+        fun with(container: Intent? = null): Intent {
+            return container ?: Intent()
         }
 
         @JvmStatic
-        fun with(container: Bundle): IntentWrapper {
-            return with(XIntent(container))
+        fun with(container: Bundle): Intent {
+            return XIntent(container)
         }
 
         @JvmStatic
-        fun with(container: Activity): IntentWrapper {
-            return with(container.intent)
+        fun with(container: Activity): Intent {
+            return container.intent
         }
 
         @JvmStatic
@@ -170,32 +170,4 @@ class XIntent : Intent {
         }
         //endregion
     }
-}
-
-fun Intent.putSerializableExtra(vararg serializable: Serializable?): Intent {
-    if (serializable.isNotEmpty()) putExtra(XIntent.KEY_EXTRA, serializable)
-    return this
-}
-
-inline fun <reified T : Serializable> Intent?.readExtra(defaultValue: T? = null): T? {
-    return if (this != null) XIntent.with(this).readExtra(defaultValue)
-    else defaultValue
-}
-
-inline fun <reified T : Serializable> Activity.readExtra(defaultValue: T? = null): T? {
-    return XIntent.with(this).readExtra(defaultValue)
-}
-
-inline fun <reified T : Serializable> Activity.readExtraList(): List<T> {
-    return XIntent.with(this).readExtraList()
-}
-
-@Deprecated("use readExtraList", replaceWith = ReplaceWith("readExtraList()"))
-inline fun <reified T : Serializable> Activity.readExtraOfList(): List<T> {
-    return readExtraList()
-}
-
-@Deprecated("use readExtraList", replaceWith = ReplaceWith("readExtraList()"))
-inline fun <reified T : Serializable> Activity.readListExtra(): List<T> {
-    return readExtraList()
 }
