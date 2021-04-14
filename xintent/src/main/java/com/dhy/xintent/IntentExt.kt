@@ -36,18 +36,24 @@ fun <T : Serializable> Intent.readExtraList(cls: Class<T>): List<T> {
     return data ?: emptyList()
 }
 
-inline fun <reified T : Serializable> Intent.readExtra(defaultValue: T? = null): T? {
+//region inline for Intent
+inline fun <reified T : Serializable> Intent?.readExtra(defaultValue: T? = null): T? {
+    if (this == null) return defaultValue
     return readExtra(T::class.java, defaultValue)
 }
 
-inline fun <reified T : Serializable> Intent.readExtra(index: Int, defaultValue: T? = null): T? {
+inline fun <reified T : Serializable> Intent?.readExtra(index: Int, defaultValue: T? = null): T? {
+    if (this == null) return defaultValue
     return readExtra(T::class.java, index, defaultValue)
 }
 
-inline fun <reified T : Serializable> Intent.readExtraList(): List<T> {
+inline fun <reified T : Serializable> Intent?.readExtraList(): List<T> {
+    if (this == null) return emptyList()
     return readExtraList(T::class.java)
 }
+//endregion
 
+//region inline for Activity
 inline fun <reified T : Serializable> Activity.readExtra(defaultValue: T? = null): T? {
     return XIntent.with(this).readExtra(defaultValue)
 }
@@ -59,3 +65,4 @@ inline fun <reified T : Serializable> Activity.readExtra(index: Int, defaultValu
 inline fun <reified T : Serializable> Activity.readExtraList(): List<T> {
     return XIntent.with(this).readExtraList()
 }
+//endregion
