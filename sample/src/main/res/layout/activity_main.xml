@@ -23,24 +23,22 @@
         android:layout_height="wrap_content"
         android:hint="发送的数据" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:onClick="startIntent"
-        android:text="nextPage" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:onClick="testActivity"
-        android:text="testActivity" />
 
     <Button
         android:id="@+id/btToast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="toast" />
+
+    <CheckBox
+        android:id="@+id/cbAlwaysFinish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AlwaysFinish" />
+
+    <TextView
+        android:id="@+id/tvOnRestoreInstanceState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="onRestoreInstanceState" />
 </LinearLayout>
