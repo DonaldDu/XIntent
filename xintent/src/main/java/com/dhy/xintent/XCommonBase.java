@@ -1,5 +1,8 @@
 package com.dhy.xintent;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -20,9 +23,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Field;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 class XCommonBase {
     //region setTextWithFormat
@@ -97,13 +97,12 @@ class XCommonBase {
     }
 
     public static TextView setText(TextView textView, Object value, @Visibility final Integer visibility) {
-        setText(textView, value);
-        if (visibility != null) textView.setVisibility(visibility);
-        return textView;
+        if (visibility != null && textView != null) textView.setVisibility(visibility);
+        return setText(textView, value);
     }
 
     public static TextView setText(TextView textView, Object value) {
-        textView.setText(value != null ? String.valueOf(value) : "");
+        if (textView != null) textView.setText(value != null ? String.valueOf(value) : "");
         return textView;
     }
 
@@ -144,12 +143,12 @@ class XCommonBase {
     }
 
     static ImageView setImage(ImageView imageView, @DrawableRes int image, @Visibility @Nullable final Integer visibility) {
-        if (visibility != null) imageView.setVisibility(visibility);
+        if (visibility != null && imageView != null) imageView.setVisibility(visibility);
         return setImage(imageView, image);
     }
 
     static ImageView setImage(ImageView imageView, @DrawableRes int image) {
-        imageView.setImageResource(image);
+        if (imageView != null) imageView.setImageResource(image);
         return imageView;
     }
 
@@ -158,7 +157,7 @@ class XCommonBase {
     }
 
     static ImageView setImage(ImageView imageView, Uri uri, @Visibility @Nullable final Integer visibility) {
-        if (visibility != null) imageView.setVisibility(visibility);
+        if (visibility != null && imageView != null) imageView.setVisibility(visibility);
         return setImage(imageView, uri);
     }
 
@@ -178,7 +177,7 @@ class XCommonBase {
     public static boolean isDebug(Context context) {
         if (debug != null) return debug;
         try {
-            Class BuildConfig = Class.forName(context.getPackageName() + ".BuildConfig");
+            Class<?> BuildConfig = Class.forName(context.getPackageName() + ".BuildConfig");
             Field debugFiled = BuildConfig.getField("DEBUG");
             debug = debugFiled.getBoolean(null);
         } catch (Exception e) {

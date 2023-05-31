@@ -4,17 +4,13 @@ import android.app.Dialog;
 import android.view.View;
 
 import com.dhy.xintent.interfaces.IFindViewById;
-import com.github.javaparser.JavaParser;
-import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 
 import org.junit.Test;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class GenCode {
@@ -23,7 +19,7 @@ public class GenCode {
 //        File file = getJavaFileByClass(XCommonBase.class);
 //        if (file.exists()) {
 //            FileInputStream in = new FileInputStream(file);
-//            CompilationUnit cu = JavaParser.parse(in);
+//            CompilationUnit cu = new JavaParser().parse(in).getResult().get();
 //            Map<String, StringBuilder> map = new HashMap<>();
 //            for (MethodDeclaration method : cu.getType(0).getMethods()) {
 //                if (isGenCode(method)) printGenCode(map, method);
