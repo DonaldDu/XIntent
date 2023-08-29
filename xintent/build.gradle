@@ -8,7 +8,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 28
         versionCode 94
-        versionName '1.7.2'
+        versionName '1.7.3'
         consumerProguardFiles 'proguard-rules.pro'
     }
     buildTypes {
@@ -31,9 +31,10 @@ android {
             includeAndroidResources = true
         }
     }
+    buildFeatures.buildConfig = false
 }
 
-mavenPublish("com.github.DonaldDu:XIntent:${android.defaultConfig.versionName}")
+mavenPublish("com.github.DonaldDu:XIntent:0.1")
 
 dependencies {
     implementation 'commons-io:commons-io:2.8.0'
