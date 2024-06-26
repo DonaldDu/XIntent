@@ -34,7 +34,7 @@ android {
     buildFeatures.buildConfig = false
 }
 
-mavenPublish("com.github.DonaldDu:XIntent:0.1")
+mavenPublish("com.github.DonaldDu:XIntent:1.7.6")
 
 dependencies {
     implementation 'commons-io:commons-io:2.8.0'
