@@ -2,10 +2,11 @@ package com.dhy.xintent.style;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import androidx.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ReplacementSpan;
+
+import androidx.annotation.NonNull;
 
 public class SplitSpan extends ReplacementSpan {
     private final String split;
@@ -31,7 +32,12 @@ public class SplitSpan extends ReplacementSpan {
         for (int i = 0; i < parts.length; i++) {
             if (start != 0) {
                 Object style = new SplitSpan(split);
-                spannable.setSpan(style, start, start + 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                try {
+                    spannable.setSpan(style, start, start + 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    break;
+                }
             }
             start += parts[i];
             if (start >= max) break;
