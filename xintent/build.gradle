@@ -8,7 +8,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 28
         versionCode 94
-        versionName '1.7.5'
+        versionName '1.7.6'
         consumerProguardFiles 'proguard-rules.pro'
     }
     buildTypes {
