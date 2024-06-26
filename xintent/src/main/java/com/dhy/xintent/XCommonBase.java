@@ -54,7 +54,8 @@ class XCommonBase {
      *
      * @param value support Object[] for multiple values
      */
-    public static TextView setTextWithFormat(TextView textView, Object value) {
+    @Nullable
+    public static TextView setTextWithFormat(@Nullable TextView textView, Object value) {
         return setText(textView, getFormatedString(textView, value));
     }
 
@@ -88,6 +89,7 @@ class XCommonBase {
     }
 
     @GenCode
+    @Nullable
     public static TextView setText(Activity container, @IdRes int rid, Object value) {
         return setText((TextView) container.findViewById(rid), value);
     }
@@ -96,12 +98,14 @@ class XCommonBase {
         return setText(textView, value, show == null ? null : (show ? VISIBLE : GONE));
     }
 
-    public static TextView setText(TextView textView, Object value, @Visibility final Integer visibility) {
+    @Nullable
+    public static TextView setText(@Nullable TextView textView, Object value, @Visibility final Integer visibility) {
         if (visibility != null && textView != null) textView.setVisibility(visibility);
         return setText(textView, value);
     }
 
-    public static TextView setText(TextView textView, Object value) {
+    @Nullable
+    public static TextView setText(@Nullable TextView textView, Object value) {
         if (textView != null) textView.setText(value != null ? String.valueOf(value) : "");
         return textView;
     }

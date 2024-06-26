@@ -13,8 +13,6 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
-import androidx.annotation.LayoutRes
-import androidx.annotation.StyleRes
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -26,6 +24,8 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.annotation.LayoutRes
+import androidx.annotation.StyleRes
 import com.dhy.xintent.IHelper
 import com.dhy.xintent.R
 import com.dhy.xintent.XCommon
@@ -255,8 +255,8 @@ open class Helper(application: Application, @StyleRes private val themeDialog: I
         if (setting.inputType != null) {
             input.inputType = setting.inputType
         }
-        XCommon.setText(dialog, R.id.buttonCommit, setting.buttonCommit).setOnClickListener(listener)
-        XCommon.setText(dialog, R.id.buttonCancel, setting.buttonCancel).setOnClickListener(listener)
+        XCommon.setText(dialog, R.id.buttonCommit, setting.buttonCommit)?.setOnClickListener(listener)
+        XCommon.setText(dialog, R.id.buttonCancel, setting.buttonCancel)?.setOnClickListener(listener)
     }
 
     override fun showDefaultConfirmDialog(context: Context, msg: String, commit: String, cancel: String, canceledOnTouchOutside: Boolean, callback: (Boolean) -> Unit) {
@@ -266,8 +266,8 @@ open class Helper(application: Application, @StyleRes private val themeDialog: I
             callback(v.id == R.id.buttonCommit)
         }
         XCommon.setText(dialog, R.id.textViewMessage, msg)
-        XCommon.setText(dialog, R.id.buttonCommit, commit).setOnClickListener(listener)
-        XCommon.setText(dialog, R.id.buttonCancel, cancel).setOnClickListener(listener)
+        XCommon.setText(dialog, R.id.buttonCommit, commit)?.setOnClickListener(listener)
+        XCommon.setText(dialog, R.id.buttonCancel, cancel)?.setOnClickListener(listener)
     }
 
     override fun showAsSplitedText(editText: EditText, parts: IntArray, split: String): TextWatcher {

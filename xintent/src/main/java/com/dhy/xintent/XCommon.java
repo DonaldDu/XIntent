@@ -2,12 +2,13 @@ package com.dhy.xintent;
 
 import android.app.Dialog;
 import android.net.Uri;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.IdRes;
-import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
 
 import com.dhy.xintent.annotation.Visibility;
 import com.dhy.xintent.interfaces.IFindViewById;
@@ -77,14 +78,17 @@ public class XCommon extends XCommonBase {
         return setText((TextView) container.findViewById(rid), value, visibility);
     }
 
+    @Nullable
     public static TextView setText(Dialog container, @IdRes int rid, Object value) {
         return setText((TextView) container.findViewById(rid), value);
     }
 
+    @Nullable
     public static TextView setText(View container, @IdRes int rid, Object value) {
         return setText((TextView) container.findViewById(rid), value);
     }
 
+    @Nullable
     public static TextView setText(IFindViewById container, @IdRes int rid, Object value) {
         return setText((TextView) container.findViewById(rid), value);
     }
